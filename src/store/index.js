@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import example from './module-example'
+import beginners from './beginners'
+import user from './user'
 
 Vue.use(Vuex)
 
@@ -13,8 +14,11 @@ Vue.use(Vuex)
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
-      example
-    }
+      beginners,
+      user
+    },
+
+    strict: process.env.NODE_ENV !== 'production'
   })
 
   return Store

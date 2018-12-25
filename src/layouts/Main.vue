@@ -17,9 +17,15 @@
         </q-btn>
 
         <q-toolbar-title>
-          Quasar App
-          <div slot="subtitle">Running on Quasar v{{ $q.version }}</div>
+          Тестирование Лингвистических Способностей
+          <div slot="subtitle">v{{ version }}</div>
         </q-toolbar-title>
+
+        <q-tabs color="amber" text-color="black">
+          <q-route-tab slot="title" icon="view_quilt" to="/about" replace hide="icon" label="About" ></q-route-tab>
+          <q-route-tab slot="title" :icon="userIcon" :to="userRoute" replace hide="icon" :label="userLabel" ></q-route-tab>
+        </q-tabs>
+
       </q-toolbar>
     </q-layout-header>
 
@@ -64,14 +70,37 @@
 
 <script>
 import { openURL } from 'quasar'
+import {createNamespacedHelpers} from 'vuex'
+const { mapGetters } = createNamespacedHelpers()
 
 export default {
-  name: 'MyLayout',
+  name: 'Main',
+
   data () {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop
+      // leftDrawerOpen: this.$q.platform.is.desktop
+      leftDrawerOpen: false
     }
   },
+
+  computed: {
+
+    userIcon: () => {
+      return this.loggedIn ? 'logout' : 'person'
+    },
+
+    userLabel: () => {
+      return this.loggedIn ? 'Logout' : 'Login'
+    },
+
+    userRoute: () => {
+      return this.loggedIn ? '/logout' : '/login'
+    },
+
+    ...mapGetters('beginners', ['version']),
+    ...mapGetters('user', ['user', 'loggedIn'])
+  },
+
   methods: {
     openURL
   }
