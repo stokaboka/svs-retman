@@ -14,7 +14,7 @@
         </q-btn>
 
         <q-toolbar-title>
-          Тестирование Лингвистических Способностей
+          {{title}}
           <version-label slot="subtitle"></version-label>
         </q-toolbar-title>
 
@@ -55,6 +55,8 @@
         :glossy="$q.theme === 'mat'"
         :inverted="$q.theme === 'ios'"
  */
+import {createNamespacedHelpers} from 'vuex'
+const { mapGetters } = createNamespacedHelpers('beginners')
 
 import { openURL } from 'quasar'
 import VersionLabel from '../components/VersionLabel'
@@ -68,6 +70,10 @@ export default {
       // leftDrawerOpen: this.$q.platform.is.desktop
       leftDrawerOpen: false
     }
+  },
+
+  computed: {
+    ...mapGetters(['title'])
   },
 
   methods: {

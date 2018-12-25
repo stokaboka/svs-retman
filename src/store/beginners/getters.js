@@ -1,6 +1,12 @@
+const title = (state) => {
+  return state.title
+}
 
 const version = (state) => {
   return state.version
 }
 
-export {version}
+export {
+  title,
+  version
+}
