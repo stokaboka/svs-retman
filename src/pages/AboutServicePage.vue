@@ -11,7 +11,7 @@
             label="Старт !"
             color="primary"
             size="xl"
-            @click="onStartBtnClick">
+            to="/beginners">
           </q-btn>
         </div>
 

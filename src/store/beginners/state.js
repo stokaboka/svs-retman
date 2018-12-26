@@ -7,7 +7,7 @@ export default {
   error: '',
 
   steps: [],
-  step: null,
+  step: {id: 0, title: '', briefText: ''},
 
   phases: [],
   phase: null,

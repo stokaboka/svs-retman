@@ -12,6 +12,6 @@ export default {
 
 <style>
   #q-app {
-    background-color: dodgerblue;
+    /*background-color: dodgerblue;*/
   }
 </style>

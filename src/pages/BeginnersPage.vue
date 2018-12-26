@@ -1,39 +1,31 @@
 <template>
   <q-page padding>
-    <!-- content -->
+    <step-stepper-component></step-stepper-component>
   </q-page>
 </template>
 
 <script>
 
 import {createNamespacedHelpers} from 'vuex'
+import StepStepperComponent from '../components/StepStepperComponent'
 const { mapState, mapGetters, mapActions } = createNamespacedHelpers('beginners')
 
 export default {
   name: 'BeginnersPage',
-
-  mounted () {
-    this.getSteps()
-  },
+  components: {StepStepperComponent},
+  // mounted () {
+  //   this.getSteps()
+  // },
 
   computed: {
-
-    step: {
-      get () {
-        return this.$store.state.beginners.step
-      },
-      set (value) {
-        this.$store.commit('beginners/setStep', value)
-      }
-    },
-
-    ...mapGetters(['steps']),
+    ...mapGetters(['steps', 'step']),
     ...mapState([ 'error' ])
   },
 
   methods: {
     ...mapActions(['getSteps'])
   }
+
 }
 </script>
 
