@@ -1,16 +1,21 @@
 <template>
   <q-page padding :style-fn="myTweak" class="shadow-6 page-container__layout">
-    <div class="col justify-between">
+    <div class="doc-container">
+      <div class="column justify-center">
+        <div class="col-auto">
+          <about-service-component ></about-service-component>
+        </div>
 
-      <about-service-component></about-service-component>
+        <div class="col col-md-4  justify-center">
+          <q-btn
+            label="Старт !"
+            color="primary"
+            size="xl"
+            @click="onStartBtnClick">
+          </q-btn>
+        </div>
 
-      <q-btn
-        label="Старт!"
-        size="xl"
-        class="justify-end"
-        @click="onStartBtnClick">
-      </q-btn>
-
+      </div>
     </div>
   </q-page>
 </template>
@@ -34,7 +39,7 @@ export default {
 
       // this is actually what the default style-fn does in Quasar
       console.log(offset)
-      offset = offset + 30 * 2
+      // offset = offset + 30 * 2
       return { minHeight: offset ? `calc(100vh - ${offset}px)` : '100vh' }
     }
   }
@@ -43,8 +48,8 @@ export default {
 
 <style>
   .page-container__layout {
-    margin: 30px;
-    border-radius: 20px;
+    /*margin: 30px;*/
+    /*border-radius: 20px;*/
     background-color: white;
   }
 
