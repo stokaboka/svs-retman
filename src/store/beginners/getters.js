@@ -40,8 +40,8 @@ export {
   steps,
   step,
   phases,
-  phase,
   stages,
+  phase,
   stage,
   dictionary
 }

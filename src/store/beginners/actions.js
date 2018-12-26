@@ -13,4 +13,19 @@ const getSteps = ({ commit, state }) => {
     })
 }
 
-export {getSteps}
+const getPhaseByStep = ({ commit, state }, stepId) => {
+  return axios.get(`${state.api}/ph/step/${stepId}`)
+    .then(response => {
+      commit('setPhases', response.data)
+      commit('setPhase', response.data[0])
+      commit('setResult', 'OK')
+    })
+    .catch(error => {
+      commit('setError', error)
+    })
+}
+
+export {
+  getSteps,
+  getPhaseByStep
+}
