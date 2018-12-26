@@ -9,13 +9,20 @@ export default {
   error: '',
 
   steps: [],
-  step: {id: 0, title: '', briefText: ''},
+  step: {},
+  stepIndex: 0,
 
   phases: [],
-  phase: null,
+  phase: {},
+  phaseIndex: 0,
 
   stages: [],
-  stage: null,
+  stage: {},
+  stageIndex: 0,
 
-  dictionary: []
+  dictionary: [],
+
+  testResult: {
+    sound: false
+  }
 }

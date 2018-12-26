@@ -34,6 +34,10 @@ const dictionary = (state) => {
   return state.dictionary
 }
 
+const soundTestResult = (state) => {
+  return state.testResult.sound
+}
+
 export {
   title,
   version,
@@ -43,5 +47,7 @@ export {
   stages,
   phase,
   stage,
-  dictionary
+  dictionary,
+
+  soundTestResult
 }

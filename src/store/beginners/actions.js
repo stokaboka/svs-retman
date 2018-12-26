@@ -13,7 +13,7 @@ const getSteps = ({ commit, state }) => {
     })
 }
 
-const getPhaseByStep = ({ commit, state }, stepId) => {
+const getPhasesByStep = ({ commit, state }, stepId) => {
   return axios.get(`${state.api}/ph/step/${stepId}`)
     .then(response => {
       commit('setPhases', response.data)
@@ -25,7 +25,39 @@ const getPhaseByStep = ({ commit, state }, stepId) => {
     })
 }
 
+const fixStep = ({ commit, state }, stepResult) => {
+
+}
+
+const nextStep = ({ commit, state }) => {
+  commit('nextStep')
+  if (state.stepIndex < state.steps.length) {
+    commit('setStep', state.steps[state.stepIndex])
+  } else {
+    commit('setStep', {})
+  }
+}
+
+const fixPhase = ({ commit, state }, phaseResult) => {
+
+}
+
+const nextPhase = ({ commit, state }) => {
+  commit('nextPhase')
+  if (state.phaseIndex < state.phases.length) {
+    commit('setPhase', state.phases[state.phaseIndex])
+  } else {
+    commit('setPhase', {})
+  }
+}
+
 export {
   getSteps,
-  getPhaseByStep
+  getPhasesByStep,
+
+  fixStep,
+  nextStep,
+
+  fixPhase,
+  nextPhase
 }
