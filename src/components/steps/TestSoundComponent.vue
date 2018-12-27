@@ -1,21 +1,20 @@
 <template>
   <section>
-    <h3>{{step.title}}</h3>
-    <h4>{{step.briefText}}</h4>
-
     <div>
       <h5>{{phase.title}}</h5>
-      <h6>{{phase.briefText}}</h6>
+      <div v-html="phase.briefText"></div>
     </div>
 
     <div>
       <q-btn
+        color="primary"
         :label="startLabel"
         @click="startTest"
       ></q-btn>
 
       <q-btn
         label="Звук есть"
+        color="secondary"
         @click="setTestResult(true)"
       ></q-btn>
 
@@ -29,16 +28,15 @@
 </template>
 
 <script>
-
+/*
+    <h3>{{step.title}}</h3>
+    <h4>{{step.briefText}}</h4>
+ */
 import {createNamespacedHelpers} from 'vuex'
 const { mapState, mapGetters, mapActions } = createNamespacedHelpers('beginners')
 
 export default {
   name: 'TestSoundComponent',
-
-  mounted () {
-    this.getPhasesByStep(1)
-  },
 
   data () {
     return {
@@ -58,16 +56,8 @@ export default {
 
   methods: {
 
-    next (test) {
-      this.fixPhase(this.phase, test)
-      this.fixStep(this.step, test)
-
-      this.$root.$emit('nextStep', test)
-    },
-
     setTestResult (value) {
-      this.$store.commit('beginners/setSoundTestResult', value)
-      this.next(value)
+      this.$emit('fixStep', value)
     },
 
     playSound (sound) {
@@ -97,7 +87,7 @@ export default {
         }
       }
     },
-    ...mapActions(['getPhasesByStep', 'nextStep', 'nextPhase', 'fixStep', 'fixPhase'])
+    ...mapActions(['nextStep', 'nextPhase', 'fixStep', 'fixPhase'])
   }
 }
 </script>

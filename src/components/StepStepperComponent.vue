@@ -1,10 +1,11 @@
 <template>
-  <q-stepper ref="stepper" contractable>
+  <q-stepper ref="stepper" contractable alternative-labels>
     <q-step
       v-for="s in steps"
+      title=""
+      active-icon="play_arrow"
       :key="s.id"
       :name="s.id"
-      :title="s.title"
       :order="s.id"
     >
     </q-step>
@@ -13,6 +14,13 @@
 
 <script>
 
+/*
+      <q-stepper-navigation>
+        <h3>{{s.title}}</h3>
+        <h4>{{s.briefText}}</h4>
+      </q-stepper-navigation>
+ */
+
 import {createNamespacedHelpers} from 'vuex'
 const { mapState, mapGetters, mapActions } = createNamespacedHelpers('beginners')
 
@@ -20,7 +28,7 @@ export default {
   name: 'StepStepperComponent',
 
   mounted () {
-    this.getSteps()
+    // this.getSteps()
   },
 
   data () {
@@ -45,4 +53,7 @@ export default {
 </script>
 
 <style>
+  .q-stepper-step-inner {
+    display: none;
+  }
 </style>

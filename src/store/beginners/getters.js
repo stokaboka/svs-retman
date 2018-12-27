@@ -2,6 +2,10 @@ const title = (state) => {
   return state.title
 }
 
+const api = (state) => {
+  return state.api
+}
+
 const version = (state) => {
   return state.version
 }
@@ -40,6 +44,7 @@ const soundTestResult = (state) => {
 
 export {
   title,
+  api,
   version,
   steps,
   step,
