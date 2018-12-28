@@ -4,6 +4,7 @@
 
     <component
       v-bind:is="step.component"
+      ref="testComponent"
       @fixStep="onFixStepListener"
       @fixPhase="onFixPhaseListener"
     ></component>
@@ -30,7 +31,7 @@ export default {
   mounted () {
     this.getSteps()
       .then(() => {
-        this.getPhasesByStep(this.step.id)
+        this.playStep()
       })
       .catch(() => {})
     // this.resetSteps()
@@ -61,6 +62,7 @@ export default {
 
       if (this.phase.complete) {
         this.nextStep()
+        // ?????
       } else {
         this.playPhase()
       }
@@ -69,6 +71,10 @@ export default {
     playStep () {
       console.log('playStep')
       this.getPhasesByStep(this.step.id)
+        .then(() => {
+          this.$refs.testComponent.start()
+        })
+        .catch(() => {})
     },
 
     playPhase () {

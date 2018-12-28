@@ -3,7 +3,7 @@ export default {
   version: '0.0.1',
 
   api: 'http://localhost:3333',
-  sound: '/sound',
+  sound: 'sound',
 
   result: '',
   error: '',

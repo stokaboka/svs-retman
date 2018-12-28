@@ -19,13 +19,21 @@
 <script>
 
 import {createNamespacedHelpers} from 'vuex'
+import AudioHelper from '../../lib/AudioHelper'
+const audio = new AudioHelper()
 const { mapState, mapGetters, mapActions } = createNamespacedHelpers('beginners')
 
 export default {
   name: 'DescriptionMethodComponent',
 
+  mounted () {
+    audio.init(this.api, this.sound)
+  },
+
   data () {
-    return {}
+    return {
+      phaseMode: 'brief'
+    }
   },
 
   computed: {
@@ -38,7 +46,16 @@ export default {
 
   methods: {
 
+    start () {
+      this.playPhase()
+    },
+
+    playPhase () {
+      audio.sounds(this.phase.briefSounds).play()
+    },
+
     setTestResult (value) {
+      audio.stop()
       this.$emit('fixStep', value)
     },
 

@@ -39,7 +39,7 @@
 
 <script>
 export default {
-  name: 'TwoColumnWordsWithChechBox',
+  name: 'TwoColumnWordsWithCheckBox',
   props: {
     dictionary: {
       type: Array,

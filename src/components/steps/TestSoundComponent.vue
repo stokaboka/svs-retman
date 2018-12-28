@@ -5,24 +5,28 @@
       <div v-html="phase.briefText"></div>
     </div>
 
-    <div>
+    <div class="row no-wrap justify-between q-mt-md">
+      <div class="col"></div>
       <q-btn
         color="primary"
         :label="startLabel"
         @click="startTest"
+        class="col"
       ></q-btn>
-
+      <div class="col"></div>
       <q-btn
         label="Звук есть"
         color="secondary"
         @click="setTestResult(true)"
+        class="col"
       ></q-btn>
-
+      <div class="col"></div>
       <q-btn
         label="Звук НЕ работает"
         @click="setTestResult(false)"
+        class="col"
       ></q-btn>
-
+      <div class="col"></div>
     </div>
   </section>
 </template>
@@ -33,22 +37,29 @@
     <h4>{{step.briefText}}</h4>
  */
 import {createNamespacedHelpers} from 'vuex'
+
+import AudioHelper from '../../lib/AudioHelper'
+const audio = new AudioHelper()
+
 const { mapState, mapGetters, mapActions } = createNamespacedHelpers('beginners')
 
 export default {
   name: 'TestSoundComponent',
 
+  mounted () {
+    audio.init(this.api, this.sound)
+  },
+
   data () {
     return {
-      playing: false,
-      audio: null,
-      tested: false
+      tested: false,
+      audio: audio
     }
   },
 
   computed: {
     startLabel () {
-      return this.playing ? 'Остановить' : 'Звуковой тест'
+      return this.audio.playing ? 'Остановить звук' : 'звуковой тест'
     },
     ...mapGetters(['step', 'phases', 'phase', 'soundTestResult']),
     ...mapState([ 'api', 'sound', 'error' ])
@@ -56,35 +67,19 @@ export default {
 
   methods: {
 
+    start () {
+    },
+
     setTestResult (value) {
+      audio.stop()
       this.$emit('fixStep', value)
     },
 
-    playSound (sound) {
-      if (sound) {
-        const snd = `${this.api}/${this.sound}/${sound}`
-        this.audio = new Audio(snd)
-        this.audio.play()
-        this.playing = true
-      }
-    },
-
-    stopSound () {
-      if (this.audio) {
-        this.audio.pause()
-        this.playing = false
-      }
-    },
-
     startTest () {
-      if (this.playing) {
-        this.stopSound()
+      if (audio.playing) {
+        audio.stop()
       } else {
-        if (this.phase.testSound1) {
-          this.playSound(this.phase.testSound1)
-        } else if (this.phase.testSound2) {
-          this.playSound(this.phase.testSound2)
-        }
+        audio.sounds([this.phase.testSound1, this.phase.testSound2]).play()
       }
     },
     ...mapActions(['nextStep', 'nextPhase', 'fixStep', 'fixPhase'])

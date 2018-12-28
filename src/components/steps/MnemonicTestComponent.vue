@@ -2,19 +2,21 @@
   <section>
     <div>
       <h5>{{phase.title}}</h5>
+
+    <div v-if="phase.num === 1">
+
       <div
-        v-if="phase.num === 1"
+        v-if="phaseMode === 'brief'"
         v-html="phase.briefText"></div>
       </div>
 
-      <two-column-words-with-chech-box
-        v-if="phase.num === 2"
+      <two-column-words-with-check-box
+        v-if="phaseMode === 'check'"
         :dictionary="dictionary"
         @word-pair-checked="onWordPairChecked"
       >
-      </two-column-words-with-chech-box>
-
-    {{checkedWordsPairs}}
+      </two-column-words-with-check-box>
+    </div>
 
       <div>
 
@@ -32,14 +34,19 @@
 <script>
 
 import {createNamespacedHelpers} from 'vuex'
-import TwoColumnWordsWithChechBox from './test/TwoColumnWordsWithChechBox'
+import TwoColumnWordsWithCheckBox from './test/TwoColumnWordsWithCheckBox'
+import AudioHelper from '../../lib/AudioHelper'
+const audio = new AudioHelper()
+
 const { mapState, mapGetters, mapActions } = createNamespacedHelpers('beginners')
 
 export default {
   name: 'MnemonicTestComponent',
-  components: {TwoColumnWordsWithChechBox},
+  components: {TwoColumnWordsWithCheckBox},
   data () {
     return {
+      BRIEF_MODE: 'brief',
+      CHECK_MODE: 'check',
       dictionaryFilter: {
         lang1: 'RU',
         lang2: 'RU',
@@ -51,27 +58,30 @@ export default {
         'Продолжить'
       ],
       results: [],
-      checkedWordsPairs: []
+      checkedWordsPairs: [],
+      phaseMode: 'brief'
     }
   },
 
   mounted () {
     this.getDictionary(this.dictionaryFilter)
+    audio.init(this.api, this.sound)
   },
 
   computed: {
     startLabel () {
-      if (this.phase.num >= 0 && this.phase.num < this.btnLabels.length) {
-        return this.btnLabels[this.phase.num - 1]
-      } else {
-        return 'Следующий тест'
-      }
+      return this.btnLabels[this.phase.num - 1] || 'Следующий тест'
     },
+
     ...mapGetters(['step', 'phases', 'phase', 'dictionary']),
-    ...mapState([ 'error' ])
+    ...mapState([ 'api', 'sound', 'error' ])
   },
 
   methods: {
+
+    start () {
+      this.playPhase()
+    },
 
     onWordPairChecked (values) {
       this.checkedWordsPairs = values
@@ -84,13 +94,44 @@ export default {
     },
 
     doNextAction () {
+      audio.stop()
       switch (this.phase.num) {
         case 1 :
         case 2 :
-          this.nextPhase()
+          switch (this.phaseMode) {
+            case this.BRIEF_MODE :
+              this.phaseMode = this.CHECK_MODE
+              break
+            case this.CHECK_MODE :
+              this.nextPhase()
+              this.phaseMode = this.BRIEF_MODE
+              break
+          }
+          this.playPhase()
           break
         case 3 :
           this.setTestResult(true)
+          break
+      }
+    },
+
+    playPhase () {
+      let sounds = []
+      switch (this.phase.num) {
+        case 1 :
+        case 2 :
+          switch (this.phaseMode) {
+            case this.BRIEF_MODE :
+              sounds = this.phase.briefSounds
+              audio.sounds(sounds).once().play()
+              break
+            case this.CHECK_MODE :
+              sounds = this.phase.testSounds
+              audio.sounds(sounds).cycle().play()
+              break
+          }
+          break
+        case 3 :
           break
       }
     },

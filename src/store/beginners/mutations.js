@@ -35,7 +35,15 @@ const setStepResult = (state, playload) => {
 
 const setPhases = (state, playload) => {
   state.phases = playload.map((phase) => {
-    return Object.assign({}, phase, {result: false, complete: false})
+    return Object.assign(
+      {},
+      phase,
+      {
+        briefSounds: [phase.briefSound1, phase.briefSound2],
+        testSounds: [phase.testSound1, phase.testSound2],
+        result: false,
+        complete: false
+      })
   })
 }
 
