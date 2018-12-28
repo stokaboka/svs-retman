@@ -7,27 +7,14 @@
         v-html="phase.briefText"></div>
       </div>
 
-      <div v-if="phase.num === 2" class="row no-wrap justify-between">
-        <div class="col-auto"></div>
-          <div class="col-3">
-            <div class="row no-wrap justify-between" v-for="i in 25" :key="i">
-              <div class="col-5">{{dictionary[i-1].word1}}</div>
-              <div class="col-2"><input type="checkbox" :id="i" :value="i" v-model="checkedWordsPairs"></div>
-              <div class="col-5">{{dictionary[i-1].word2}}</div>
-            </div>
-          </div>
+      <two-column-words-with-chech-box
+        v-if="phase.num === 2"
+        :dictionary="dictionary"
+        @word-pair-checked="onWordPairChecked"
+      >
+      </two-column-words-with-chech-box>
 
-        <div class="col-auto"></div>
-
-          <div class="col-3">
-            <div class="row no-wrap justify-between" v-for="i in 25" :key="i">
-              <div class="col-5">{{dictionary[i+25-1].word1}}</div>
-              <div class="col-2"><input type="checkbox" :id="i+25" :value="i+25" v-model="checkedWordsPairs"></div>
-              <div class="col-5">{{dictionary[i+25-1].word2}}</div>
-            </div>
-          </div>
-        <div class="col-auto"></div>
-      </div>
+    {{checkedWordsPairs}}
 
       <div>
 
@@ -45,11 +32,12 @@
 <script>
 
 import {createNamespacedHelpers} from 'vuex'
+import TwoColumnWordsWithChechBox from './test/TwoColumnWordsWithChechBox'
 const { mapState, mapGetters, mapActions } = createNamespacedHelpers('beginners')
 
 export default {
   name: 'MnemonicTestComponent',
-
+  components: {TwoColumnWordsWithChechBox},
   data () {
     return {
       dictionaryFilter: {
@@ -84,6 +72,10 @@ export default {
   },
 
   methods: {
+
+    onWordPairChecked (values) {
+      this.checkedWordsPairs = values
+    },
 
     initResults () {
       for (let i = 0; i < 50; i++) {

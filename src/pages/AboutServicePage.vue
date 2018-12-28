@@ -38,7 +38,6 @@ export default {
       // based on the QLayout "view" prop configuration
 
       // this is actually what the default style-fn does in Quasar
-      console.log(offset)
       // offset = offset + 30 * 2
       return { minHeight: offset ? `calc(100vh - ${offset}px)` : '100vh' }
     }
