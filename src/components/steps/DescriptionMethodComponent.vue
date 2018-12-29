@@ -37,6 +37,7 @@ export default {
   },
 
   computed: {
+
     startLabel () {
       return this.playing ? 'Остановить' : 'Звуковой тест'
     },

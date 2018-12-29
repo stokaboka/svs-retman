@@ -60,7 +60,8 @@ module.exports = function (ctx) {
         'QRouteTab',
         'QStepper',
         'QStep',
-        'QStepperNavigation'
+        'QStepperNavigation',
+        'QProgress'
       ],
       directives: [
         'Ripple'
