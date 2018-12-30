@@ -25,7 +25,6 @@ export default class TimerHelper {
   }
 
   start (seconds) {
-    seconds = 5
     this.stop()
     this.active = true
     this.complete = false
@@ -41,6 +40,7 @@ export default class TimerHelper {
     }, 1000)
 
     this.fire(this.EVENTS.START)
+    return this
   }
 
   stop () {
@@ -48,6 +48,7 @@ export default class TimerHelper {
       clearTimeout(this.id)
       this.id = null
     }
+    return this
   }
 
   info (event) {
@@ -95,6 +96,7 @@ export default class TimerHelper {
 
   on (event, listener) {
     this.listeners.push({event, listener})
+    return this
   }
 
   off (event, listener) {
@@ -104,6 +106,7 @@ export default class TimerHelper {
         listener === elem.listener
       )
     })
+    return this
   }
 
   toTimeString (seconds) {

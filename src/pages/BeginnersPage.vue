@@ -29,13 +29,12 @@ export default {
     DescriptionMethodComponent,
     MnemonicTestComponent},
   mounted () {
+    this.resetSteps()
     this.getSteps()
       .then(() => {
         this.playStep()
       })
       .catch(() => {})
-    // this.resetSteps()
-    // this.getPhasesByStep(this.step.id)
   },
 
   computed: {

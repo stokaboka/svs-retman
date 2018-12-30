@@ -18,12 +18,20 @@ const step = (state) => {
   return state.step
 }
 
+const stepIndex = (state) => {
+  return state.stepIndex
+}
+
 const phases = (state) => {
   return state.phases
 }
 
 const phase = (state) => {
   return state.phase
+}
+
+const phaseIndex = (state) => {
+  return state.phaseIndex
 }
 
 const stages = (state) => {
@@ -48,7 +56,9 @@ export {
   version,
   steps,
   step,
+  stepIndex,
   phases,
+  phaseIndex,
   stages,
   phase,
   stage,

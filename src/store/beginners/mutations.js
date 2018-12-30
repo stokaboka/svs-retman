@@ -17,7 +17,7 @@ const setSteps = (state, playload) => {
   })
 }
 
-const resetStepIndex = ({state}) => {
+const resetStepIndex = (state) => {
   state.stepIndex = 0
 }
 
@@ -39,8 +39,8 @@ const setPhases = (state, playload) => {
       {},
       phase,
       {
-        briefSounds: [phase.briefSound1, phase.briefSound2],
-        testSounds: [phase.testSound1, phase.testSound2],
+        testSounds: phase.testSounds ? phase.testSounds.split('#') : [],
+        briefSounds: phase.briefSounds ? phase.briefSounds.split('#') : [],
         result: false,
         complete: false
       })
@@ -53,6 +53,10 @@ const setPhase = (state, playload) => {
 
 const nextPhase = (state) => {
   state.phaseIndex++
+}
+
+const resetPhaseIndex = (state) => {
+  state.phaseIndex = 0
 }
 
 const setPhaseResult = (state, playload) => {
@@ -92,6 +96,8 @@ export {
 
   nextStep,
   nextPhase,
+
+  resetPhaseIndex,
 
   setSoundTestResult,
 

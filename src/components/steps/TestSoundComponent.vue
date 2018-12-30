@@ -79,7 +79,7 @@ export default {
       if (audio.playing) {
         audio.stop()
       } else {
-        audio.sounds([this.phase.testSound1, this.phase.testSound2]).play()
+        audio.sounds(this.phase.testSounds).mode(this.phase.testModeSounds).play()
       }
     },
     ...mapActions(['nextStep', 'nextPhase', 'fixStep', 'fixPhase'])

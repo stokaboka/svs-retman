@@ -2,10 +2,11 @@
 import axios from 'axios'
 
 const getSteps = ({ commit, getters }) => {
+  commit('resetStepIndex')
   return axios.get(`${getters.api}/s`)
     .then(response => {
       commit('setSteps', response.data)
-      commit('setStep', getters.steps[0])
+      commit('setStep', getters.steps[getters.stepIndex])
       commit('setResult', 'OK')
     })
     .catch(error => {
@@ -14,16 +15,20 @@ const getSteps = ({ commit, getters }) => {
 }
 
 const resetSteps = ({ commit, getters }) => {
-  commit('setSteps', getters.steps)
-  commit('setStep', getters.steps[0])
   commit('resetStepIndex')
+  commit('setStep', getters.steps[getters.stepIndex])
+
+  commit('resetPhaseIndex')
+  commit('setPhases', [{}])
+  commit('setPhase', getters.phases[getters.phaseIndex])
 }
 
 const getPhasesByStep = ({ commit, getters }, stepId) => {
+  commit('resetPhaseIndex')
   return axios.get(`${getters.api}/ph/step/${stepId}`)
     .then(response => {
       commit('setPhases', response.data)
-      commit('setPhase', getters.phases[0])
+      commit('setPhase', getters.phases[getters.phaseIndex])
       commit('setResult', 'OK')
     })
     .catch(error => {

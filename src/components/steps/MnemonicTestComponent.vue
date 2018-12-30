@@ -81,19 +81,19 @@ export default {
   mounted () {
     this.getDictionary(this.dictionaryFilter)
     audio.init(this.api, this.sound)
-    this.timer.on('START', this.onTimerFired)
-    this.timer.on('PROGRESS', this.onTimerFired)
-    this.timer.on('COMPLETE', this.onTimerFired)
+    this.timer
+      .on('START', this.onTimerFired)
+      .on('PROGRESS', this.onTimerFired)
+      .on('COMPLETE', this.onTimerFired)
   },
 
   computed: {
     showNextBtn () {
       let out = true
-      switch (this.phaseMode) {
-        case this.CHECK_MODE :
-          if (this.phase.testTime && this.phase.testTime > 0) {
-            out = this.timer.complete
-          }
+      if (this.phaseMode === this.CHECK_MODE) {
+        if (this.phase.testTime && this.phase.testTime > 0) {
+          out = this.timer.complete && this.phase.testNextBtn === 1
+        }
       }
       return out
     },
@@ -154,11 +154,11 @@ export default {
           switch (this.phaseMode) {
             case this.BRIEF_MODE :
               sounds = this.phase.briefSounds
-              audio.sounds(sounds).once().play()
+              audio.sounds(sounds).mode(this.phase.briefModeSounds).play()
               break
             case this.CHECK_MODE :
               sounds = this.phase.testSounds
-              audio.sounds(sounds).cycle().play()
+              audio.sounds(sounds).mode(this.phase.testModeSounds).play()
               this.startTimer()
               this.testComponent = this.phaseComponent[this.phase.num - 1]
               break
@@ -171,7 +171,12 @@ export default {
 
     startTimer () {
       if (this.phase.testTime && this.phase.testTime > 0) {
-        this.timer.start(this.phase.testTime)
+        let seconds = this.phase.testTime
+        if (this.phase.num === 1) {
+          seconds = 5
+        }
+        // this.timer.start(this.phase.testTime)
+        this.timer.start(seconds)
       }
     },
 

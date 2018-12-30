@@ -11,7 +11,8 @@
             label="Старт !"
             color="primary"
             size="xl"
-            to="/beginners">
+            @click="onStartBtnClick"
+            >
           </q-btn>
         </div>
 
@@ -21,15 +22,25 @@
 </template>
 
 <script>
+// to="/beginners"
+import {createNamespacedHelpers} from 'vuex'
 import AboutServiceComponent from '../components/AboutServiceComponent'
+
+const { mapState, mapActions } = createNamespacedHelpers('beginners')
+
 export default {
   components: {AboutServiceComponent},
 
   name: 'AboutServicePage',
 
+  computed: {
+    ...mapState([ 'error' ])
+  },
+
   methods: {
     onStartBtnClick () {
-
+      this.resetSteps()
+      this.$router.push({name: 'beginners'})
     },
 
     myTweak (offset) {
@@ -40,15 +51,15 @@ export default {
       // this is actually what the default style-fn does in Quasar
       // offset = offset + 30 * 2
       return { minHeight: offset ? `calc(100vh - ${offset}px)` : '100vh' }
-    }
+    },
+
+    ...mapActions(['resetSteps'])
   }
 }
 </script>
 
 <style>
   .page-container__layout {
-    /*margin: 30px;*/
-    /*border-radius: 20px;*/
     background-color: white;
   }
 
