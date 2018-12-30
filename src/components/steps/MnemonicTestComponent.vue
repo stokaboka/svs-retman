@@ -173,7 +173,7 @@ export default {
       if (this.phase.testTime && this.phase.testTime > 0) {
         let seconds = this.phase.testTime
         if (this.phase.num === 1) {
-          seconds = 5
+          seconds = 1
         }
         // this.timer.start(this.phase.testTime)
         this.timer.start(seconds)

@@ -1,58 +1,39 @@
 <template>
-  <div class="row no-wrap">
-
-    <div class="col-6">
+  <div>
       <div class="row no-wrap words-row" v-for="i in 25" :key="i">
         <div class="col left-word1">{{leftWords[i-1].word1}}</div>
-        <div class="col left-word2 q-ml-md" :id="i">{{leftWords[i-1].word2}}</div>
+          <drop @drop="onDrop(i-1, ...arguments)" class="col left-word2 q-ml-md">
+            {{leftWords[i-1].word2}}
+          </drop>
+        <q-btn label="*" @click="showWordOnLeft(leftWords[i-1].word2)"></q-btn>
+        <div class="col"></div>
         <div class="col left-word1">{{leftWords[i+25-1].word1}}</div>
-        <div class="col left-word2  q-ml-md" :id="i+25">{{leftWords[i+25-1].word2}}</div>
+
+          <drop @drop="onDrop(i+25-1, ...arguments)" class="col left-word2 q-ml-md">
+          {{leftWords[i+25-1].word2}}
+          </drop>
+          <q-btn label="*" @click="showWordOnLeft(leftWords[i+25-1].word2)"></q-btn>
+
+        <div class="col"></div>
+        <drag
+          class="col right-word2"
+          :transfer-data="rightWords[i-1].word2">
+          {{rightWords[i-1].word2}}
+        </drag>
+        <drag
+          class="col right-word2 q-ml-md"
+          :transfer-data="rightWords[i+25-1].word2">
+          {{rightWords[i+25-1].word2}}
+        </drag>
       </div>
-    </div>
-
-    <div class="col"></div>
-
-    <Container
-      class="col q-mr-sm q-ml-sm"
-      group-name="rightwords1"
-      :get-child-payload="getChildPayload1"
-      :should-accept-drop="shouldAcceptDrop"
-      @drop="onDrop('1-25', $event)">
-      <Draggable class="row no-wrap words-row"  v-for="i in 25" :key="i">
-        <div class="col right-word2 draggable-item">{{rightWords[i-1].word2}}</div>
-      </Draggable>
-    </Container>
-
-    <Container
-      class="col q-mr-sm q-ml-sm"
-      group-name="rightwords2"
-      :get-child-payload="getChildPayload2"
-      @drop="onDrop('26-50', $event)">
-      <Draggable class="row no-wrap words-row"  v-for="i in 25" :key="i">
-        <div class="col right-word2 draggable-item">{{rightWords[i+25-1].word2}}</div>
-      </Draggable>
-    </Container>
-
   </div>
-
 </template>
 
 <script>
-
-/*
-    <div class="col-5">
-      <div class="row no-wrap words-row" v-for="i in 25" :key="i">
-        <div class="col right-word2">{{rightWords[i-1].word2}}</div>
-        <div class="col right-word2  q-ml-md">{{rightWords[i+25-1].word2}}</div>
-      </div>
-    </div>
- */
-
-import { Container, Draggable } from 'vue-smooth-dnd'
-
+import { Drag, Drop } from 'vue-drag-drop'
 export default {
   name: 'TwoColumnWordsWithMoveWords',
-  components: {Container, Draggable},
+  components: { Drag, Drop },
   props: {
     dictionary: {
       type: Array,
@@ -69,30 +50,36 @@ export default {
 
   data () {
     return {
-      leftWords: [],
-      rightWords: [],
+      leftWords: [{}],
+      rightWords: [{}],
       checkedWordsPairs: []
     }
   },
   methods: {
-    shouldAcceptDrop (sourceContainerOptions, payload) {
-      console.log('shouldAcceptDrop')
-      console.log(sourceContainerOptions)
-      console.log(payload)
-      return (sourceContainerOptions.groupName === 'leftwords1' || sourceContainerOptions.groupName === 'leftwords2')
+    onDrop (index, data, event) {
+      const wrd2 = Object.assign({}, this.leftWords[index], {word2: data})
+      this.$set(this.leftWords, index, wrd2)
+      this.hideWordOnLeft(data)
     },
-    onDrop (collection, dropResult) {
-      // this[collection] = applyDrag(this[collection], dropResult)
-      console.log('onDrop')
-      console.log(collection)
-      console.log(dropResult)
+
+    showWordOnLeft (word) {
+      this.rightWords = this.rightWords.map((elem) => {
+        return {
+          word2: elem.hide === word ? elem.hide : elem.word2,
+          hide: elem.hide
+        }
+      })
     },
-    getChildPayload1 (index) {
-      return this.rightWords[index]
+
+    hideWordOnLeft (word) {
+      this.rightWords = this.rightWords.map((elem) => {
+        return {
+          word2: elem.hide === word ? '' : elem.word2,
+          hide: elem.hide
+        }
+      })
     },
-    getChildPayload2 (index) {
-      return this.rightWords[index + 25]
-    },
+
     init () {
       this.leftWords = this.dictionary
         .map((elem) => {
