@@ -1,18 +1,32 @@
 <template>
   <div>
       <div class="row no-wrap words-row" v-for="i in 25" :key="i">
+
         <div class="col left-word1">{{leftWords[i-1].word1}}</div>
-          <drop @drop="onDrop(i-1, ...arguments)" class="col left-word2 q-ml-md">
-            {{leftWords[i-1].word2}}
-          </drop>
-        <q-btn label="*" @click="showWordOnLeft(leftWords[i-1].word2)"></q-btn>
-        <div class="col"></div>
+
+        <drop @drop="onDrop(i-1, ...arguments)" class="col left-word2 q-ml-md">
+          {{leftWords[i-1].word2}}
+        </drop>
+        <q-btn
+          :disable="!leftWords[i-1].word2"
+          icon="close"
+          size="xs"
+          round
+          @click="onRemoveWordFromLeft(leftWords[i-1].word2)">
+        </q-btn>
+
         <div class="col left-word1">{{leftWords[i+25-1].word1}}</div>
 
-          <drop @drop="onDrop(i+25-1, ...arguments)" class="col left-word2 q-ml-md">
+        <drop @drop="onDrop(i+25-1, ...arguments)" class="col left-word2 q-ml-md">
           {{leftWords[i+25-1].word2}}
-          </drop>
-          <q-btn label="*" @click="showWordOnLeft(leftWords[i+25-1].word2)"></q-btn>
+        </drop>
+        <q-btn
+          :disable="!leftWords[i+25-1].word2"
+            icon="close"
+            size="xs"
+            round
+            @click="onRemoveWordFromLeft(leftWords[i+25-1].word2)">
+        </q-btn>
 
         <div class="col"></div>
         <drag
@@ -20,11 +34,13 @@
           :transfer-data="rightWords[i-1].word2">
           {{rightWords[i-1].word2}}
         </drag>
+
         <drag
           class="col right-word2 q-ml-md"
           :transfer-data="rightWords[i+25-1].word2">
           {{rightWords[i+25-1].word2}}
         </drag>
+
       </div>
   </div>
 </template>
@@ -62,11 +78,25 @@ export default {
       this.hideWordOnLeft(data)
     },
 
+    onRemoveWordFromLeft (word) {
+      this.showWordOnLeft(word)
+      this.hideWordOnRight(word)
+    },
+
     showWordOnLeft (word) {
       this.rightWords = this.rightWords.map((elem) => {
         return {
           word2: elem.hide === word ? elem.hide : elem.word2,
           hide: elem.hide
+        }
+      })
+    },
+
+    hideWordOnRight (word) {
+      this.leftWords = this.leftWords.map((elem) => {
+        return {
+          word1: elem.word1,
+          word2: elem.word2 === word ? '' : elem.word2
         }
       })
     },
@@ -122,7 +152,8 @@ export default {
   .left-word2 {
     border: solid 1px #999;
     min-width: 50px;
-    height: 20px;
+    height: 26px;
+    padding: 0 3px 0 3px;
   }
   /*.left-word2::before {*/
     /*content: '-';*/
@@ -131,12 +162,14 @@ export default {
   .right-word2 {
     border: solid 1px #999;
     min-width: 50px;
-    height: 20px;
+    height: 26px;
     cursor: pointer;
+    text-align: center;
   }
 
   .words-row {
-    height: 22px;
+    height: 26px;
+    margin-bottom: 3px;
   }
 
 </style>
