@@ -73,6 +73,13 @@ const getDictionary = ({ commit, getters }, p) => {
     })
 }
 
+const getMnemonicRecommendation = ({getters}, result) => {
+  const rec = getters.mnemonicRecommendation.find((elem) => {
+    return (elem.from <= result.remembered && result.remembered <= elem.to)
+  })
+  return rec
+}
+
 export {
   getSteps,
   getPhasesByStep,
@@ -84,5 +91,7 @@ export {
   fixPhase,
   nextPhase,
 
-  getDictionary
+  getDictionary,
+
+  getMnemonicRecommendation
 }

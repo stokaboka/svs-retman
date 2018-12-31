@@ -48,6 +48,8 @@ export default class TimerHelper {
       clearTimeout(this.id)
       this.id = null
     }
+    this.active = false
+    this.complete = false
     return this
   }
 

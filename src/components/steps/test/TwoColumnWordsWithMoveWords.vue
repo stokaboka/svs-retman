@@ -72,15 +72,18 @@ export default {
     }
   },
   methods: {
+
     onDrop (index, data, event) {
       const wrd2 = Object.assign({}, this.leftWords[index], {word2: data})
       this.$set(this.leftWords, index, wrd2)
       this.hideWordOnLeft(data)
+      this.wordPairRemembered()
     },
 
     onRemoveWordFromLeft (word) {
       this.showWordOnLeft(word)
       this.hideWordOnRight(word)
+      this.wordPairRemembered()
     },
 
     showWordOnLeft (word) {
@@ -137,8 +140,8 @@ export default {
         })
     },
 
-    wordPairChecked () {
-      this.$emit('word-pair-checked', this.checkedWordsPairs)
+    wordPairRemembered () {
+      this.$emit('word-pair-remembered', this.leftWords)
     }
   }
 }

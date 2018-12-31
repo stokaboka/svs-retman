@@ -50,6 +50,10 @@ const soundTestResult = (state) => {
   return state.testResult.sound
 }
 
+const mnemonicRecommendation = (state) => {
+  return state.mnemonicRecommendation
+}
+
 export {
   title,
   api,
@@ -64,5 +68,7 @@ export {
   stage,
   dictionary,
 
-  soundTestResult
+  soundTestResult,
+
+  mnemonicRecommendation
 }

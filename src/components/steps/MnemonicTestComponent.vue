@@ -24,6 +24,7 @@
         v-if="phaseMode === CHECK_MODE"
         :dictionary="dictionary"
         @word-pair-checked="onWordPairChecked"
+        @word-pair-remembered="onWordPairRemembered"
       ></component>
 
     <q-btn
@@ -70,8 +71,14 @@ export default {
         'Проверить',
         'Продолжить'
       ],
-      results: [],
+      results: {
+        checked: 0,
+        remembered: 0
+      },
+      // phase 1 - remember word pairs
       checkedWordsPairs: [],
+      // phase 2 - restore word pairs
+      rememberedWordsPairs: [],
       phaseMode: 'brief',
       timer: new TimerHelper(this),
       testComponent: null
@@ -92,7 +99,7 @@ export default {
       let out = true
       if (this.phaseMode === this.CHECK_MODE) {
         if (this.phase.testTime && this.phase.testTime > 0) {
-          out = this.timer.complete && this.phase.testNextBtn === 1
+          out = this.timer.complete || this.phase.testNextBtn === 1
         }
       }
       return out
@@ -116,13 +123,28 @@ export default {
       this.checkedWordsPairs = values
     },
 
+    onWordPairRemembered (values) {
+      this.rememberedWordsPairs = values
+    },
+
     initResults () {
-      for (let i = 0; i < 50; i++) {
-        this.results.push({result: false})
+      const out = {
+        checked: this.checkedWordsPairs.length,
+        remembered: 0
       }
+
+      for (let i = 0; i < this.checkedWordsPairs.length; i++) {
+        const checkedWordPair = this.dictionary[this.checkedWordsPairs[i] - 1]
+        const isRememberedProperly = this.rememberedWordsPairs.findIndex((elem) => {
+          return (elem.word1 === checkedWordPair.word1 && elem.word2 === checkedWordPair.word2)
+        })
+        out.remembered += isRememberedProperly >= 0 ? 1 : 0
+      }
+      return out
     },
 
     doNextAction () {
+      this.timer.stop()
       audio.stop()
       switch (this.phase.num) {
         case 1 :
@@ -139,7 +161,7 @@ export default {
           this.playPhase()
           break
         case 3 :
-          this.setTestResult(true)
+          this.setTestResult(this.results)
           break
       }
     },
@@ -165,6 +187,17 @@ export default {
           }
           break
         case 3 :
+          this.results = this.initResults()
+          this.getMnemonicRecommendation(this.results)
+            .then((rec) => {
+              this.phase.briefText = this.phase.briefText.replace('{{RECOMMENDATION}}', rec.text)
+            })
+            .catch((err) => {
+              this.phase.briefText = this.phase.briefText.replace('{{RECOMMENDATION}}', err.message)
+            })
+          this.phase.briefText = this.phase.briefText
+            .replace('{{CHECKED}}', this.results.checked)
+            .replace('{{REMEMBERED}}', this.results.remembered)
           break
       }
     },
@@ -173,7 +206,7 @@ export default {
       if (this.phase.testTime && this.phase.testTime > 0) {
         let seconds = this.phase.testTime
         if (this.phase.num === 1) {
-          seconds = 1
+          seconds = 10
         }
         // this.timer.start(this.phase.testTime)
         this.timer.start(seconds)
@@ -196,7 +229,7 @@ export default {
       this.$emit('fixStep', value)
     },
 
-    ...mapActions(['getDictionary', 'nextPhase'])
+    ...mapActions(['getDictionary', 'nextPhase', 'getMnemonicRecommendation'])
   }
 
 }
