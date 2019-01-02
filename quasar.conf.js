@@ -18,12 +18,22 @@ module.exports = function (ctx) {
     ],
     supportIE: false,
     build: {
+      sourceMap: !!ctx.dev,
+      minify: !ctx.dev,
+      productName: 'Тестирование Лингвистических Способностей (ТЛС)',
       scopeHoisting: true,
       // vueRouterMode: 'history',
       // vueCompiler: true,
       // gzip: true,
       // analyze: true,
       // extractCSS: false,
+      env: ctx.dev
+        ? { // so on dev we'll have
+          API: JSON.stringify('http://localhost:3333')
+        }
+        : { // and on build (production):
+          API: JSON.stringify('')
+        },
       extendWebpack (cfg) {
         cfg.module.rules.push({
           enforce: 'pre',

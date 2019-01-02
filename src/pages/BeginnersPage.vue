@@ -3,6 +3,7 @@
     <step-stepper-component></step-stepper-component>
 
     <component
+      v-if="step"
       v-bind:is="step.component"
       ref="testComponent"
       @fixStep="onFixStepListener"

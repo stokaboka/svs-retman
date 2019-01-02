@@ -1,8 +1,9 @@
 <template>
-  <q-stepper ref="stepper" contractable>
+  <q-stepper v-if="steps" ref="stepper" contractable>
     <q-step
       v-for="step in steps"
       active-icon="play_arrow"
+      title=""
       :key="step.id"
       :name="step.id"
       :order="step.id"
