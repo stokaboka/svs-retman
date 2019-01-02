@@ -47,7 +47,7 @@ import TimerHelper from '../../lib/TimerHelper'
 import TimeProgress from './test/TimeProgress'
 const audio = new AudioHelper()
 
-const { mapState, mapGetters, mapActions } = createNamespacedHelpers('beginners')
+const { mapState, mapGetters, mapMutations, mapActions } = createNamespacedHelpers('beginners')
 
 export default {
   name: 'MnemonicTestComponent',
@@ -92,6 +92,8 @@ export default {
       .on('START', this.onTimerFired)
       .on('PROGRESS', this.onTimerFired)
       .on('COMPLETE', this.onTimerFired)
+
+    this.setStepperVisible(true)
   },
 
   computed: {
@@ -175,10 +177,12 @@ export default {
         case 2 :
           switch (this.phaseMode) {
             case this.BRIEF_MODE :
+              this.setStepperVisible(true)
               sounds = this.phase.briefSounds
               audio.sounds(sounds).mode(this.phase.briefModeSounds).play()
               break
             case this.CHECK_MODE :
+              this.setStepperVisible(false)
               sounds = this.phase.testSounds
               audio.sounds(sounds).mode(this.phase.testModeSounds).play()
               this.startTimer()
@@ -187,17 +191,21 @@ export default {
           }
           break
         case 3 :
+          this.setStepperVisible(true)
+          let briefText = ''
           this.results = this.initResults()
           this.getMnemonicRecommendation(this.results)
             .then((rec) => {
-              this.phase.briefText = this.phase.briefText.replace('{{RECOMMENDATION}}', rec.text)
+              briefText = this.phase.briefText.replace('{{RECOMMENDATION}}', rec.text)
+              this.setPhraseBriefText(briefText)
             })
             .catch((err) => {
               this.phase.briefText = this.phase.briefText.replace('{{RECOMMENDATION}}', err.message)
             })
-          this.phase.briefText = this.phase.briefText
+          briefText = this.phase.briefText
             .replace('{{CHECKED}}', this.results.checked)
             .replace('{{REMEMBERED}}', this.results.remembered)
+          this.setPhraseBriefText(briefText)
           break
       }
     },
@@ -205,7 +213,7 @@ export default {
     startTimer () {
       if (this.phase.testTime && this.phase.testTime > 0) {
         let seconds = this.phase.testTime
-        if (this.phase.num === 1) {
+        if (process.env.MODE === 'DEVELOPMENT' && this.phase.num === 1) {
           seconds = 10
         }
         // this.timer.start(this.phase.testTime)
@@ -229,6 +237,7 @@ export default {
       this.$emit('fixStep', value)
     },
 
+    ...mapMutations(['setPhraseBriefText', 'setStepperVisible']),
     ...mapActions(['getDictionary', 'nextPhase', 'getMnemonicRecommendation'])
   }
 

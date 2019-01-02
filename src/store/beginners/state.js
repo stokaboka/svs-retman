@@ -23,6 +23,7 @@ export default {
 
   dictionary: [],
 
+  stepperVisible: true,
   /**
    * TODO move recommendation on server API
    */

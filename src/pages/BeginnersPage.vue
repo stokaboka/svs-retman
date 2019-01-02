@@ -1,6 +1,9 @@
 <template>
   <q-page padding>
-    <step-stepper-component></step-stepper-component>
+    <q-collapsible icon="explore" label="Шаги тестирования" v-model="stepperVisibleComputed">
+      <step-stepper-component>
+      </step-stepper-component>
+    </q-collapsible>
 
     <component
       v-if="step"
@@ -20,7 +23,7 @@ import StepStepperComponent from '../components/StepStepperComponent'
 import TestSoundComponent from '../components/steps/TestSoundComponent'
 import DescriptionMethodComponent from '../components/steps/DescriptionMethodComponent'
 import MnemonicTestComponent from '../components/steps/MnemonicTestComponent'
-const { mapState, mapGetters, mapActions } = createNamespacedHelpers('beginners')
+const { mapState, mapGetters, mapMutations, mapActions } = createNamespacedHelpers('beginners')
 
 export default {
   name: 'BeginnersPage',
@@ -39,7 +42,11 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['steps', 'step', 'phases', 'phase', 'soundTestResult']),
+    stepperVisibleComputed: {
+      get () { return this.stepperVisible },
+      set (value) { this.setStepperVisible(value) }
+    },
+    ...mapGetters(['steps', 'step', 'phases', 'phase', 'soundTestResult', 'stepperVisible']),
     ...mapState([ 'error' ])
   },
 
@@ -85,6 +92,7 @@ export default {
       console.log('testComplete')
     },
 
+    ...mapMutations(['setStepperVisible']),
     ...mapActions(['getSteps', 'resetSteps', 'nextStep', 'nextPhase', 'fixStep', 'fixPhase', 'getPhasesByStep'])
   }
 
@@ -92,4 +100,7 @@ export default {
 </script>
 
 <style>
+  .step-stepper_layout {
+    max-width: 720px;
+  }
 </style>

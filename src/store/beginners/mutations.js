@@ -81,6 +81,14 @@ const setDictionary = (state, playload) => {
   state.dictionary = playload
 }
 
+const setPhraseBriefText = (state, playload) => {
+  state.phase.briefText = playload
+}
+
+const setStepperVisible = (state, playload) => {
+  state.stepperVisible = playload
+}
+
 export {
   setSteps,
   setStep,
@@ -101,5 +109,8 @@ export {
 
   setSoundTestResult,
 
-  setDictionary
+  setDictionary,
+
+  setPhraseBriefText,
+  setStepperVisible
 }

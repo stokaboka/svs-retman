@@ -54,6 +54,10 @@ const mnemonicRecommendation = (state) => {
   return state.mnemonicRecommendation
 }
 
+const stepperVisible = (state) => {
+  return state.stepperVisible
+}
+
 export {
   title,
   api,
@@ -70,5 +74,7 @@ export {
 
   soundTestResult,
 
-  mnemonicRecommendation
+  mnemonicRecommendation,
+
+  stepperVisible
 }

@@ -29,10 +29,12 @@ module.exports = function (ctx) {
       // extractCSS: false,
       env: ctx.dev
         ? { // so on dev we'll have
-          API: JSON.stringify('http://localhost:3333')
+          API: JSON.stringify('http://localhost:3333'),
+          MODE: JSON.stringify('DEVELOPMENT')
         }
         : { // and on build (production):
-          API: JSON.stringify('')
+          API: JSON.stringify(''),
+          MODE: JSON.stringify('PRODUCTION')
         },
       extendWebpack (cfg) {
         cfg.module.rules.push({
@@ -71,7 +73,10 @@ module.exports = function (ctx) {
         'QStepper',
         'QStep',
         'QStepperNavigation',
-        'QProgress'
+        'QProgress',
+        'QCheckbox',
+        'QSlideTransition',
+        'QCollapsible'
       ],
       directives: [
         'Ripple'
