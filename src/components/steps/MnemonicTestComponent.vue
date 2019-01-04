@@ -213,7 +213,8 @@ export default {
     startTimer () {
       if (this.phase.testTime && this.phase.testTime > 0) {
         let seconds = this.phase.testTime
-        if (process.env.MODE === 'DEVELOPMENT' && this.phase.num === 1) {
+        // if (process.env.MODE === 'DEVELOPMENT' && this.phase.num === 1) {
+        if (this.phase.num === 1) {
           seconds = 10
         }
         // this.timer.start(this.phase.testTime)

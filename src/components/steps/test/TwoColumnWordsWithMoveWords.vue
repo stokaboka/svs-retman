@@ -47,9 +47,12 @@
 
 <script>
 import { Drag, Drop } from 'vue-drag-drop'
+import {TouchDragDrop} from '../../../directives'
+
 export default {
   name: 'TwoColumnWordsWithMoveWords',
   components: { Drag, Drop },
+  directives: {TouchDragDrop},
   props: {
     dictionary: {
       type: Array,
