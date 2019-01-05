@@ -23,6 +23,7 @@ import StepStepperComponent from '../components/StepStepperComponent'
 import TestSoundComponent from '../components/steps/TestSoundComponent'
 import DescriptionMethodComponent from '../components/steps/DescriptionMethodComponent'
 import MnemonicTestComponent from '../components/steps/MnemonicTestComponent'
+import SelfRatingComponent from '../components/steps/SelfRatingComponent'
 const { mapState, mapGetters, mapMutations, mapActions } = createNamespacedHelpers('beginners')
 
 export default {
@@ -31,7 +32,8 @@ export default {
     TestSoundComponent,
     StepStepperComponent,
     DescriptionMethodComponent,
-    MnemonicTestComponent},
+    MnemonicTestComponent,
+    SelfRatingComponent},
   mounted () {
     this.resetSteps()
     this.getSteps()

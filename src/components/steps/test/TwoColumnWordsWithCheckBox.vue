@@ -44,13 +44,7 @@
 </template>
 
 <script>
-/*
-          <input type="checkbox"
-            :id="i"
-            :value="i"
-            v-model="checkedWordsPairs"
-            @change="wordPairChecked">
-   */
+
 export default {
   name: 'TwoColumnWordsWithCheckBox',
   props: {

@@ -39,38 +39,27 @@
 
 <script>
 
-import {createNamespacedHelpers} from 'vuex'
+import TestMixin from './mixins/TestMixin'
 import TwoColumnWordsWithCheckBox from './test/TwoColumnWordsWithCheckBox'
 import TwoColumnWordsWithMoveWords from './test/TwoColumnWordsWithMoveWords'
-import AudioHelper from '../../lib/AudioHelper'
-import TimerHelper from '../../lib/TimerHelper'
-import TimeProgress from './test/TimeProgress'
-const audio = new AudioHelper()
-
-const { mapState, mapGetters, mapMutations, mapActions } = createNamespacedHelpers('beginners')
 
 export default {
   name: 'MnemonicTestComponent',
-  components: {TimeProgress, TwoColumnWordsWithCheckBox, TwoColumnWordsWithMoveWords},
+  mixins: [TestMixin],
+  components: {TwoColumnWordsWithCheckBox, TwoColumnWordsWithMoveWords},
   data () {
     return {
       phaseComponent: [
         'TwoColumnWordsWithCheckBox',
-        'TwoColumnWordsWithMoveWords',
-        'TwoColumnWordsWithMoveWords__'
+        'TwoColumnWordsWithMoveWords'
       ],
-      BRIEF_MODE: 'brief',
-      CHECK_MODE: 'check',
+
       dictionaryFilter: {
         lang1: 'RU',
         lang2: 'RU',
         scope: 'mnemonic::test'
       },
-      btnLabels: [
-        'Начать',
-        'Проверить',
-        'Продолжить'
-      ],
+
       results: {
         checked: 0,
         remembered: 0
@@ -78,48 +67,11 @@ export default {
       // phase 1 - remember word pairs
       checkedWordsPairs: [],
       // phase 2 - restore word pairs
-      rememberedWordsPairs: [],
-      phaseMode: 'brief',
-      timer: new TimerHelper(this),
-      testComponent: null
+      rememberedWordsPairs: []
     }
   },
 
-  mounted () {
-    this.getDictionary(this.dictionaryFilter)
-    audio.init(this.api, this.sound)
-    this.timer
-      .on('START', this.onTimerFired)
-      .on('PROGRESS', this.onTimerFired)
-      .on('COMPLETE', this.onTimerFired)
-
-    this.setStepperVisible(true)
-  },
-
-  computed: {
-    showNextBtn () {
-      let out = true
-      if (this.phaseMode === this.CHECK_MODE) {
-        if (this.phase.testTime && this.phase.testTime > 0) {
-          out = this.timer.complete || this.phase.testNextBtn === 1
-        }
-      }
-      return out
-    },
-
-    startLabel () {
-      return this.btnLabels[this.phase.num - 1] || 'Следующий тест'
-    },
-
-    ...mapGetters(['step', 'phases', 'phase', 'dictionary']),
-    ...mapState([ 'api', 'sound', 'error' ])
-  },
-
   methods: {
-
-    start () {
-      this.playPhase()
-    },
 
     onWordPairChecked (values) {
       this.checkedWordsPairs = values
@@ -145,101 +97,115 @@ export default {
       return out
     },
 
-    doNextAction () {
-      this.timer.stop()
-      audio.stop()
-      switch (this.phase.num) {
-        case 1 :
-        case 2 :
-          switch (this.phaseMode) {
-            case this.BRIEF_MODE :
-              this.phaseMode = this.CHECK_MODE
-              break
-            case this.CHECK_MODE :
-              this.nextPhase()
-              this.phaseMode = this.BRIEF_MODE
-              break
-          }
-          this.playPhase()
-          break
-        case 3 :
-          this.setTestResult(this.results)
-          break
-      }
-    },
+    // doNextAction () {
+    //   this.timer.stop()
+    //   this.audio.stop()
+    //   switch (this.phase.num) {
+    //     case 1 :
+    //     case 2 :
+    //       switch (this.phaseMode) {
+    //         case this.BRIEF_MODE :
+    //           this.phaseMode = this.CHECK_MODE
+    //           break
+    //         case this.CHECK_MODE :
+    //           this.nextPhase()
+    //           this.phaseMode = this.BRIEF_MODE
+    //           break
+    //       }
+    //       this.playPhase()
+    //       break
+    //     case 3 :
+    //       this.setTestResult(this.results)
+    //       break
+    //   }
+    // },
 
-    playPhase () {
-      let sounds = []
-      this.testComponent = null
+    // playPhase_1_2 () {
+    //   let sounds = []
+    //   switch (this.phaseMode) {
+    //     case this.BRIEF_MODE :
+    //       this.setStepperVisible(true)
+    //       sounds = this.phase.briefSounds
+    //       this.audio.sounds(sounds).mode(this.phase.briefModeSounds).play()
+    //       break
+    //     case this.CHECK_MODE :
+    //       this.setStepperVisible(false)
+    //       sounds = this.phase.testSounds
+    //       this.audio.sounds(sounds).mode(this.phase.testModeSounds).play()
+    //       this.startTimer()
+    //       this.testComponent = this.phaseComponent[this.phase.num - 1]
+    //       break
+    //   }
+    // },
+    //
+    // playPhase_1 () {
+    //   this.playPhase_1_2()
+    // },
+    //
+    // playPhase_2 () {
+    //   this.playPhase_1_2()
+    // },
 
-      switch (this.phase.num) {
-        case 1 :
-        case 2 :
-          switch (this.phaseMode) {
-            case this.BRIEF_MODE :
-              this.setStepperVisible(true)
-              sounds = this.phase.briefSounds
-              audio.sounds(sounds).mode(this.phase.briefModeSounds).play()
-              break
-            case this.CHECK_MODE :
-              this.setStepperVisible(false)
-              sounds = this.phase.testSounds
-              audio.sounds(sounds).mode(this.phase.testModeSounds).play()
-              this.startTimer()
-              this.testComponent = this.phaseComponent[this.phase.num - 1]
-              break
-          }
-          break
-        case 3 :
-          this.setStepperVisible(true)
-          let briefText = ''
-          this.results = this.initResults()
-          this.getMnemonicRecommendation(this.results)
-            .then((rec) => {
-              briefText = this.phase.briefText.replace('{{RECOMMENDATION}}', rec.text)
-              this.setPhraseBriefText(briefText)
-            })
-            .catch((err) => {
-              this.phase.briefText = this.phase.briefText.replace('{{RECOMMENDATION}}', err.message)
-            })
-          briefText = this.phase.briefText
-            .replace('{{CHECKED}}', this.results.checked)
-            .replace('{{REMEMBERED}}', this.results.remembered)
+    playPhase_3 () {
+      this.setStepperVisible(true)
+      let briefText = ''
+      this.results = this.initResults()
+      this.getMnemonicRecommendation(this.results)
+        .then((rec) => {
+          briefText = this.phase.briefText.replace('{{RECOMMENDATION}}', rec.text)
           this.setPhraseBriefText(briefText)
-          break
-      }
-    },
+        })
+        .catch((err) => {
+          this.phase.briefText = this.phase.briefText.replace('{{RECOMMENDATION}}', err.message)
+        })
+      briefText = this.phase.briefText
+        .replace('{{CHECKED}}', this.results.checked)
+        .replace('{{REMEMBERED}}', this.results.remembered)
+      this.setPhraseBriefText(briefText)
+    }
 
-    startTimer () {
-      if (this.phase.testTime && this.phase.testTime > 0) {
-        let seconds = this.phase.testTime
-        // if (process.env.MODE === 'DEVELOPMENT' && this.phase.num === 1) {
-        if (this.phase.num === 1) {
-          seconds = 10
-        }
-        // this.timer.start(this.phase.testTime)
-        this.timer.start(seconds)
-      }
-    },
+    // playPhase () {
+    //   let sounds = []
+    //   this.testComponent = null
+    //
+    //   switch (this.phase.num) {
+    //     case 1 :
+    //     case 2 :
+    //       switch (this.phaseMode) {
+    //         case this.BRIEF_MODE :
+    //           this.setStepperVisible(true)
+    //           sounds = this.phase.briefSounds
+    //           this.audio.sounds(sounds).mode(this.phase.briefModeSounds).play()
+    //           break
+    //         case this.CHECK_MODE :
+    //           this.setStepperVisible(false)
+    //           sounds = this.phase.testSounds
+    //           this.audio.sounds(sounds).mode(this.phase.testModeSounds).play()
+    //           this.startTimer()
+    //           this.testComponent = this.phaseComponent[this.phase.num - 1]
+    //           break
+    //       }
+    //       break
+    //     case 3 :
+    //       this.setStepperVisible(true)
+    //       let briefText = ''
+    //       this.results = this.initResults()
+    //       this.getMnemonicRecommendation(this.results)
+    //         .then((rec) => {
+    //           briefText = this.phase.briefText.replace('{{RECOMMENDATION}}', rec.text)
+    //           this.setPhraseBriefText(briefText)
+    //         })
+    //         .catch((err) => {
+    //           this.phase.briefText = this.phase.briefText.replace('{{RECOMMENDATION}}', err.message)
+    //         })
+    //       briefText = this.phase.briefText
+    //         .replace('{{CHECKED}}', this.results.checked)
+    //         .replace('{{REMEMBERED}}', this.results.remembered)
+    //       this.setPhraseBriefText(briefText)
+    //       break
+    //   }
+    // }
 
-    onTimerFired (event) {
-      switch (event.event) {
-        case 'START' :
-          break
-        case 'PROGRESS' :
-          break
-        case 'COMPLETE' :
-          this.doNextAction()
-          break
-      }
-    },
-
-    setTestResult (value) {
-      this.$emit('fixStep', value)
-    },
-
-    ...mapMutations(['setPhraseBriefText', 'setStepperVisible']),
-    ...mapActions(['getDictionary', 'nextPhase', 'getMnemonicRecommendation'])
   }
 
 }

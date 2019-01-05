@@ -1,7 +1,8 @@
 const stepsComponents = {
   1: 'TestSoundComponent',
   2: 'DescriptionMethodComponent',
-  3: 'MnemonicTestComponent'
+  3: 'MnemonicTestComponent',
+  4: 'SelfRatingComponent'
 }
 
 const setSteps = (state, playload) => {
