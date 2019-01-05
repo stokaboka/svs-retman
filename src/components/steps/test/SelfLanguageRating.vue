@@ -18,7 +18,6 @@
         <span v-if="column.id === 4">{{level.name}}</span>
       </div>
     </div>
-    {{checked}}
   </div>
 </template>
 
@@ -66,7 +65,11 @@ export default {
 
 <style>
   .row-levels {
-    border-bottom: darkgray solid 1px;
+    border-bottom: #d9d9d9 solid 1px;
+  }
+
+  .row-levels:hover {
+    background-color: deepskyblue;
   }
 
 </style>
