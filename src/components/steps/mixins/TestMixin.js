@@ -22,6 +22,7 @@ const TestMixin = {
   },
 
   mounted () {
+    this.initComponentOnMounted()
     this.getDictionary(this.dictionaryFilter)
     this.audio.init(this.api, this.sound)
     this.timer
@@ -43,7 +44,7 @@ const TestMixin = {
       return out
     },
 
-    ...mapGetters(['step', 'phases', 'phase', 'dictionary']),
+    ...mapGetters(['step', 'phases', 'phase', 'dictionary', 'learningLang', 'learningLangNames']),
     ...mapState([ 'api', 'sound', 'error' ])
   },
 
@@ -54,6 +55,10 @@ const TestMixin = {
     },
 
     initResults () {},
+
+    initComponentOnMounted () {
+
+    },
 
     doNextAction () {
       this.timer.stop()
@@ -106,6 +111,15 @@ const TestMixin = {
 
     playPhase () {
       this.testComponent = null
+
+      let briefText = this.phase.briefText
+        .replace('{{LANGUAGE_NAME_1}}', this.learningLangNames.p1)
+        .replace('{{LANGUAGE_NAME_2}}', this.learningLangNames.p2)
+        .replace('{{LANGUAGE_NAME_3}}', this.learningLangNames.p3)
+        .replace('{{LANGUAGE_NAME}}', this.learningLang)
+
+      this.setPhraseBriefText(briefText)
+
       switch (this.phase.num) {
         case 1:
           this.playPhase_1()
@@ -116,6 +130,9 @@ const TestMixin = {
         case 3:
           this.playPhase_3()
           break
+        case 4:
+          this.playPhase_4()
+          break
       }
     },
 
@@ -124,7 +141,7 @@ const TestMixin = {
         let seconds = this.phase.testTime
         // if (process.env.MODE === 'DEVELOPMENT' && this.phase.num === 1) {
         if (this.phase.num === 1) {
-          seconds = 2
+          // seconds = 5
         }
         // this.timer.start(this.phase.testTime)
         this.timer.start(seconds)

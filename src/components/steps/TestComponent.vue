@@ -1,7 +1,7 @@
 <template>
   <section>
 
-      <h5>{{phase.title}}</h5>
+      <h6>{{phase.title}}</h6>
 
       <div
         v-if="phaseMode === BRIEF_MODE"

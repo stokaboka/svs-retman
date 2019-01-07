@@ -58,6 +58,18 @@ const stepperVisible = (state) => {
   return state.stepperVisible
 }
 
+const learningLang = (state) => {
+  return state.learningLang
+}
+
+const learningLangNames = (state) => {
+  if (state.learningLang in state.learningLangNames) {
+    return state.learningLangNames[state.learningLang]
+  } else {
+    return {p1: '', p2: '', p3: ''}
+  }
+}
+
 export {
   title,
   api,
@@ -76,5 +88,8 @@ export {
 
   mnemonicRecommendation,
 
-  stepperVisible
+  stepperVisible,
+
+  learningLang,
+  learningLangNames
 }

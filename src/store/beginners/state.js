@@ -23,6 +23,26 @@ export default {
 
   dictionary: [],
 
+  learningLang: 'EN',
+
+  learningLangNames: {
+    EN: {
+      p1: 'Английский',
+      p2: 'Английского',
+      p3: 'Английских'
+    },
+    DE: {
+      p1: 'Немецкий',
+      p2: 'Немецкого',
+      p3: 'Немецких'
+    },
+    FR: {
+      p1: 'Французский',
+      p2: 'Французского',
+      p3: 'Французских'
+    }
+  },
+
   stepperVisible: true,
   /**
    * TODO move recommendation on server API

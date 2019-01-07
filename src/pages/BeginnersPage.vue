@@ -5,6 +5,8 @@
       </step-stepper-component>
     </q-collapsible>
 
+    <h5>{{step.title}}</h5>
+
     <component
       v-if="step"
       v-bind:is="step.component"
@@ -24,6 +26,7 @@ import TestSoundComponent from '../components/steps/TestSoundComponent'
 import DescriptionMethodComponent from '../components/steps/DescriptionMethodComponent'
 import MnemonicTestComponent from '../components/steps/MnemonicTestComponent'
 import SelfRatingComponent from '../components/steps/SelfRatingComponent'
+import LexicalLearningLangComponent from '../components/steps/LexicalLearningLangComponent'
 const { mapState, mapGetters, mapMutations, mapActions } = createNamespacedHelpers('beginners')
 
 export default {
@@ -33,11 +36,13 @@ export default {
     StepStepperComponent,
     DescriptionMethodComponent,
     MnemonicTestComponent,
-    SelfRatingComponent},
+    SelfRatingComponent,
+    LexicalLearningLangComponent},
   mounted () {
     this.resetSteps()
     this.getSteps()
       .then(() => {
+        this.gotoStep(4)
         this.playStep()
       })
       .catch(() => {})
@@ -95,7 +100,7 @@ export default {
     },
 
     ...mapMutations(['setStepperVisible']),
-    ...mapActions(['getSteps', 'resetSteps', 'nextStep', 'nextPhase', 'fixStep', 'fixPhase', 'getPhasesByStep'])
+    ...mapActions(['getSteps', 'resetSteps', 'nextStep', 'nextPhase', 'fixStep', 'fixPhase', 'getPhasesByStep', 'gotoStep'])
   }
 
 }

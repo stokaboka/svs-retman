@@ -16,7 +16,8 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "vue-drag-drop": "^1.1.4"
+    "vue-drag-drop": "^1.1.4",
+    "vue-global-events": "^1.1.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",

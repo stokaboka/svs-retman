@@ -1,7 +1,7 @@
 <template>
   <section>
 
-      <h5>{{phase.title}}</h5>
+      <h6>{{phase.title}}</h6>
 
       <div
         v-if="phaseMode === BRIEF_MODE"
@@ -97,55 +97,6 @@ export default {
       return out
     },
 
-    // doNextAction () {
-    //   this.timer.stop()
-    //   this.audio.stop()
-    //   switch (this.phase.num) {
-    //     case 1 :
-    //     case 2 :
-    //       switch (this.phaseMode) {
-    //         case this.BRIEF_MODE :
-    //           this.phaseMode = this.CHECK_MODE
-    //           break
-    //         case this.CHECK_MODE :
-    //           this.nextPhase()
-    //           this.phaseMode = this.BRIEF_MODE
-    //           break
-    //       }
-    //       this.playPhase()
-    //       break
-    //     case 3 :
-    //       this.setTestResult(this.results)
-    //       break
-    //   }
-    // },
-
-    // playPhase_1_2 () {
-    //   let sounds = []
-    //   switch (this.phaseMode) {
-    //     case this.BRIEF_MODE :
-    //       this.setStepperVisible(true)
-    //       sounds = this.phase.briefSounds
-    //       this.audio.sounds(sounds).mode(this.phase.briefModeSounds).play()
-    //       break
-    //     case this.CHECK_MODE :
-    //       this.setStepperVisible(false)
-    //       sounds = this.phase.testSounds
-    //       this.audio.sounds(sounds).mode(this.phase.testModeSounds).play()
-    //       this.startTimer()
-    //       this.testComponent = this.phaseComponent[this.phase.num - 1]
-    //       break
-    //   }
-    // },
-    //
-    // playPhase_1 () {
-    //   this.playPhase_1_2()
-    // },
-    //
-    // playPhase_2 () {
-    //   this.playPhase_1_2()
-    // },
-
     playPhase_3 () {
       this.setStepperVisible(true)
       let briefText = ''
@@ -163,48 +114,6 @@ export default {
         .replace('{{REMEMBERED}}', this.results.remembered)
       this.setPhraseBriefText(briefText)
     }
-
-    // playPhase () {
-    //   let sounds = []
-    //   this.testComponent = null
-    //
-    //   switch (this.phase.num) {
-    //     case 1 :
-    //     case 2 :
-    //       switch (this.phaseMode) {
-    //         case this.BRIEF_MODE :
-    //           this.setStepperVisible(true)
-    //           sounds = this.phase.briefSounds
-    //           this.audio.sounds(sounds).mode(this.phase.briefModeSounds).play()
-    //           break
-    //         case this.CHECK_MODE :
-    //           this.setStepperVisible(false)
-    //           sounds = this.phase.testSounds
-    //           this.audio.sounds(sounds).mode(this.phase.testModeSounds).play()
-    //           this.startTimer()
-    //           this.testComponent = this.phaseComponent[this.phase.num - 1]
-    //           break
-    //       }
-    //       break
-    //     case 3 :
-    //       this.setStepperVisible(true)
-    //       let briefText = ''
-    //       this.results = this.initResults()
-    //       this.getMnemonicRecommendation(this.results)
-    //         .then((rec) => {
-    //           briefText = this.phase.briefText.replace('{{RECOMMENDATION}}', rec.text)
-    //           this.setPhraseBriefText(briefText)
-    //         })
-    //         .catch((err) => {
-    //           this.phase.briefText = this.phase.briefText.replace('{{RECOMMENDATION}}', err.message)
-    //         })
-    //       briefText = this.phase.briefText
-    //         .replace('{{CHECKED}}', this.results.checked)
-    //         .replace('{{REMEMBERED}}', this.results.remembered)
-    //       this.setPhraseBriefText(briefText)
-    //       break
-    //   }
-    // }
 
   }
 

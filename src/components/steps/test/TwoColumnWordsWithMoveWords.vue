@@ -11,7 +11,7 @@
           :disable="!leftWords[i-1].word2"
           icon="close"
           size="xs"
-          round
+          flat
           @click="onRemoveWordFromLeft(leftWords[i-1].word2)">
         </q-btn>
 
@@ -24,7 +24,7 @@
           :disable="!leftWords[i+25-1].word2"
             icon="close"
             size="xs"
-            round
+            flat
             @click="onRemoveWordFromLeft(leftWords[i+25-1].word2)">
         </q-btn>
 
@@ -74,6 +74,7 @@ export default {
       checkedWordsPairs: []
     }
   },
+
   methods: {
 
     onDrop (index, data, event) {
@@ -133,10 +134,10 @@ export default {
           }
         })
         .sort((a, b) => {
-          if (a.word2 > b.word2) {
+          if (a.word2.toUpperCase() > b.word2.toUpperCase()) {
             return 1
           }
-          if (a.word2 < b.word2) {
+          if (a.word2.toUpperCase() < b.word2.toUpperCase()) {
             return -1
           }
           return 0
@@ -145,6 +146,14 @@ export default {
 
     wordPairRemembered () {
       this.$emit('word-pair-remembered', this.leftWords)
+    }
+  },
+
+  watch: {
+    dictionary: function (val) {
+      if (val) {
+        this.init()
+      }
     }
   }
 }
@@ -161,9 +170,6 @@ export default {
     height: 26px;
     padding: 0 3px 0 3px;
   }
-  /*.left-word2::before {*/
-    /*content: '-';*/
-  /*}*/
 
   .right-word2 {
     border: solid 1px #999;

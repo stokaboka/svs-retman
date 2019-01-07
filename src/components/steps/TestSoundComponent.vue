@@ -1,7 +1,7 @@
 <template>
   <section>
     <div>
-      <h5>{{phase.title}}</h5>
+      <h6>{{phase.title}}</h6>
       <div v-html="phase.briefText"></div>
     </div>
 

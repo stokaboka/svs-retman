@@ -2,7 +2,8 @@ const stepsComponents = {
   1: 'TestSoundComponent',
   2: 'DescriptionMethodComponent',
   3: 'MnemonicTestComponent',
-  4: 'SelfRatingComponent'
+  4: 'SelfRatingComponent',
+  5: 'LexicalLearningLangComponent'
 }
 
 const setSteps = (state, playload) => {
@@ -24,6 +25,10 @@ const resetStepIndex = (state) => {
 
 const setStep = (state, playload) => {
   state.step = playload
+}
+
+const setStepIndex = (state, playload) => {
+  state.stepIndex = playload
 }
 
 const nextStep = (state) => {
@@ -90,6 +95,10 @@ const setStepperVisible = (state, playload) => {
   state.stepperVisible = playload
 }
 
+const setLearningLang = (state, playload) => {
+  state.learningLang = playload
+}
+
 export {
   setSteps,
   setStep,
@@ -98,6 +107,7 @@ export {
   setResult,
   setError,
 
+  setStepIndex,
   resetStepIndex,
 
   setStepResult,
@@ -113,5 +123,7 @@ export {
   setDictionary,
 
   setPhraseBriefText,
-  setStepperVisible
+  setStepperVisible,
+
+  setLearningLang
 }

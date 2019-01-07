@@ -36,12 +36,24 @@ const getPhasesByStep = ({ commit, getters }, stepId) => {
     })
 }
 
-const fixStep = ({ commit }, result) => {
+const fixStep = ({ commit, getters }, result) => {
   commit('setStepResult', result)
+  if (getters.step.id === 4) {
+    commit('setLearningLang', result.langResult)
+  }
 }
 
 const nextStep = ({ commit, state }) => {
   commit('nextStep')
+  if (state.stepIndex < state.steps.length) {
+    commit('setStep', state.steps[state.stepIndex])
+  } else {
+    commit('setStep', {complete: true})
+  }
+}
+
+const gotoStep = ({ commit, state }, stepIndex) => {
+  commit('setStepIndex', stepIndex)
   if (state.stepIndex < state.steps.length) {
     commit('setStep', state.steps[state.stepIndex])
   } else {
@@ -63,6 +75,8 @@ const nextPhase = ({ commit, state }) => {
 }
 
 const getDictionary = ({ commit, getters }, p) => {
+  console.log('getDictionary')
+  console.log(p)
   return axios.get(`${getters.api}/words/scope/${p.scope}/lang1/${p.lang1}/lang2/${p.lang2}`)
     .then(response => {
       commit('setDictionary', response.data)
@@ -87,6 +101,7 @@ export {
 
   fixStep,
   nextStep,
+  gotoStep,
 
   fixPhase,
   nextPhase,

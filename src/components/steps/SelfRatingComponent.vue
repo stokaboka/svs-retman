@@ -1,7 +1,7 @@
 <template>
   <section>
 
-    <h5>{{phase.title}}</h5>
+    <h6>{{phase.title}}</h6>
 
     <div
       v-if="phaseMode === BRIEF_MODE"
@@ -37,37 +37,38 @@
 import TestMixin from './mixins/TestMixin'
 import SelfLanguageRating from './test/SelfLanguageRating'
 import ControlLanguageRating from './test/ControlLanguageRating'
+import {testWordReducer, testLevelReducer, minKeysValues, reduce} from '../../lib/utils'
 
-const testWordReducer = (acc, val) => {
-  if (val.word2 && val.word2 === val.hide) {
-    return acc + 1
-  }
-  return acc
-}
-
-const testLevelReducer = (acc, val) => {
-  return acc + val
-}
-
-const minKeysValues = (keys, values) => {
-  let outKey = keys[0]
-  let min = values[outKey]
-  for (let key of keys) {
-    if (min > values[key]) {
-      outKey = key
-      min = values[outKey]
-    }
-  }
-  return outKey
-}
-
-const reduce = (arr, reducer, value) => {
-  let out = value
-  for (let elem of arr) {
-    out = reducer(out, elem)
-  }
-  return out
-}
+// const testWordReducer = (acc, val) => {
+//   if (val.word2 && val.word2 === val.hide) {
+//     return acc + 1
+//   }
+//   return acc
+// }
+//
+// const testLevelReducer = (acc, val) => {
+//   return acc + val
+// }
+//
+// const minKeysValues = (keys, values) => {
+//   let outKey = keys[0]
+//   let min = values[outKey]
+//   for (let key of keys) {
+//     if (min > values[key]) {
+//       outKey = key
+//       min = values[outKey]
+//     }
+//   }
+//   return outKey
+// }
+//
+// const reduce = (arr, reducer, value) => {
+//   let out = value
+//   for (let elem of arr) {
+//     out = reducer(out, elem)
+//   }
+//   return out
+// }
 
 export default {
   name: 'SelfRatingComponent',
@@ -104,16 +105,19 @@ export default {
         lang2: 'RU',
         scope: 'vocabulary::test'
       },
+
       SelfRating: {
         EN: [],
         DE: [],
         FR: []
       },
+
       ControlRating: {
         EN: [],
         DE: [],
         FR: []
       },
+
       results: {
         SelfRating: {},
         ControlRating: {}
@@ -122,8 +126,12 @@ export default {
   },
 
   methods: {
+
+    initComponentOnMounted () {
+      this.dictionaryFilter = this.dictionaryFilters[this.dictionaryFilterIndex]
+    },
+
     onChangedSelfRating (values) {
-      // this.SelfRating[this.dictionaryFilter.lang1] = values
       this.SelfRating = values
     },
     onChangedControlRating (values) {
@@ -194,7 +202,7 @@ export default {
 
       this.results.langControlRating = minKeysValues(['EN', 'DE', 'FR'], this.results.ControlRating)
 
-      this.results.langResult = this.results.langControlRating
+      this.results.langResult = this.results.langControlRating.value < this.results.langSelfRating.value ? this.results.langControlRating.lang : this.results.langSelfRating.lang
 
       this.setTestResult(this.results)
     }

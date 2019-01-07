@@ -30,7 +30,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(['getSteps'])
+    ...mapActions(['getSteps', 'gotoStep'])
   },
 
   watch: {
