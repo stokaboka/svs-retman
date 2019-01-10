@@ -15,7 +15,22 @@ const TestMixin = {
       dictionaryFilter: {},
       BRIEF_MODE: 'brief',
       CHECK_MODE: 'check',
+      END_MODE: 'end',
       phaseMode: 'brief',
+      // phasesModesMap: {
+      //   1: {
+      //     brief: {nextMode: 'check', nextPhase: false, initResults: false, setTestResult: false},
+      //     check: {nextMode: 'brief', nextPhase: true, initResults: false, setTestResult: false}
+      //   },
+      //   2: {
+      //     brief: {nextMode: 'check', nextPhase: false, initResults: false, setTestResult: false},
+      //     check: {nextMode: 'brief', nextPhase: true, initResults: true, setTestResult: false}
+      //   },
+      //   3: {
+      //     brief: {nextMode: 'end', nextPhase: false, initResults: false, setTestResult: true},
+      //     check: {nextMode: 'end', nextPhase: false, initResults: false, setTestResult: true}
+      //   }
+      // },
       testComponent: null,
       results: {} // loopback results object
     }
@@ -41,6 +56,7 @@ const TestMixin = {
           out = this.timer.complete || this.phase.testNextBtn === 1
         }
       }
+      out = true
       return out
     },
 
@@ -54,11 +70,33 @@ const TestMixin = {
       this.playPhase()
     },
 
-    initResults () {},
-
     initComponentOnMounted () {
 
     },
+
+    // doNextAction () {
+    //   this.timer.stop()
+    //   this.audio.stop()
+    //
+    //   const phaseModeMap = this.phasesModesMap[this.phase.num][this.phaseMode]
+    //   this.phaseMode = phaseModeMap.nextMode
+    //   if (phaseModeMap.nextPhase) {
+    //     this.nextPhase()
+    //   }
+    //
+    //   if (phaseModeMap.initResults) {
+    //     this.initResults()
+    //   }
+    //
+    //   if (phaseModeMap.setTestResult) {
+    //     this.setTestResult()
+    //   }
+    //
+    //   if (this.phaseMode === this.END_MODE) {
+    //   } else {
+    //     this.playPhase()
+    //   }
+    // },
 
     doNextAction () {
       this.timer.stop()
@@ -159,6 +197,8 @@ const TestMixin = {
           break
       }
     },
+
+    initResults () {},
 
     setTestResult (value) {
       this.$emit('fixStep', value)

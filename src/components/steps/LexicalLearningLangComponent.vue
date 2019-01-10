@@ -192,7 +192,7 @@ export default {
 
         out.remembered += isRememberedProperly >= 0 ? 1 : 0
       }
-      return out
+      this.results = out
     },
 
     playPhase_3 () {
@@ -202,7 +202,7 @@ export default {
     playPhase_4 () {
       this.setStepperVisible(true)
       let briefText = ''
-      this.results = this.initResults()
+      this.initResults()
       // this.getMnemonicRecommendation(this.results)
       //   .then((rec) => {
       //     briefText = this.phase.briefText.replace('{{RECOMMENDATION}}', rec.text)

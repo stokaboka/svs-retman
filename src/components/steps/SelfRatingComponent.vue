@@ -39,37 +39,6 @@ import SelfLanguageRating from './test/SelfLanguageRating'
 import ControlLanguageRating from './test/ControlLanguageRating'
 import {testWordReducer, testLevelReducer, minKeysValues, reduce} from '../../lib/utils'
 
-// const testWordReducer = (acc, val) => {
-//   if (val.word2 && val.word2 === val.hide) {
-//     return acc + 1
-//   }
-//   return acc
-// }
-//
-// const testLevelReducer = (acc, val) => {
-//   return acc + val
-// }
-//
-// const minKeysValues = (keys, values) => {
-//   let outKey = keys[0]
-//   let min = values[outKey]
-//   for (let key of keys) {
-//     if (min > values[key]) {
-//       outKey = key
-//       min = values[outKey]
-//     }
-//   }
-//   return outKey
-// }
-//
-// const reduce = (arr, reducer, value) => {
-//   let out = value
-//   for (let elem of arr) {
-//     out = reducer(out, elem)
-//   }
-//   return out
-// }
-
 export default {
   name: 'SelfRatingComponent',
   mixins: [TestMixin],

@@ -82,7 +82,7 @@ export default {
     },
 
     initResults () {
-      const out = {
+      this.results = {
         checked: this.checkedWordsPairs.length,
         remembered: 0
       }
@@ -92,15 +92,14 @@ export default {
         const isRememberedProperly = this.rememberedWordsPairs.findIndex((elem) => {
           return (elem.word1 === checkedWordPair.word1 && elem.word2 === checkedWordPair.word2)
         })
-        out.remembered += isRememberedProperly >= 0 ? 1 : 0
+        this.results.remembered += isRememberedProperly >= 0 ? 1 : 0
       }
-      return out
     },
 
     playPhase_3 () {
       this.setStepperVisible(true)
       let briefText = ''
-      this.results = this.initResults()
+      this.initResults()
       this.getMnemonicRecommendation(this.results)
         .then((rec) => {
           briefText = this.phase.briefText.replace('{{RECOMMENDATION}}', rec.text)

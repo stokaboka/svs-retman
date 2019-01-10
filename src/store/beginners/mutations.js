@@ -3,7 +3,8 @@ const stepsComponents = {
   2: 'DescriptionMethodComponent',
   3: 'MnemonicTestComponent',
   4: 'SelfRatingComponent',
-  5: 'LexicalLearningLangComponent'
+  5: 'LexicalLearningLangComponent',
+  6: 'AutoTrainingComponent'
 }
 
 const setSteps = (state, playload) => {

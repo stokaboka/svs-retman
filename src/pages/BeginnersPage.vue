@@ -27,6 +27,7 @@ import DescriptionMethodComponent from '../components/steps/DescriptionMethodCom
 import MnemonicTestComponent from '../components/steps/MnemonicTestComponent'
 import SelfRatingComponent from '../components/steps/SelfRatingComponent'
 import LexicalLearningLangComponent from '../components/steps/LexicalLearningLangComponent'
+import AutoTrainingComponent from '../components/steps/AutoTrainingComponent'
 const { mapState, mapGetters, mapMutations, mapActions } = createNamespacedHelpers('beginners')
 
 export default {
@@ -37,12 +38,13 @@ export default {
     DescriptionMethodComponent,
     MnemonicTestComponent,
     SelfRatingComponent,
-    LexicalLearningLangComponent},
+    LexicalLearningLangComponent,
+    AutoTrainingComponent},
   mounted () {
     this.resetSteps()
     this.getSteps()
       .then(() => {
-        this.gotoStep(4)
+        this.gotoStep(0)
         this.playStep()
       })
       .catch(() => {})
