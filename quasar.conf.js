@@ -73,6 +73,7 @@ module.exports = function (ctx) {
         'QRouteTab',
         'QStepper',
         'QStep',
+        'QSlider',
         'QStepperNavigation',
         'QProgress',
         'QCheckbox',

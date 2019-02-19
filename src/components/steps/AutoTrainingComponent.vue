@@ -1,9 +1,35 @@
 <template>
   <section>
-    <div>
-      <h6>{{phase.title}}</h6>
-      <div v-html="phase.briefText"></div>
+
+    <h6>{{phase.title}}</h6>
+
+    <div
+      v-if="isBriefMode"
+      v-html="phase.briefText">
     </div>
+
+    <div
+      v-if="isCheckMode"
+      v-html="phase.testText">
+    </div>
+
+    <component
+      v-bind:is="testComponent"
+      ref="testComponent"
+      v-if="isCheckMode"
+      class="component-container"
+      :dictionary="dictionary"
+      :video="video"
+      @changed-self-rating="onChangedSelfRating"
+      @changed-control-rating="onChangedControlRating"
+    ></component>
+
+    <q-btn
+      v-if="showNextBtn"
+      label="Продолжить"
+      color="primary"
+      @click="doNextAction">
+    </q-btn>
 
   </section>
 </template>
@@ -11,23 +37,43 @@
 <script>
 
 import TestMixin from './mixins/TestMixin'
+import AutoTrainingSelfTest from './test/auto_training/auto_training_self_test'
+import AutoTraining from './test/auto_training/auto_training'
 
 // import {createNamespacedHelpers} from 'vuex'
 // const { mapState, mapGetters, mapActions } = createNamespacedHelpers('beginners')
 
 export default {
   name: 'AutoTrainingComponent',
+  components: {
+    AutoTraining,
+    AutoTrainingSelfTest
+  },
   mixins: [TestMixin],
   data () {
     return {
       phaseComponent: [
-        'TwoColumnWordsWithCheckBox',
-        'TwoColumnWordsWithMoveWords'
+        'AutoTrainingSelfTest',
+        'AutoTraining',
+        'AutoTrainingSelfTest'
       ],
 
+      video: `${this.api}/video/BigBuckBunny.mp4`,
+
       results: {
-        before: {},
-        after: {}
+        before: 0,
+        after: 0
+      }
+    }
+  },
+
+  methods: {
+    onChangedSelfRating (level) {
+      if (this.phase.num === 1) {
+        this.results.before = level
+      }
+      if (this.phase.num === 3) {
+        this.results.after = level
       }
     }
   }

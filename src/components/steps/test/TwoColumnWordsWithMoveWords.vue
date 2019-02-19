@@ -8,6 +8,7 @@
           {{leftWords[i-1].word2}}
         </drop>
         <q-btn
+          class="button__delete-variant"
           :disable="!leftWords[i-1].word2"
           icon="close"
           size="xs"
@@ -21,6 +22,7 @@
           {{leftWords[i+25-1].word2}}
         </drop>
         <q-btn
+          class="button__delete-variant"
           :disable="!leftWords[i+25-1].word2"
             icon="close"
             size="xs"
@@ -28,7 +30,6 @@
             @click="onRemoveWordFromLeft(leftWords[i+25-1].word2)">
         </q-btn>
 
-        <div class="col"></div>
         <drag
           class="col right-word2"
           :transfer-data="rightWords[i-1].word2">

@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="row">
+    <div class="row component-container">
       <div v-for="column in columns" :class="column.class" :key="column.id">
         <span class="text-weight-bold">{{column.header}}</span>
       </div>
     </div>
     <div v-for="level in levels" :key="level.id" class="row row-levels">
-      <div v-for="column in columns" :class="column.class"  :key="column.id">
+      <div v-for="column in columns" :class="column.class" :key="column.id">
         <q-checkbox
           v-if="column.id < 4"
           :val="level.id"
@@ -28,10 +28,10 @@ export default {
     return {
       title: 'Самооценка речевых навыков в общенении на английском, немецком и французском языках',
       columns: [
-        {id: 1, header: 'Английский', lang: 'EN', level: 0, class: 'col q-pl-sm q-pr-sm'},
-        {id: 2, header: 'Немецкий', lang: 'DE', level: 0, class: 'col q-pl-sm q-pr-sm'},
-        {id: 3, header: 'Французский', lang: 'FR', level: 0, class: 'col q-pl-sm q-pr-sm'},
-        {id: 4, header: 'Уровень', lang: '', level: 1, class: 'col-7 q-pl-sm q-pr-sm'}
+        {id: 1, header: 'Английский', lang: 'EN', level: 0, class: 'col q-pl-sm q-pr-sm row justify-center'},
+        {id: 2, header: 'Немецкий', lang: 'DE', level: 0, class: 'col q-pl-sm q-pr-sm row justify-center'},
+        {id: 3, header: 'Французский', lang: 'FR', level: 0, class: 'col q-pl-sm q-pr-sm row justify-center'},
+        {id: 4, header: 'Уровень', lang: '', level: 1, class: 'col-7 q-pl-sm q-pr-sm row justify-start'}
       ],
       levels: [
         {id: 1, name: 'Полное отсутствие знаний.'},

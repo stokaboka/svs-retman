@@ -4,12 +4,12 @@
       <h6>{{phase.title}}</h6>
 
       <div
-        v-if="phaseMode === BRIEF_MODE"
+        v-if="isBriefMode"
         v-html="phase.briefText">
       </div>
 
       <div
-        v-if="phaseMode === CHECK_MODE"
+        v-if="isCheckMode"
         v-html="phase.testText">
       </div>
 
@@ -21,7 +21,7 @@
       <component
         v-bind:is="testComponent"
         ref="testComponent"
-        v-if="phaseMode === CHECK_MODE"
+        v-if="isCheckMode"
         :dictionary="dictionary"
         @word-pair-checked="onWordPairChecked"
         @word-pair-remembered="onWordPairRemembered"

@@ -15,8 +15,6 @@
           @click="onRemoveWordFromLeft(leftWords[i-1].word2)">
         </q-btn>
 
-      <div class="col"></div>
-
       <drag
         class="col right-word2"
         :transfer-data="rightWords[i-1].word2">

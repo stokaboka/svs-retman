@@ -1,11 +1,10 @@
 <template>
-  <div class="row no-wrap justify-between">
+  <div class="row no-wrap justify-around">
 
-    <div class="col-auto"></div>
-    <div class="col-3">
+    <div class="col-6">
       <div class="row no-wrap justify-between" v-for="i in 25" :key="i">
-        <div class="col-5">{{dictionary[i-1].word1}}</div>
-        <div class="col-2">
+        <div class="word-pair__left-container">{{dictionary[i-1].word1}}</div>
+        <div class="word-pair__checkbox-container">
 
           <q-checkbox
             :val="i"
@@ -15,16 +14,14 @@
           </q-checkbox>
 
         </div>
-        <div class="col-5">{{dictionary[i-1].word2}}</div>
+        <div class="word-pair__right-container">{{dictionary[i-1].word2}}</div>
       </div>
     </div>
 
-    <div class="col-auto"></div>
-
-    <div class="col-3">
+    <div class="col-6">
       <div class="row no-wrap justify-between" v-for="i in 25" :key="i">
-        <div class="col-5">{{dictionary[i+25-1].word1}}</div>
-        <div class="col-2">
+        <div class="word-pair__left-container">{{dictionary[i+25-1].word1}}</div>
+        <div class="word-pair__checkbox-container">
 
           <q-checkbox
             :val="i+25"
@@ -34,10 +31,9 @@
           </q-checkbox>
 
         </div>
-        <div class="col-5">{{dictionary[i+25-1].word2}}</div>
+        <div class="word-pair__right-container">{{dictionary[i+25-1].word2}}</div>
       </div>
     </div>
-    <div class="col-auto"></div>
 
   </div>
 
@@ -70,4 +66,23 @@ export default {
 </script>
 
 <style>
+  .word-pair__column {
+    min-width: 270px;
+  }
+
+  .word-pair__checkbox-container {
+    width: 20px;
+  }
+
+  .word-pair__left-container {
+    width: 30rem;
+    text-align: end;
+    margin-right: 0.5rem;
+  }
+
+  .word-pair__right-container {
+    width: 30rem;
+    text-align: start;
+    margin-left: 0.5rem;
+  }
 </style>

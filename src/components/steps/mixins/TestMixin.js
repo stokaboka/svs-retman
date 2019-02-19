@@ -49,6 +49,12 @@ const TestMixin = {
   },
 
   computed: {
+    isBriefMode () {
+      return this.phaseMode === this.BRIEF_MODE
+    },
+    isCheckMode () {
+      return this.phaseMode === this.CHECK_MODE
+    },
     showNextBtn () {
       let out = true
       if (this.phaseMode === this.CHECK_MODE) {
