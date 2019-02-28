@@ -29,6 +29,7 @@
     ></component>
 
     <q-btn
+      class="button__next-phase"
       v-if="showNextBtn"
       label="Продолжить"
       color="primary"

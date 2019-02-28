@@ -1,6 +1,6 @@
 <template>
   <div>
-      <div class="row no-wrap words-row" v-for="i in 25" :key="i">
+      <div v-if="dictionaryReady" class="row no-wrap words-row" v-for="i in 25" :key="i">
 
         <div class="col left-word1">{{leftWords[i-1].word1}}</div>
 
@@ -70,8 +70,9 @@ export default {
 
   data () {
     return {
-      leftWords: [{}],
-      rightWords: [{}],
+      dictionaryReady: false,
+      leftWords: [{word1: '', word2: ''}],
+      rightWords: [{word1: '', word2: ''}],
       checkedWordsPairs: []
     }
   },
@@ -143,6 +144,8 @@ export default {
           }
           return 0
         })
+
+      this.dictionaryReady = true
     },
 
     wordPairRemembered () {

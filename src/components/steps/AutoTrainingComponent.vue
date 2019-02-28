@@ -25,12 +25,12 @@
     ></component>
 
     <q-btn
+      class="button__next-phase"
       v-if="showNextBtn"
       label="Продолжить"
       color="primary"
       @click="doNextAction">
     </q-btn>
-
   </section>
 </template>
 
@@ -40,8 +40,8 @@ import TestMixin from './mixins/TestMixin'
 import AutoTrainingSelfTest from './test/auto_training/auto_training_self_test'
 import AutoTraining from './test/auto_training/auto_training'
 
-// import {createNamespacedHelpers} from 'vuex'
-// const { mapState, mapGetters, mapActions } = createNamespacedHelpers('beginners')
+import {createNamespacedHelpers} from 'vuex'
+const { mapGetters } = createNamespacedHelpers('beginners')
 
 export default {
   name: 'AutoTrainingComponent',
@@ -58,8 +58,6 @@ export default {
         'AutoTrainingSelfTest'
       ],
 
-      video: `${this.api}/video/BigBuckBunny.mp4`,
-
       results: {
         before: 0,
         after: 0
@@ -67,14 +65,19 @@ export default {
     }
   },
 
+  computed: {
+    ...mapGetters('api'),
+    video () {
+      return `${this.api}/video/BigBuckBunny.mp4`
+    }
+  },
+
   methods: {
     onChangedSelfRating (level) {
-      if (this.phase.num === 1) {
-        this.results.before = level
-      }
-      if (this.phase.num === 3) {
-        this.results.after = level
-      }
+      this.results.before = level
+    },
+    onChangedControlRating (level) {
+      this.results.after = level
     }
   }
 }

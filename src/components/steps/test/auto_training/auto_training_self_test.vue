@@ -2,7 +2,7 @@
 <div>
   <q-slider
     v-model="level"
-    @input="emit('changed-self-rating', this.level)"
+    @input="emit('changed-self-rating', level)"
     :min="minLvel"
     :max="maxLevel"
     :step="stepLevel"

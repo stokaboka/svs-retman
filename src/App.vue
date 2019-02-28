@@ -23,6 +23,9 @@ export default {
     margin: 1rem 1rem;
   }
 
+  .button__next-phase {
+    margin-top: 2rem;
+  }
   .button__delete-variant {
     padding-left: 3px;
   }

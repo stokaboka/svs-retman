@@ -5,10 +5,11 @@
       </step-stepper-component>
     </q-collapsible>
 
-    <h5>{{step.title}}</h5>
+    <h5 v-if="step">{{step.title}}</h5>
 
     <component
       v-if="step"
+      class="component-container"
       v-bind:is="step.component"
       ref="testComponent"
       @fixStep="onFixStepListener"

@@ -1,12 +1,12 @@
 <template>
   <q-stepper v-if="steps" ref="stepper" contractable alternative-labels>
     <q-step
-      v-for="step in steps"
+      v-for="stp in steps"
       active-icon="play_arrow"
-      :title="step.title"
-      :key="step.id"
-      :name="step.id"
-      :order="step.id"
+      :title="stp.title"
+      :key="stp.id"
+      :name="stp.id"
+      :order="stp.id"
     >
     </q-step>
   </q-stepper>
@@ -35,7 +35,9 @@ export default {
 
   watch: {
     step (val, oldVal) {
-      this.$refs.stepper.goToStep(val.id)
+      if (val) {
+        this.$refs.stepper.goToStep(val.id)
+      }
     }
   }
 }

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <GlobalEvents @keyup.space="onPressSpace"></GlobalEvents>
+    <GlobalEvents @keyup.space.prevent="onPressSpace"></GlobalEvents>
 
-      <div class="row no-wrap justify-between q-mt-xs" v-for="i in 25" :key="i">
+      <div v-if="testDictionary" class="row no-wrap justify-between q-mt-xs" v-for="i in 25" :key="i">
 
         <div
           class="col-3 q-ml-xs q-mr-xs q-pa-xs"
@@ -71,11 +71,13 @@ export default {
           class: index === 0 ? 'current-word' : ''
         })
     })
+    this.ready = true
   },
   data () {
     return {
+      ready: false,
       indexTestDictionary: 0,
-      testDictionary: [],
+      testDictionary: null,
       checkedWordsPairs: []
     }
   },

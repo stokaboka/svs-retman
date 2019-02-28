@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="row component-container">
+    <div class="row">
       <div v-for="column in columns" :class="column.class" :key="column.id">
         <span class="text-weight-bold">{{column.header}}</span>
       </div>

@@ -1,14 +1,15 @@
 <template>
   <div>
-    <div class="row no-wrap words-row" v-for="i in dictionaryLength" :key="i">
+    <div v-if="ready" class="row no-wrap words-row" v-for="i in dictionaryLength" :key="i">
 
-      <div class="col left-word1">{{leftWords[i-1].word1}}</div>
+      <div class="col-2 left-word1">{{leftWords[i-1].word1}}</div>
 
-        <drop @drop="onDrop(i-1, ...arguments)" class="col left-word2 q-ml-md">
+        <drop @drop="onDrop(i-1, ...arguments)" class="col-5 left-word2 q-ml-md">
           {{leftWords[i-1].word2}}
         </drop>
         <q-btn
           flat
+          class="button__delete-variant"
           :disable="!leftWords[i-1].word2"
           icon="close"
           size="xs"
@@ -16,7 +17,7 @@
         </q-btn>
 
       <drag
-        class="col right-word2"
+        class="col-5 right-word2"
         :transfer-data="rightWords[i-1].word2">
         {{rightWords[i-1].word2}}
       </drag>
@@ -60,8 +61,9 @@ export default {
 
   data () {
     return {
-      leftWords: [{}],
-      rightWords: [{}]
+      ready: false,
+      leftWords: [{word1: '', word2: ''}],
+      rightWords: [{word1: '', word2: ''}]
     }
   },
 
@@ -139,6 +141,7 @@ export default {
           }
           return 0
         })
+      this.ready = true
     },
 
     wordPairSelected () {
