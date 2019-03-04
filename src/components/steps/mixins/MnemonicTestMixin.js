@@ -85,7 +85,7 @@ const MnemonicTestMixin = {
           this.getMnemonicRecommendation(this.results)
             .then((rec) => {
               briefText = this.phase.briefText.replace('{{RECOMMENDATION}}', rec.text)
-              this.setPhraseBriefText(briefText)
+              this.setPhraseText(briefText)
             })
             .catch((err) => {
               this.phase.briefText = this.phase.briefText.replace('{{RECOMMENDATION}}', err.message)
@@ -93,7 +93,7 @@ const MnemonicTestMixin = {
           briefText = this.phase.briefText
             .replace('{{CHECKED}}', this.results.checked)
             .replace('{{REMEMBERED}}', this.results.remembered)
-          this.setPhraseBriefText(briefText)
+          this.setPhraseText(briefText)
           break
       }
     },

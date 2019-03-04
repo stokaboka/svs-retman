@@ -1,5 +1,5 @@
 import {createNamespacedHelpers} from 'vuex'
-import TimeProgress from '../test/TimeProgress'
+// import TimeProgress from '../test/TimeProgress'
 import AudioHelper from '../../../lib/AudioHelper'
 import TimerHelper from '../../../lib/TimerHelper'
 
@@ -162,7 +162,7 @@ const TestMixin = {
         .replace('{{LANGUAGE_NAME_3}}', this.learningLangNames.p3)
         .replace('{{LANGUAGE_NAME}}', this.learningLang)
 
-      this.setPhraseBriefText(briefText)
+      this.setPhraseText(briefText)
 
       switch (this.phase.num) {
         case 1:
@@ -210,7 +210,7 @@ const TestMixin = {
       this.$emit('fixStep', value)
     },
 
-    ...mapMutations(['setPhraseBriefText', 'setStepperVisible']),
+    ...mapMutations(['setPhraseText', 'setStepperVisible']),
     ...mapActions(['getDictionary', 'nextPhase', 'getMnemonicRecommendation'])
   }
 }

@@ -1,9 +1,5 @@
 <template>
   <section>
-    <div>
-      <h6>{{phase.title}}</h6>
-      <div v-html="phase.briefText"></div>
-    </div>
 
     <div class="row no-wrap justify-between q-mt-md">
       <div class="col"></div>
@@ -38,10 +34,10 @@ import {createNamespacedHelpers} from 'vuex'
 import AudioHelper from '../../lib/AudioHelper'
 const audio = new AudioHelper()
 
-const { mapState, mapGetters, mapActions } = createNamespacedHelpers('beginners')
+const { mapState, mapGetters } = createNamespacedHelpers('beginners')
 
 export default {
-  name: 'TestSoundComponent',
+  name: 'sound',
 
   mounted () {
     audio.init(this.api, this.sound)
@@ -58,7 +54,7 @@ export default {
     startLabel () {
       return this.audio.playing ? 'Остановить звук' : 'звуковой тест'
     },
-    ...mapGetters(['step', 'phases', 'phase', 'soundTestResult']),
+    ...mapGetters(['step', 'phases', 'phase']),
     ...mapState([ 'api', 'sound', 'error' ])
   },
 
@@ -69,17 +65,19 @@ export default {
 
     setTestResult (value) {
       audio.stop()
-      this.$emit('fixStep', value)
+      this.$emit('fix-phase', value)
     },
 
     startTest () {
       if (audio.playing) {
         audio.stop()
       } else {
-        audio.sounds(this.phase.testSounds).mode(this.phase.testModeSounds).play()
+        audio
+          .sounds(this.phase.sounds)
+          .mode(this.phase.mode)
+          .play()
       }
-    },
-    ...mapActions(['nextStep', 'nextPhase', 'fixStep', 'fixPhase'])
+    }
   }
 }
 </script>

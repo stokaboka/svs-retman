@@ -132,7 +132,7 @@ export default {
       this.$emit('fixStep', value)
     },
 
-    ...mapMutations(['setPhraseBriefText', 'setStepperVisible']),
+    ...mapMutations(['setPhraseText', 'setStepperVisible']),
     ...mapActions(['getDictionary', 'nextPhase', 'getMnemonicRecommendation'])
   }
 

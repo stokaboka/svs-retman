@@ -1,5 +1,5 @@
 <template>
-  <div class="row no-wrap justify-around">
+  <div v-if="ready" class="row no-wrap justify-around">
 
     <div class="col-6">
       <div class="row no-wrap justify-between" v-for="i in 25" :key="i">
@@ -55,6 +55,11 @@ export default {
   data () {
     return {
       checkedWordsPairs: []
+    }
+  },
+  computed: {
+    ready () {
+      return this.dictionary && this.dictionary.length > 0
     }
   },
   methods: {

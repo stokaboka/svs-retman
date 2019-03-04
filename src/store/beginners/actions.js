@@ -19,7 +19,7 @@ const resetSteps = ({ commit, getters }) => {
   commit('setStep', getters.steps[getters.stepIndex])
 
   commit('resetPhaseIndex')
-  commit('setPhases', [{}])
+  commit('setPhases', [{sounds: '', scope: ''}])
   commit('setPhase', getters.phases[getters.phaseIndex])
 }
 

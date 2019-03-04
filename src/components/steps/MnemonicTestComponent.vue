@@ -1,23 +1,6 @@
 <template>
   <section>
 
-      <h6>{{phase.title}}</h6>
-
-      <div
-        v-if="isBriefMode"
-        v-html="phase.briefText">
-      </div>
-
-      <div
-        v-if="isCheckMode"
-        v-html="phase.testText">
-      </div>
-
-      <time-progress
-        v-if="timer.active"
-        :timer="timer">
-      </time-progress>
-
       <component
         v-bind:is="testComponent"
         ref="testComponent"
@@ -26,14 +9,6 @@
         @word-pair-checked="onWordPairChecked"
         @word-pair-remembered="onWordPairRemembered"
       ></component>
-
-    <q-btn
-      class="button__next-phase"
-          v-if="showNextBtn"
-          label="Продолжить"
-          color="primary"
-          @click="doNextAction">
-    </q-btn>
 
   </section>
 </template>
@@ -104,7 +79,7 @@ export default {
       this.getMnemonicRecommendation(this.results)
         .then((rec) => {
           briefText = this.phase.briefText.replace('{{RECOMMENDATION}}', rec.text)
-          this.setPhraseBriefText(briefText)
+          this.setPhraseText(briefText)
         })
         .catch((err) => {
           this.phase.briefText = this.phase.briefText.replace('{{RECOMMENDATION}}', err.message)
@@ -112,7 +87,7 @@ export default {
       briefText = this.phase.briefText
         .replace('{{CHECKED}}', this.results.checked)
         .replace('{{REMEMBERED}}', this.results.remembered)
-      this.setPhraseBriefText(briefText)
+      this.setPhraseText(briefText)
     }
 
   }

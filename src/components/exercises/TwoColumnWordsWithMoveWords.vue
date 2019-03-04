@@ -1,6 +1,6 @@
 <template>
   <div>
-      <div v-if="dictionaryReady" class="row no-wrap words-row" v-for="i in 25" :key="i">
+      <div v-if="ready" class="row no-wrap words-row" v-for="i in 25" :key="i">
 
         <div class="col left-word1">{{leftWords[i-1].word1}}</div>
 
@@ -48,7 +48,7 @@
 
 <script>
 import { Drag, Drop } from 'vue-drag-drop'
-import {TouchDragDrop} from '../../../directives'
+import {TouchDragDrop} from '../../directives'
 
 export default {
   name: 'TwoColumnWordsWithMoveWords',
@@ -70,7 +70,7 @@ export default {
 
   data () {
     return {
-      dictionaryReady: false,
+      ready: false,
       leftWords: [{word1: '', word2: ''}],
       rightWords: [{word1: '', word2: ''}],
       checkedWordsPairs: []
@@ -145,7 +145,7 @@ export default {
           return 0
         })
 
-      this.dictionaryReady = true
+      this.ready = true
     },
 
     wordPairRemembered () {

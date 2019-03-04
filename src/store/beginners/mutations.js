@@ -7,6 +7,24 @@ const stepsComponents = {
   6: 'AutoTrainingComponent'
 }
 
+const initSounds = (values) => {
+  return values ? values.split('#') : []
+}
+
+const scopeFields = {
+  lang1: 0,
+  lang2: 1,
+  scope: 2
+}
+const initScope = (values, prop) => {
+  const arr = values.split('#')
+  if (arr.length > scopeFields[prop]) {
+    return arr[scopeFields[prop]]
+  } else {
+    return values
+  }
+}
+
 const setSteps = (state, playload) => {
   state.steps = playload.map((step) => {
     return Object.assign(
@@ -46,9 +64,11 @@ const setPhases = (state, playload) => {
       {},
       phase,
       {
-        testSounds: phase.testSounds ? phase.testSounds.split('#') : [],
-        briefSounds: phase.briefSounds ? phase.briefSounds.split('#') : [],
-        result: false,
+        sounds: initSounds(phase.sounds),
+        scope: initScope(phase.scope, 'scope'),
+        lang1: initScope(phase.scope, 'lang1'),
+        lang2: initScope(phase.scope, 'lang2'),
+        phaseResult: false,
         complete: false
       })
   })
@@ -67,7 +87,7 @@ const resetPhaseIndex = (state) => {
 }
 
 const setPhaseResult = (state, playload) => {
-  state.phase.result = playload
+  state.phase.phaseResult = playload
 }
 
 const setResult = (state, result) => {
@@ -80,16 +100,12 @@ const setError = (state, error) => {
   state.error = error
 }
 
-const setSoundTestResult = (state, playload) => {
-  state.testResult.sound = playload
-}
-
 const setDictionary = (state, playload) => {
   state.dictionary = playload
 }
 
-const setPhraseBriefText = (state, playload) => {
-  state.phase.briefText = playload
+const setPhraseText = (state, playload) => {
+  state.phase.text = playload
 }
 
 const setStepperVisible = (state, playload) => {
@@ -119,11 +135,9 @@ export {
 
   resetPhaseIndex,
 
-  setSoundTestResult,
-
   setDictionary,
 
-  setPhraseBriefText,
+  setPhraseText,
   setStepperVisible,
 
   setLearningLang

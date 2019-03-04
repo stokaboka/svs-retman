@@ -207,7 +207,7 @@ export default {
       // this.getMnemonicRecommendation(this.results)
       //   .then((rec) => {
       //     briefText = this.phase.briefText.replace('{{RECOMMENDATION}}', rec.text)
-      //     this.setPhraseBriefText(briefText)
+      //     this.setPhraseText(briefText)
       //   })
       //   .catch((err) => {
       //     this.phase.briefText = this.phase.briefText.replace('{{RECOMMENDATION}}', err.message)
@@ -215,7 +215,7 @@ export default {
       briefText = this.phase.briefText
         .replace('{{CHECKED}}', this.results.checked)
         .replace('{{REMEMBERED}}', this.results.remembered)
-      this.setPhraseBriefText(briefText)
+      this.setPhraseText(briefText)
     }
 
   },
