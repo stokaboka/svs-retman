@@ -116,6 +116,10 @@ const setLearningLang = (state, playload) => {
   state.learningLang = playload
 }
 
+const setResults = (state, playload) => {
+  state.results[playload.prop] = playload.value
+}
+
 export {
   setSteps,
   setStep,
@@ -140,5 +144,7 @@ export {
   setPhraseText,
   setStepperVisible,
 
-  setLearningLang
+  setLearningLang,
+
+  setResults
 }

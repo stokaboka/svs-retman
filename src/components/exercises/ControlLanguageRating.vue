@@ -29,7 +29,7 @@
 <script>
 
 import { Drag, Drop } from 'vue-drag-drop'
-import {TouchDragDrop} from '../../../directives'
+import {TouchDragDrop} from '../../directives'
 
 export default {
   name: 'ControlLanguageRating',
@@ -53,10 +53,6 @@ export default {
       required: true
     }
 
-  },
-
-  mounted () {
-    this.init()
   },
 
   data () {
@@ -146,6 +142,12 @@ export default {
 
     wordPairSelected () {
       this.$emit('changed-control-rating', this.leftWords)
+    }
+  },
+
+  watch: {
+    dictionary () {
+      this.init()
     }
   }
 }

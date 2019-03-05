@@ -6,6 +6,8 @@ export default {
   api: process.env.API,
   sound: 'sound',
 
+  results: {},
+
   result: '',
   error: '',
 
@@ -47,7 +49,7 @@ export default {
   /**
    * TODO move recommendation on server API
    */
-  mnemonicRecommendation: [
+  mnemonicRecommendations: [
     {
       from: 0,
       to: 4,

@@ -6,6 +6,10 @@ const api = (state) => {
   return state.api
 }
 
+const results = (state) => {
+  return state.results
+}
+
 const version = (state) => {
   return state.version
 }
@@ -50,8 +54,8 @@ const soundTestResult = (state) => {
   return state.testResult.sound
 }
 
-const mnemonicRecommendation = (state) => {
-  return state.mnemonicRecommendation
+const mnemonicRecommendations = (state) => {
+  return state.mnemonicRecommendations
 }
 
 const stepperVisible = (state) => {
@@ -73,6 +77,7 @@ const learningLangNames = (state) => {
 export {
   title,
   api,
+  results,
   version,
   steps,
   step,
@@ -86,7 +91,7 @@ export {
 
   soundTestResult,
 
-  mnemonicRecommendation,
+  mnemonicRecommendations,
 
   stepperVisible,
 

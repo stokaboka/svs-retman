@@ -30,6 +30,8 @@
         @fix-phase="onFixPhase"
         @word-pair-checked="onWordPairChecked"
         @word-pair-remembered="onWordPairRemembered"
+        @changed-self-rating="onChangedSelfRating"
+        @changed-control-rating="onChangedControlRating"
       ></component>
 
       <q-btn
@@ -47,28 +49,20 @@
 
 <script>
 
-/*
-    <component
-      v-if="step"
-      class="component-container"
-      v-bind:is="step.component"
-      ref="testComponent"
-      @fixStep="onFixStep"
-      @fixPhase="onFixPhase"
-    ></component>
- */
-
 import {createNamespacedHelpers} from 'vuex'
 import StepStepperComponent from '../components/StepStepperComponent'
 import sound from '../components/exercises/sound'
-// import mnemonic from '../components/exercises/mnemonic'
 
-import resultMetods from '../components/exercises/result_metods'
+import SelfLanguageRating from '../components/exercises/SelfLanguageRating'
+import ControlLanguageRating from '../components/exercises/ControlLanguageRating'
 
 import TwoColumnWordsWithCheckBox from '../components/exercises/TwoColumnWordsWithCheckBox'
 import TwoColumnWordsWithMoveWords from '../components/exercises/TwoColumnWordsWithMoveWords'
 
-// import SelfRatingComponent from '../components/steps/SelfRatingComponent'
+import resultMetods from '../components/exercises/result_metods'
+import exerciesMethods from '../components/exercises/exercies_methods'
+import exerciesData from '../components/exercises/exercies_data'
+
 // import LexicalLearningLangComponent from '../components/steps/LexicalLearningLangComponent'
 // import AutoTrainingComponent from '../components/steps/AutoTrainingComponent'
 
@@ -80,15 +74,20 @@ const { mapState, mapGetters, mapMutations, mapActions } = createNamespacedHelpe
 
 export default {
   name: 'BeginnersPage',
-  mixins: [resultMetods],
+  mixins: [
+    exerciesData,
+    resultMetods,
+    exerciesMethods
+  ],
   components: {
     TimeProgress,
     sound,
     TwoColumnWordsWithCheckBox,
     TwoColumnWordsWithMoveWords,
-    StepStepperComponent
+    StepStepperComponent,
+    SelfLanguageRating,
+    ControlLanguageRating
 
-    // SelfRatingComponent,
     // LexicalLearningLangComponent,
     // AutoTrainingComponent
   },
@@ -96,8 +95,8 @@ export default {
     return {
       dictionaryFilter: {},
       audio: new AudioHelper(),
-      timer: new TimerHelper(this),
-      results: {} // loopback results object
+      timer: new TimerHelper(this)
+      // results: {} // loopback results object
     }
   },
 
@@ -131,7 +130,7 @@ export default {
       }
       return true
     },
-    ...mapGetters(['steps', 'step', 'phases', 'phase', 'dictionary', 'soundTestResult', 'stepperVisible', 'learningLangNames']),
+    ...mapGetters(['steps', 'step', 'phases', 'phase', 'dictionary', 'soundTestResult', 'stepperVisible', 'learningLangNames', 'mnemonicRecommendations', 'results']),
     ...mapState([ 'api', 'sound', 'error' ])
   },
 
@@ -175,30 +174,34 @@ export default {
     },
 
     prePhase () {
-      let briefText = this.phase.text
-        .replace('{{LANGUAGE_NAME_1}}', this.learningLangNames.p1)
-        .replace('{{LANGUAGE_NAME_2}}', this.learningLangNames.p2)
-        .replace('{{LANGUAGE_NAME_3}}', this.learningLangNames.p3)
-        .replace('{{LANGUAGE_NAME}}', this.learningLang)
-
-      this.setPhraseText(briefText)
-
-      if (this.phase.result) {
-        if (this.phase.action === 'BRIEF') {
-          if (this.results[this.phase.result]) {
-            this.results[this.phase.result]['recomendation'] = this.initRecomendation(this.phase.result, this.results[this.phase.result])
-          }
+      if (this.phase.result && this.phase.action === 'BRIEF') {
+        if (this.results[this.phase.result]) {
+          const results = this.results[this.phase.result]
+          const recomendation = this.initRecomendation(this.phase, this.results)
+          this.setResults({
+            prop: this.phase.result,
+            value: Object.assign({}, results, {recomendation})
+          })
+          this.setPhraseText(recomendation)
         }
       }
+
+      const text = this.initLanguageTestName(this, this.phase.text)
+      this.setPhraseText(text)
     },
 
     onFixPhase () {
-      if (this.phase.result) {
-        if (this.phase.action === 'TEST') {
-          this.results[this.phase.result] = this.initResults(this.phase.result)
-          this.results[this.phase.result]['recomendation'] = this.initRecomendation(this.phase.result, this.results[this.phase.result])
-          this.fixPhase(this.results[this.phase.result])
-        }
+      if (this.phase.result && this.phase.action === 'TEST') {
+        const results = this.initResults(this.phase.result)
+        // const recomendation = this.initRecomendation(this.phase, this.results)
+        this.setResults({
+          prop: this.phase.result,
+          value: Object.assign({}, results, {recomendation: ''})
+        })
+        // this.results[this.phase.result] = this.initResults(this.phase.result)
+        // this.results[this.phase.result]['recomendation'] = this.initRecomendation(this.phase, this.results)
+        // this.setPhraseText(this.results[this.phase.result]['recomendation'])
+        // this.fixPhase(this.results[this.phase.result])
       }
 
       this.nextPhase()
@@ -231,7 +234,7 @@ export default {
 
         if (this.phase.scope) {
           this.dictionaryFilter = {
-            lang1: this.phase.lang2,
+            lang1: this.phase.lang1,
             lang2: this.phase.lang2,
             scope: this.phase.scope
           }
@@ -250,8 +253,8 @@ export default {
       console.log('testComplete')
     },
 
-    ...mapMutations(['setPhraseText', 'setStepperVisible']),
-    ...mapActions(['getSteps', 'resetSteps', 'nextStep', 'nextPhase', 'fixStep', 'fixPhase', 'getPhasesByStep', 'gotoStep', 'getDictionary', 'getMnemonicRecommendation'])
+    ...mapMutations(['setPhraseText', 'setStepperVisible', 'setLearningLang', 'setResults']),
+    ...mapActions(['getSteps', 'resetSteps', 'nextStep', 'nextPhase', 'fixStep', 'fixPhase', 'getPhasesByStep', 'gotoStep', 'getDictionary'])
   }
 
 }

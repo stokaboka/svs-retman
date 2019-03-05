@@ -38,9 +38,9 @@ const getPhasesByStep = ({ commit, getters }, stepId) => {
 
 const fixStep = ({ commit, getters }, result) => {
   commit('setStepResult', result)
-  if (getters.step.id === 4) {
-    commit('setLearningLang', result.langResult)
-  }
+  // if (getters.step.id === 4) {
+  //   commit('setLearningLang', result.langResult)
+  // }
 }
 
 const nextStep = ({ commit, state }) => {
@@ -87,12 +87,12 @@ const getDictionary = ({ commit, getters }, p) => {
     })
 }
 
-const getMnemonicRecommendation = ({getters}, result) => {
-  const rec = getters.mnemonicRecommendation.find((elem) => {
-    return (elem.from <= result.remembered && result.remembered <= elem.to)
-  })
-  return rec
-}
+// const getMnemonicRecommendation = ({getters}, result) => {
+//   const rec = getters.mnemonicRecommendation.find((elem) => {
+//     return (elem.from <= result.remembered && result.remembered <= elem.to)
+//   })
+//   return rec
+// }
 
 export {
   getSteps,
@@ -106,7 +106,7 @@ export {
   fixPhase,
   nextPhase,
 
-  getDictionary,
+  getDictionary
 
-  getMnemonicRecommendation
+  // getMnemonicRecommendation
 }

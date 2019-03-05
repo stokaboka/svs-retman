@@ -77,17 +77,17 @@ export default {
         scope: 'vocabulary::test'
       },
 
-      SelfRating: {
-        EN: [],
-        DE: [],
-        FR: []
-      },
-
-      ControlRating: {
-        EN: [],
-        DE: [],
-        FR: []
-      },
+      // SelfRating: {
+      //   EN: [],
+      //   DE: [],
+      //   FR: []
+      // },
+      //
+      // ControlRating: {
+      //   EN: [],
+      //   DE: [],
+      //   FR: []
+      // },
 
       results: {
         SelfRating: {},
