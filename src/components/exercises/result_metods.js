@@ -52,9 +52,7 @@ const selfrating = {
     }
 
     out.langSelfRating = minKeysValues(['EN', 'DE', 'FR'], out.SelfRating)
-
     out.langControlRating = minKeysValues(['EN', 'DE', 'FR'], out.ControlRating)
-
     out.langResult = out.langControlRating.value < out.langSelfRating.value ? out.langControlRating.lang : out.langSelfRating.lang
 
     return out
@@ -63,18 +61,47 @@ const selfrating = {
   initRecomendation: (context, phase, result) => {
     context.setLearningLang(result.langResult)
     let text = context.initLanguageTestName(context, phase.text)
-    // phase.text
-    // .replace('{{LANGUAGE_NAME_1}}', context.learningLangNames.p1)
-    // .replace('{{LANGUAGE_NAME_2}}', context.learningLangNames.p2)
-    // .replace('{{LANGUAGE_NAME_3}}', context.learningLangNames.p3)
-    // .replace('{{LANGUAGE_NAME}}', context.learningLang)
+    return text
+  }
+}
+
+const lexical = {
+  initResults: (context) => {
+    const out = {
+      checked: context.checkedWordsPairs.length,
+      remembered: 0
+    }
+
+    for (let i = 0; i < context.checkedWordsPairs.length; i++) {
+      const checkedWordPair = context.dictionary[context.checkedWordsPairs[i]]
+
+      let isRememberedProperly = context.rememberedWordsPairs1.findIndex((elem) => {
+        return (elem.word1 === checkedWordPair.word1 && elem.word2 === checkedWordPair.word2)
+      })
+
+      out.remembered += isRememberedProperly >= 0 ? 1 : 0
+
+      isRememberedProperly = context.rememberedWordsPairs2.findIndex((elem) => {
+        return (elem.word1 === checkedWordPair.word1 && elem.word2 === checkedWordPair.word2)
+      })
+
+      out.remembered += isRememberedProperly >= 0 ? 1 : 0
+    }
+    return out
+  },
+  initRecomendation: (context, phase, result) => {
+    let text = phase.text
+    text = text
+      .replace('{{CHECKED}}', result.checked)
+      .replace('{{REMEMBERED}}', result.remembered)
     return text
   }
 }
 
 const resultMethods = {
   mnemonic,
-  selfrating
+  selfrating,
+  lexical
 }
 
 export default {

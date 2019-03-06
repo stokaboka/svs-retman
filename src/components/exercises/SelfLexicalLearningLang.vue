@@ -2,7 +2,7 @@
   <div>
     <GlobalEvents @keyup.space.prevent="onPressSpace"></GlobalEvents>
 
-      <div v-if="testDictionary" class="row no-wrap justify-between q-mt-xs" v-for="i in 25" :key="i">
+      <div v-if="ready" class="row no-wrap justify-between q-mt-xs" v-for="i in 25" :key="i">
 
         <div
           class="col-3 q-ml-xs q-mr-xs q-pa-xs"
@@ -61,17 +61,6 @@ export default {
       .on('START', this.onTimerFired)
       .on('PROGRESS', this.onTimerFired)
       .on('COMPLETE', this.onTimerFired)
-
-    this.testDictionary = this.dictionary.map((elem, index) => {
-      return Object.assign(
-        {}, elem,
-        {
-          hide: elem.word2,
-          selected: index === 0,
-          class: index === 0 ? 'current-word' : ''
-        })
-    })
-    this.ready = true
   },
   data () {
     return {
@@ -81,7 +70,27 @@ export default {
       checkedWordsPairs: []
     }
   },
+
+  watch: {
+    dictionary () {
+      this.init()
+    }
+  },
+
   methods: {
+
+    init () {
+      this.testDictionary = this.dictionary.map((elem, index) => {
+        return Object.assign(
+          {}, elem,
+          {
+            hide: elem.word2,
+            selected: false,
+            class: index === 0 ? 'current-word' : ''
+          })
+      })
+      this.ready = this.testDictionary.length === 100
+    },
 
     onPressSpace () {
       this.testDictionary[this.indexTestDictionary].selected = true

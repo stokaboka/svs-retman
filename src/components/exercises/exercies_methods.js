@@ -6,7 +6,13 @@ export default {
     },
 
     onWordPairRemembered (values) {
-      this.rememberedWordsPairs = values
+      if (this.phase.index1 === 0) {
+        this.rememberedWordsPairs1 = values
+      } else if (this.phase.index1 === 50) {
+        this.rememberedWordsPairs2 = values
+      } else {
+        this.rememberedWordsPairs = values
+      }
     },
 
     // self rating test
@@ -14,7 +20,7 @@ export default {
       this.SelfRating = values
     },
     onChangedControlRating (values) {
-      this.ControlRating[this.dictionaryFilter.lang1] = values
+      this.ControlRating[this.phase.lang1] = values
     }
   }
 }

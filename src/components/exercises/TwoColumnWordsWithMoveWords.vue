@@ -164,9 +164,9 @@ export default {
 </script>
 
 <style>
-.left-word1 {
-  text-align: right;
-}
+  .left-word1 {
+    text-align: right;
+  }
 
   .left-word2 {
     border: solid 1px #999;

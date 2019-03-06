@@ -14,14 +14,16 @@ const initSounds = (values) => {
 const scopeFields = {
   lang1: 0,
   lang2: 1,
-  scope: 2
+  scope: 2,
+  index1: 3,
+  index2: 4
 }
 const initScope = (values, prop) => {
   const arr = values.split('#')
   if (arr.length > scopeFields[prop]) {
     return arr[scopeFields[prop]]
   } else {
-    return values
+    return null
   }
 }
 
@@ -52,6 +54,7 @@ const setStepIndex = (state, playload) => {
 
 const nextStep = (state) => {
   state.stepIndex++
+  state.dictionary = []
 }
 
 const setStepResult = (state, playload) => {
@@ -60,14 +63,17 @@ const setStepResult = (state, playload) => {
 
 const setPhases = (state, playload) => {
   state.phases = playload.map((phase) => {
+    const scope = phase.scope.replace('**', state.learningLang)
     return Object.assign(
       {},
       phase,
       {
         sounds: initSounds(phase.sounds),
-        scope: initScope(phase.scope, 'scope'),
-        lang1: initScope(phase.scope, 'lang1'),
-        lang2: initScope(phase.scope, 'lang2'),
+        scope: initScope(scope, 'scope'),
+        lang1: initScope(scope, 'lang1'),
+        lang2: initScope(scope, 'lang2'),
+        index1: parseInt(initScope(scope, 'index1'), 10),
+        index2: parseInt(initScope(scope, 'index2'), 10),
         phaseResult: false,
         complete: false
       })
