@@ -74,6 +74,10 @@ const learningLangNames = (state) => {
   }
 }
 
+const atLevels = (state) => {
+  return state.atLevels
+}
+
 export {
   title,
   api,
@@ -96,5 +100,7 @@ export {
   stepperVisible,
 
   learningLang,
-  learningLangNames
+  learningLangNames,
+
+  atLevels
 }

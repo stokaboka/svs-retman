@@ -21,6 +21,15 @@ export default {
     },
     onChangedControlRating (values) {
       this.ControlRating[this.phase.lang1] = values
+    },
+
+    onChangedAtSelf (value) {
+      if (this.phase.phase === 1) {
+        this.AT.before = value
+      } else {
+        this.AT.after = value
+      }
     }
+
   }
 }

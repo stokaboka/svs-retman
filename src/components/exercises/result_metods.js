@@ -98,10 +98,40 @@ const lexical = {
   }
 }
 
+const atself = {
+  initResults: (context) => {
+    return context.AT
+  },
+  initRecomendation: (context, phase, result) => {
+    let text = phase.text
+    let rec = ''
+    if (result.before < result.after) {
+      rec = 'Аутотренинг улучшил Ваше настроение и самочувствие, '
+    } else if (result.before > result.after) {
+      rec = 'После аутотренинга Ваше самочувствие ухудшилось и '
+    } else {
+      rec = 'Ваше настроение и самочувствие не изменились и '
+    }
+
+    if (result.after < 4) {
+      rec = rec + 'мы рекомендуем повторить тестирование в другое время.'
+    } else {
+      rec = rec + 'Вы можете перейти к следующему уроку.'
+    }
+
+    text = text
+      .replace('{{AUTOSELFBEFORE}}', context.atLevels[result.before])
+      .replace('{{AUTOSELFAFTER}}', context.atLevels[result.after])
+      .replace('{{AUTOSELFRECOMENDATION}}', rec)
+    return text
+  }
+}
+
 const resultMethods = {
   mnemonic,
   selfrating,
-  lexical
+  lexical,
+  atself
 }
 
 export default {

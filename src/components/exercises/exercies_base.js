@@ -28,6 +28,11 @@ export default {
         EN: [],
         DE: [],
         FR: []
+      },
+
+      AT: {
+        before: 4,
+        after: 4
       }
     }
   },
@@ -62,6 +67,10 @@ export default {
         return out
       }
       return true
+    },
+
+    video () {
+      return `${this.api}/video/BigBuckBunny.mp4`
     }
   },
 
@@ -115,15 +124,10 @@ export default {
     onFixPhase () {
       if (this.phase.result && this.phase.action === 'TEST') {
         const results = this.initResults(this.phase.result)
-        // const recomendation = this.initRecomendation(this.phase, this.results)
         this.setResults({
           prop: this.phase.result,
           value: Object.assign({}, results, {recomendation: ''})
         })
-        // this.results[this.phase.result] = this.initResults(this.phase.result)
-        // this.results[this.phase.result]['recomendation'] = this.initRecomendation(this.phase, this.results)
-        // this.setPhraseText(this.results[this.phase.result]['recomendation'])
-        // this.fixPhase(this.results[this.phase.result])
       }
 
       this.nextPhase()
@@ -170,12 +174,6 @@ export default {
         this.audio.sounds(sounds).mode(this.phase.mode).play()
 
         if (this.phase.scope) {
-          // this.dictionaryFilter = {
-          //   lang1: this.phase.lang1,
-          //   lang2: this.phase.lang2,
-          //   scope: this.phase.scope
-          // }
-          // this.getDictionary(this.dictionaryFilter)
           this.getDictionary(this.phase)
         }
 

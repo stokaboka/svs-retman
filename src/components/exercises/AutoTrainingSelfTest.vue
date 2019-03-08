@@ -2,7 +2,7 @@
 <div>
   <q-slider
     v-model="level"
-    @input="emit('changed-self-rating', level)"
+    @input="$emit('changed-atself', level)"
     :min="minLvel"
     :max="maxLevel"
     :step="stepLevel"
@@ -15,6 +15,9 @@
 </template>
 
 <script>
+import {createNamespacedHelpers} from 'vuex'
+const { mapGetters } = createNamespacedHelpers('beginners')
+
 export default {
   name: 'AutoTrainingSelfTest',
   data () {
@@ -22,23 +25,14 @@ export default {
       level: 4,
       minLvel: 1,
       maxLevel: 7,
-      stepLevel: 1,
-      levels: [
-        'Умер',
-        'Отвратительное',
-        'Плохое',
-        'Ниже среднего',
-        'Нормальное',
-        'Отличное',
-        'Великолепное',
-        'Готов двигать горы'
-      ]
+      stepLevel: 1
     }
   },
   computed: {
     label () {
-      return this.levels[this.level]
-    }
+      return this.atLevels[this.level]
+    },
+    ...mapGetters(['atLevels'])
   }
 }
 </script>

@@ -37,7 +37,7 @@ const audio = new AudioHelper()
 const { mapState, mapGetters } = createNamespacedHelpers('beginners')
 
 export default {
-  name: 'sound',
+  name: 'SoundTest',
 
   mounted () {
     audio.init(this.api, this.sound)

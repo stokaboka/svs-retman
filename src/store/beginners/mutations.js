@@ -1,11 +1,4 @@
-const stepsComponents = {
-  1: 'TestSoundComponent',
-  2: 'DescriptionMethodComponent',
-  3: 'MnemonicTestComponent',
-  4: 'SelfRatingComponent',
-  5: 'LexicalLearningLangComponent',
-  6: 'AutoTrainingComponent'
-}
+const stepsComponents = {}
 
 const initSounds = (values) => {
   return values ? values.split('#') : []

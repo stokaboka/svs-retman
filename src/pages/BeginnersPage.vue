@@ -1,10 +1,8 @@
 <template>
   <q-page padding>
 
-    <q-collapsible icon="explore" label="Шаги тестирования" v-model="stepperVisibleComputed">
-      <step-stepper-component>
-      </step-stepper-component>
-    </q-collapsible>
+    <step-stepper-component>
+    </step-stepper-component>
 
     <h5 v-if="step">{{step.title}}</h5>
 
@@ -24,6 +22,7 @@
         class="component-container"
         :is="phase.component"
         :dictionary="dictionary"
+        :video="video"
         :timer="timer"
         ref="phaseComponent"
         @fix-step="onFixStep"
@@ -32,6 +31,7 @@
         @word-pair-remembered="onWordPairRemembered"
         @changed-self-rating="onChangedSelfRating"
         @changed-control-rating="onChangedControlRating"
+        @changed-atself="onChangedAtSelf"
       ></component>
 
       <q-btn
@@ -51,7 +51,7 @@
 
 import {createNamespacedHelpers} from 'vuex'
 import StepStepperComponent from '../components/StepStepperComponent'
-import sound from '../components/exercises/sound'
+import SoundTest from '../components/exercises/SoundTest'
 
 import SelfLanguageRating from '../components/exercises/SelfLanguageRating'
 import ControlLanguageRating from '../components/exercises/ControlLanguageRating'
@@ -59,12 +59,12 @@ import SelfLexicalLearningLang from '../components/exercises/SelfLexicalLearning
 import TwoColumnWordsWithCheckBox from '../components/exercises/TwoColumnWordsWithCheckBox'
 import TwoColumnWordsWithMoveWords from '../components/exercises/TwoColumnWordsWithMoveWords'
 
+import AutoTrainingSelfTest from '../components/exercises/AutoTrainingSelfTest'
+import AutoTraining from '../components/exercises/AutoTraining'
+
 import exerciesBase from '../components/exercises/exercies_base'
 import resultMetods from '../components/exercises/result_metods'
 import exerciesMethods from '../components/exercises/exercies_methods'
-
-// import LexicalLearningLangComponent from '../components/steps/LexicalLearningLangComponent'
-// import AutoTrainingComponent from '../components/steps/AutoTrainingComponent'
 
 import TimeProgress from '../components/TimeProgress'
 
@@ -79,32 +79,56 @@ export default {
   ],
   components: {
     TimeProgress,
-    sound,
+    SoundTest,
     TwoColumnWordsWithCheckBox,
     TwoColumnWordsWithMoveWords,
     StepStepperComponent,
     SelfLanguageRating,
     ControlLanguageRating,
-    SelfLexicalLearningLang
-    // LexicalLearningLangComponent,
-    // AutoTrainingComponent
+    SelfLexicalLearningLang,
+    AutoTrainingSelfTest,
+    AutoTraining
   },
 
   computed: {
-    ...mapGetters(['steps', 'step', 'phases', 'phase', 'dictionary', 'soundTestResult', 'stepperVisible', 'learningLang', 'learningLangNames', 'mnemonicRecommendations', 'results']),
+    ...mapGetters([
+      'steps',
+      'step',
+      'phases',
+      'phase',
+      'dictionary',
+      'soundTestResult',
+      'stepperVisible',
+      'learningLang',
+      'learningLangNames',
+      'mnemonicRecommendations',
+      'results',
+      'atLevels']),
     ...mapState([ 'api', 'sound', 'error' ])
   },
 
   methods: {
-    ...mapMutations(['setPhraseText', 'setStepperVisible', 'setLearningLang', 'setResults']),
-    ...mapActions(['getSteps', 'resetSteps', 'nextStep', 'nextPhase', 'fixStep', 'fixPhase', 'getPhasesByStep', 'gotoStep', 'getDictionary'])
+    ...mapMutations([
+      'setPhraseText',
+      'setStepperVisible',
+      'setLearningLang',
+      'setResults'
+    ]),
+    ...mapActions([
+      'getSteps',
+      'resetSteps',
+      'nextStep',
+      'nextPhase',
+      'fixStep',
+      'fixPhase',
+      'getPhasesByStep',
+      'gotoStep',
+      'getDictionary'
+    ])
   }
 
 }
 </script>
 
 <style>
-  .step-stepper_layout {
-    max-width: 720px;
-  }
 </style>
