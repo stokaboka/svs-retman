@@ -10,6 +10,10 @@ export default {
     return {
       audio: new AudioHelper(),
       timer: new TimerHelper(this),
+      baseMethods: {
+        'fix-step': this.onFixStep,
+        'fix-phase': this.onFixPhase
+      },
       // mnemonic: remember word pairs
       checkedWordsPairs: [],
       // mnemonic: restore word pairs
@@ -98,6 +102,46 @@ export default {
       }
     },
 
+    onExerciesAction (event) {
+      let fn
+      if (this.baseMethods[event.id]) {
+        fn = this.baseMethods[event.id]
+      } else if (this.exerciesMethods[event.id]) {
+        fn = this.exerciesMethods[event.id]
+      }
+      if (fn) {
+        fn(event.data)
+      } else {
+        console.error(`unknown event ${event.id}`)
+      }
+
+      // switch (event.id) {
+      //   case 'fix-step':
+      //     this.onFixStep(event.data)
+      //     break
+      //   case 'fix-phase':
+      //     this.onFixPhase(null)
+      //     break
+      //   case 'word-pair-checked':
+      //     this.onWordPairChecked(event.data)
+      //     break
+      //   case 'word-pair-remembered':
+      //     this.onWordPairRemembered(event.data)
+      //     break
+      //   case 'changed-self-rating':
+      //     this.onChangedSelfRating(event.data)
+      //     break
+      //   case 'changed-control-rating':
+      //     this.onChangedControlRating(event.data)
+      //     break
+      //   case 'changed-atself':
+      //     this.onChangedAtSelf(event.data)
+      //     break
+      //   default:
+      //     console.error('unknown event')
+      // }
+    },
+
     doNextAction () {
       this.timer.stop()
       this.audio.stop()
@@ -121,7 +165,7 @@ export default {
       this.setPhraseText(text)
     },
 
-    onFixPhase () {
+    onFixPhase (data) {
       if (this.phase.result && this.phase.action === 'TEST') {
         const results = this.initResults(this.phase.result)
         this.setResults({

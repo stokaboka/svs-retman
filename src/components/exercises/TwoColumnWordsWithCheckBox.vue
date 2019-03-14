@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     wordPairChecked () {
-      this.$emit('word-pair-checked', this.checkedWordsPairs)
+      this.$emit('exercies-action', {id: 'word-pair-checked', data: this.checkedWordsPairs})
     }
   }
 }

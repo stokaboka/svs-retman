@@ -22,16 +22,12 @@
         class="component-container"
         :is="phase.component"
         :dictionary="dictionary"
+        :lessons="lessons"
+        :lang1="learningLang"
         :video="video"
         :timer="timer"
         ref="phaseComponent"
-        @fix-step="onFixStep"
-        @fix-phase="onFixPhase"
-        @word-pair-checked="onWordPairChecked"
-        @word-pair-remembered="onWordPairRemembered"
-        @changed-self-rating="onChangedSelfRating"
-        @changed-control-rating="onChangedControlRating"
-        @changed-atself="onChangedAtSelf"
+        @exercies-action="onExerciesAction"
       ></component>
 
       <q-btn
@@ -48,6 +44,14 @@
 </template>
 
 <script>
+
+// @fix-step="onFixStep"
+// @fix-phase="onFixPhase"
+// @word-pair-checked="onWordPairChecked"
+// @word-pair-remembered="onWordPairRemembered"
+// @changed-self-rating="onChangedSelfRating"
+// @changed-control-rating="onChangedControlRating"
+// @changed-atself="onChangedAtSelf"
 
 import {createNamespacedHelpers} from 'vuex'
 import StepStepperComponent from '../components/StepStepperComponent'
@@ -97,6 +101,7 @@ export default {
       'phases',
       'phase',
       'dictionary',
+      'lessons',
       'soundTestResult',
       'stepperVisible',
       'learningLang',
@@ -112,7 +117,8 @@ export default {
       'setPhraseText',
       'setStepperVisible',
       'setLearningLang',
-      'setResults'
+      'setResults',
+      'setDictionary'
     ]),
     ...mapActions([
       'getSteps',
@@ -123,7 +129,8 @@ export default {
       'fixPhase',
       'getPhasesByStep',
       'gotoStep',
-      'getDictionary'
+      'getDictionary',
+      'getLessons'
     ])
   }
 

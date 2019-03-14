@@ -1,4 +1,17 @@
 export default {
+  data () {
+    return {
+      exerciesMethods: {
+        'word-pair-checked': this.onWordPairChecked,
+        'word-pair-remembered': this.onWordPairRemembered,
+        'changed-self-rating': this.onChangedSelfRating,
+        'changed-control-rating': this.onChangedControlRating,
+        'changed-atself': this.onChangedAtSelf,
+        'init-lesson': this.onInitLesson,
+        'init-lesson-dictionary': this.onInitLessonDictionary
+      }
+    }
+  },
   methods: {
     // mnemonic test
     onWordPairChecked (values) {
@@ -29,6 +42,15 @@ export default {
       } else {
         this.AT.after = value
       }
+    },
+
+    onInitLesson (value) {
+      this.setDictionary([])
+      this.getLessons({lang: this.learningLang})
+    },
+
+    onInitLessonDictionary (value) {
+      this.getDictionary(value)
     }
 
   }

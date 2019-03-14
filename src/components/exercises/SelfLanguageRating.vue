@@ -57,7 +57,7 @@ export default {
 
   methods: {
     levelChecked () {
-      this.$emit('changed-self-rating', this.checked)
+      this.$emit('exercies-action', {id: 'changed-self-rating', data: this.checked})
     }
   }
 }

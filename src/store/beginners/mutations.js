@@ -103,6 +103,10 @@ const setDictionary = (state, playload) => {
   state.dictionary = playload
 }
 
+const setLessons = (state, playload) => {
+  state.lessons = playload
+}
+
 const setPhraseText = (state, playload) => {
   state.phase.text = playload
 }
@@ -139,6 +143,7 @@ export {
   resetPhaseIndex,
 
   setDictionary,
+  setLessons,
 
   setPhraseText,
   setStepperVisible,

@@ -141,7 +141,7 @@ export default {
     },
 
     wordPairSelected () {
-      this.$emit('changed-control-rating', this.leftWords)
+      this.$emit('exercies-action', {id: 'changed-control-rating', data: this.leftWords})
     }
   },
 

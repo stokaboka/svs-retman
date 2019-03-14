@@ -2,7 +2,7 @@
 <div>
   <q-slider
     v-model="level"
-    @input="$emit('changed-atself', level)"
+    @input="onChangedInput"
     :min="minLvel"
     :max="maxLevel"
     :step="stepLevel"
@@ -10,7 +10,8 @@
     :label-value="label"
     color="primary"
     snap
-    markers />
+    markers >
+    </q-slider>
 </div>
 </template>
 
@@ -26,6 +27,11 @@ export default {
       minLvel: 1,
       maxLevel: 7,
       stepLevel: 1
+    }
+  },
+  methods: {
+    onChangedInput () {
+      this.$emit('exercies-action', {id: 'changed-atself', data: this.level})
     }
   },
   computed: {

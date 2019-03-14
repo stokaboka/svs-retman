@@ -94,6 +94,19 @@ const getDictionary = ({ commit, getters }, p) => {
     })
 }
 
+const getLessons = ({ commit, getters }, p) => {
+  console.log('getLessons')
+  console.log(p)
+  return axios.get(`${getters.api}/ls/lang/${p.lang}`)
+    .then(response => {
+      commit('setLessons', response.data)
+      commit('setResult', 'OK')
+    })
+    .catch(error => {
+      commit('setError', error)
+    })
+}
+
 // const getMnemonicRecommendation = ({getters}, result) => {
 //   const rec = getters.mnemonicRecommendation.find((elem) => {
 //     return (elem.from <= result.remembered && result.remembered <= elem.to)
@@ -113,7 +126,8 @@ export {
   fixPhase,
   nextPhase,
 
-  getDictionary
+  getDictionary,
+  getLessons
 
   // getMnemonicRecommendation
 }

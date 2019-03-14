@@ -100,7 +100,7 @@ export default {
         .filter((elem) => { return elem.selected })
         .map((elem, index) => { return index })
 
-      this.$emit('word-pair-checked', this.checkedWordsPairs)
+      this.$emit('exercies-action', {id: 'word-pair-checked', data: this.checkedWordsPairs})
     },
 
     refreshTestDictionary () {
@@ -117,7 +117,7 @@ export default {
     },
 
     wordPairChecked () {
-      this.$emit('word-pair-checked', this.checkedWordsPairs)
+      this.$emit('exercies-action', {id: 'word-pair-checked', data: this.checkedWordsPairs})
     },
     onTimerFired (event) {
       switch (event.event) {

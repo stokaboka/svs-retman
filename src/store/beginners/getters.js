@@ -50,6 +50,10 @@ const dictionary = (state) => {
   return state.dictionary
 }
 
+const lessons = (state) => {
+  return state.lessons
+}
+
 const soundTestResult = (state) => {
   return state.testResult.sound
 }
@@ -92,6 +96,7 @@ export {
   phase,
   stage,
   dictionary,
+  lessons,
 
   soundTestResult,
 

@@ -65,7 +65,7 @@ export default {
 
     setTestResult (value) {
       audio.stop()
-      this.$emit('fix-phase', value)
+      this.$emit('exercies-action', {id: 'fix-phase', data: value})
     },
 
     startTest () {

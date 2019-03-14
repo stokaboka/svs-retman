@@ -149,7 +149,7 @@ export default {
     },
 
     wordPairRemembered () {
-      this.$emit('word-pair-remembered', this.leftWords)
+      this.$emit('exercies-action', {id: 'word-pair-remembered', data: this.leftWords})
     }
   },
 
