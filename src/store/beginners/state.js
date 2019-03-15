@@ -58,6 +58,12 @@ export default {
     }
   },
 
+  learningTime: {
+    EN: '45 мин. 39 сек',
+    DE: '20 мин. 06 сек',
+    FR: '25 мин. 41 сек.'
+  },
+
   stepperVisible: true,
   /**
    * TODO move recommendation on server API

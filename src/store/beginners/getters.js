@@ -78,6 +78,10 @@ const learningLangNames = (state) => {
   }
 }
 
+const learningTime = (state) => {
+  return state.learningTime
+}
+
 const atLevels = (state) => {
   return state.atLevels
 }
@@ -106,6 +110,7 @@ export {
 
   learningLang,
   learningLangNames,
+  learningTime,
 
   atLevels
 }

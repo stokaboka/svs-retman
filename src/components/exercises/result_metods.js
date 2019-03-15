@@ -140,10 +140,12 @@ export default {
 
     initLanguageTestName (context, text) {
       return text
-        .replace('{{LANGUAGE_NAME_1}}', context.learningLangNames.p1)
-        .replace('{{LANGUAGE_NAME_2}}', context.learningLangNames.p2)
-        .replace('{{LANGUAGE_NAME_3}}', context.learningLangNames.p3)
-        .replace('{{LANGUAGE_NAME}}', context.learningLang)
+        .replace(/{{LANGUAGE_NAME_1}}/g, context.learningLangNames.p1)
+        .replace(/{{LANGUAGE_NAME_2}}/g, context.learningLangNames.p2)
+        .replace(/{{LANGUAGE_NAME_3}}/g, context.learningLangNames.p3)
+        .replace(/{{LANGUAGE_NAME}}/g, context.learningLang)
+        .replace(/{{LANGUAGE}}/g, context.learningLang)
+        .replace(/{{STEP_7_TIME}}/g, context.learningTime[context.learningLang])
     },
 
     initResults (resultId) {

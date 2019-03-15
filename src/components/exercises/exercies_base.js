@@ -8,6 +8,7 @@ import TimerHelper from '../../lib/TimerHelper'
 export default {
   data () {
     return {
+      startStep: 6,
       audio: new AudioHelper(),
       timer: new TimerHelper(this),
       baseMethods: {
@@ -46,7 +47,7 @@ export default {
     this.resetSteps()
     this.getSteps()
       .then(() => {
-        this.gotoStep(0)
+        this.gotoStep(this.startStep)
         this.playStep()
       })
       .catch(() => {})
@@ -114,32 +115,6 @@ export default {
       } else {
         console.error(`unknown event ${event.id}`)
       }
-
-      // switch (event.id) {
-      //   case 'fix-step':
-      //     this.onFixStep(event.data)
-      //     break
-      //   case 'fix-phase':
-      //     this.onFixPhase(null)
-      //     break
-      //   case 'word-pair-checked':
-      //     this.onWordPairChecked(event.data)
-      //     break
-      //   case 'word-pair-remembered':
-      //     this.onWordPairRemembered(event.data)
-      //     break
-      //   case 'changed-self-rating':
-      //     this.onChangedSelfRating(event.data)
-      //     break
-      //   case 'changed-control-rating':
-      //     this.onChangedControlRating(event.data)
-      //     break
-      //   case 'changed-atself':
-      //     this.onChangedAtSelf(event.data)
-      //     break
-      //   default:
-      //     console.error('unknown event')
-      // }
     },
 
     doNextAction () {

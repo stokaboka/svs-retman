@@ -38,9 +38,6 @@ const getPhasesByStep = ({ commit, getters }, stepId) => {
 
 const fixStep = ({ commit, getters }, result) => {
   commit('setStepResult', result)
-  // if (getters.step.id === 4) {
-  //   commit('setLearningLang', result.langResult)
-  // }
 }
 
 const nextStep = ({ commit, state }) => {

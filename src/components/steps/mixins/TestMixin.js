@@ -161,6 +161,7 @@ const TestMixin = {
         .replace('{{LANGUAGE_NAME_2}}', this.learningLangNames.p2)
         .replace('{{LANGUAGE_NAME_3}}', this.learningLangNames.p3)
         .replace('{{LANGUAGE_NAME}}', this.learningLang)
+        .replace('{{LANGUAGE}}', this.learningLang)
 
       this.setPhraseText(briefText)
 

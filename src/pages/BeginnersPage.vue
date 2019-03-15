@@ -66,6 +66,8 @@ import TwoColumnWordsWithMoveWords from '../components/exercises/TwoColumnWordsW
 import AutoTrainingSelfTest from '../components/exercises/AutoTrainingSelfTest'
 import AutoTraining from '../components/exercises/AutoTraining'
 
+import Lesson from '../components/exercises/Lesson'
+
 import exerciesBase from '../components/exercises/exercies_base'
 import resultMetods from '../components/exercises/result_metods'
 import exerciesMethods from '../components/exercises/exercies_methods'
@@ -91,7 +93,8 @@ export default {
     ControlLanguageRating,
     SelfLexicalLearningLang,
     AutoTrainingSelfTest,
-    AutoTraining
+    AutoTraining,
+    Lesson
   },
 
   computed: {
@@ -108,6 +111,7 @@ export default {
       'learningLangNames',
       'mnemonicRecommendations',
       'results',
+      'learningTime',
       'atLevels']),
     ...mapState([ 'api', 'sound', 'error' ])
   },
