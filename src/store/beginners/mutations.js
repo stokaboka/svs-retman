@@ -123,6 +123,10 @@ const setResults = (state, playload) => {
   state.results[playload.prop] = playload.value
 }
 
+const setCue = (state, playload) => {
+  state.cue = playload
+}
+
 export {
   setSteps,
   setStep,
@@ -150,5 +154,7 @@ export {
 
   setLearningLang,
 
-  setResults
+  setResults,
+
+  setCue
 }

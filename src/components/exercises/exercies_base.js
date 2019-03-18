@@ -9,7 +9,8 @@ export default {
   data () {
     return {
       startStep: 6,
-      audio: new AudioHelper(),
+      // startStep: 0,
+      audio: new AudioHelper(this),
       timer: new TimerHelper(this),
       baseMethods: {
         'fix-step': this.onFixStep,

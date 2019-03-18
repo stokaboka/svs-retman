@@ -86,6 +86,10 @@ const atLevels = (state) => {
   return state.atLevels
 }
 
+const cue = (state) => {
+  return state.cue
+}
+
 export {
   title,
   api,
@@ -112,5 +116,7 @@ export {
   learningLangNames,
   learningTime,
 
-  atLevels
+  atLevels,
+
+  cue
 }

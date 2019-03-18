@@ -23,8 +23,10 @@
         :is="phase.component"
         :dictionary="dictionary"
         :lessons="lessons"
+        :cue="cue"
         :lang1="learningLang"
         :video="video"
+        :audio="audio"
         :timer="timer"
         ref="phaseComponent"
         @exercies-action="onExerciesAction"
@@ -44,14 +46,6 @@
 </template>
 
 <script>
-
-// @fix-step="onFixStep"
-// @fix-phase="onFixPhase"
-// @word-pair-checked="onWordPairChecked"
-// @word-pair-remembered="onWordPairRemembered"
-// @changed-self-rating="onChangedSelfRating"
-// @changed-control-rating="onChangedControlRating"
-// @changed-atself="onChangedAtSelf"
 
 import {createNamespacedHelpers} from 'vuex'
 import StepStepperComponent from '../components/StepStepperComponent'
@@ -112,7 +106,9 @@ export default {
       'mnemonicRecommendations',
       'results',
       'learningTime',
-      'atLevels']),
+      'atLevels',
+      'cue'
+    ]),
     ...mapState([ 'api', 'sound', 'error' ])
   },
 
@@ -134,7 +130,8 @@ export default {
       'getPhasesByStep',
       'gotoStep',
       'getDictionary',
-      'getLessons'
+      'getLessons',
+      'getCue'
     ])
   }
 

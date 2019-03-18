@@ -104,6 +104,20 @@ const getLessons = ({ commit, getters }, p) => {
     })
 }
 
+const getCue = ({ commit, getters }, p) => {
+  console.log('getCue')
+  console.log(p)
+  return axios.get(`${getters.api}/cue/file/${p.file}`)
+    .then(response => {
+      commit('setCue', response.data)
+      commit('setResult', 'OK')
+    })
+    .catch(error => {
+      commit('setCue', [])
+      commit('setError', error)
+    })
+}
+
 // const getMnemonicRecommendation = ({getters}, result) => {
 //   const rec = getters.mnemonicRecommendation.find((elem) => {
 //     return (elem.from <= result.remembered && result.remembered <= elem.to)
@@ -124,7 +138,8 @@ export {
   nextPhase,
 
   getDictionary,
-  getLessons
+  getLessons,
 
+  getCue
   // getMnemonicRecommendation
 }

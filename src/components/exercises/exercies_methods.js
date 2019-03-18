@@ -8,7 +8,8 @@ export default {
         'changed-control-rating': this.onChangedControlRating,
         'changed-atself': this.onChangedAtSelf,
         'init-lesson': this.onInitLesson,
-        'init-lesson-dictionary': this.onInitLessonDictionary
+        'init-lesson-dictionary': this.onInitLessonDictionary,
+        'lesson-item-selected': this.onLessonItemSelected
       }
     }
   },
@@ -51,6 +52,11 @@ export default {
 
     onInitLessonDictionary (value) {
       this.getDictionary(value)
+      this.getCue(value)
+    },
+
+    onLessonItemSelected (value) {
+
     }
 
   }

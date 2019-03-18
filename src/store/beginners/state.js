@@ -27,6 +27,8 @@ export default {
 
   lessons: [],
 
+  cue: [],
+
   atLevels: [
     'Умер',
     'Отвратительное',
