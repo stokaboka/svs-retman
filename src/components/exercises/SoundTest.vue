@@ -2,27 +2,23 @@
   <section>
 
     <div class="row no-wrap justify-between q-mt-md">
-      <div class="col"></div>
       <q-btn
         color="primary"
         :label="startLabel"
         @click="startTest"
-        class="col"
+        class="col snd-btn"
       ></q-btn>
-      <div class="col"></div>
       <q-btn
         label="Звук есть"
         color="secondary"
         @click="setTestResult(true)"
-        class="col"
+        class="col snd-btn"
       ></q-btn>
-      <div class="col"></div>
       <q-btn
         label="Звук НЕ работает"
         @click="setTestResult(false)"
-        class="col"
+        class="col snd-btn"
       ></q-btn>
-      <div class="col"></div>
     </div>
   </section>
 </template>
@@ -83,4 +79,7 @@ export default {
 </script>
 
 <style>
+  .snd-btn {
+    margin: 0 1rem;
+  }
 </style>

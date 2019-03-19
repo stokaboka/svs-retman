@@ -8,8 +8,8 @@ import TimerHelper from '../../lib/TimerHelper'
 export default {
   data () {
     return {
-      startStep: 6,
-      // startStep: 0,
+      // startStep: 6,
+      startStep: 0,
       audio: new AudioHelper(this),
       timer: new TimerHelper(this),
       baseMethods: {

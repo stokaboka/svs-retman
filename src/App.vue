@@ -12,7 +12,11 @@ export default {
 
 <style>
   #q-app {
-    /*background-color: dodgerblue;*/
+    background-color: #f2f2f2;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0.5rem 1rem;
   }
 
   .container {
@@ -23,9 +27,6 @@ export default {
     margin: 1rem 1rem;
   }
 
-  .button__next-phase {
-    margin-top: 2rem;
-  }
   .button__delete-variant {
     padding-left: 3px;
   }

@@ -2,15 +2,23 @@
   <div>
     <GlobalEvents @keyup.space.prevent="onPressSpace"></GlobalEvents>
     <div class="lesson">
-      <div class="lesson-title">
-        <span class="lesson-title__label">Урок</span><span class="lesson-title__num">{{lesson.lesson}}</span>
-        <span class="lesson-title__label">Проход</span><span class="lesson-title__stage">{{lesson.stage}}</span>
+      <div v-if="lesson" class="lesson-title">
+        <div><span class="lesson-title__label">Урок:</span><span class="lesson-title__num">{{lesson.lesson}}</span></div>
+        <div><span class="lesson-title__label">Проход:</span><span class="lesson-title__num">{{lesson.stage}}</span></div>
+        <div><span class="lesson-title__label">Задание:</span><span class="lesson-title__title" v-html="lesson.title"></span></div>
       </div>
-      <div class="lesson-box">
-        <div v-for="item in items" :key="item.id" class="lesson-row" :class="item.cls">
-            <div class="lesson-word lesson-word__left" :class="{ 'lesson-word__left': stageOneTwoTree, 'lesson-word__center': stageFour}">{{item.word1}}</div>
-            <div v-if="stageOneTwoTree" class="lesson-word lesson-word__right">{{item.word2}}</div>
-        </div>
+      <div class="lesson-box" ref="lessonBox">
+        <lesson-row v-for="(item) in items"
+                    :key="item.id"
+                    class="lesson-row"
+                    ref="rows"
+                    :item="item"
+                    :current-index="indexLessonDictionary"
+                    :mode="lessonRowMode"
+                    :stage-four="stageFour"
+                    @click.prevent="onPressSpace"
+        >
+        </lesson-row>
       </div>
     </div>
   </div>
@@ -19,10 +27,23 @@
 <script>
 
 import GlobalEvents from 'vue-global-events'
+import { scroll } from 'quasar'
+import LessonRow from './parts/LessonRow'
+
+const { setScrollPosition } = scroll
+
+let numFixedRows = 3
+let itemElementFirst = null
+let itemElementTop = null
+let itemElementBotton = null
+let topLimit = 0
+let bottomLimit = 0
+let rowHeight = 0
+// offsetHeight
 
 export default {
   name: 'Lesson',
-  components: {GlobalEvents},
+  components: {LessonRow, GlobalEvents},
   props: {
     audio: {
       type: Object,
@@ -76,13 +97,17 @@ export default {
       items: [],
       lesson: null,
       lessonIndex: 0,
-      indexLessonDictionary: 0
+      indexLessonDictionary: 0,
+      reverseCue: []
     }
   },
 
   computed: {
     ready () {
       return this.readyLesson && this.readyDictionary && this.readyCue
+    },
+    lessonRowMode () {
+      return this.lesson.stage === 4 ? 'WORD2' : 'BOTH'
     },
     stageOneTwoTree () {
       return this.lesson.stage !== 4
@@ -105,6 +130,26 @@ export default {
   },
 
   methods: {
+    scrollToElement (el, force) {
+      if (el) {
+        let target = this.$refs.lessonBox
+        let offset = el.offsetTop - this.$refs.lessonBox.offsetTop
+        let duration = 500
+        if (force) {
+          setScrollPosition(target, offset, duration)
+        } else {
+          topLimit = itemElementTop.$el.offsetTop - this.$refs.lessonBox.offsetTop
+          bottomLimit = itemElementBotton.$el.offsetTop - this.$refs.lessonBox.offsetTop
+          if (topLimit < offset && offset < bottomLimit) {
+            offset -= rowHeight * numFixedRows
+            setScrollPosition(target, offset, duration)
+          }
+        }
+      } else {
+        console.log('Element not found')
+      }
+    },
+
     nextLesson () {
       this.lessonIndex++
       return this.lessonIndex < this.lessons.length
@@ -140,20 +185,32 @@ export default {
       this.play()
     },
 
-    initDictionary () {
+    async initDictionary () {
       this.readyDictionary = true
       this.indexLessonDictionary = -1
-      this.items = this.dictionary.map(elem => {
+      this.items = this.dictionary.map((elem, index) => {
         return {
           ...elem,
-          cls: '',
+          index,
+          current: false,
           selected: false
         }
       })
+
+      await this.$nextTick()
+
+      if (this.$refs.rows) {
+        itemElementFirst = this.$refs.rows.find((el) => el.item.index === 0, this)
+        itemElementTop = this.$refs.rows.find((el) => el.item.index === numFixedRows, this)
+        itemElementBotton = this.$refs.rows.find((el) => el.item.index === this.items.length - numFixedRows, this)
+        rowHeight = itemElementTop.$el.offsetHeight
+      }
+
       this.tryStart()
     },
 
     initCue () {
+      this.reverseCue = this.cue.map(el => el).reverse()
       this.readyCue = true
       this.tryStart()
     },
@@ -173,6 +230,9 @@ export default {
     },
 
     start () {
+      if (itemElementTop) {
+        this.scrollToElement(itemElementFirst.$el, true)
+      }
       this.audio.mode('ONCE').play(this.lesson.sound)
     },
 
@@ -191,22 +251,28 @@ export default {
 
     refreshDictionary () {
       this.items = this.items.map((elem, index) => {
-        let cls = ''
-        if (index === this.indexLessonDictionary) {
-          cls = 'lesson_row__active'
+        return {
+          ...elem,
+          current: index === this.indexLessonDictionary,
+          index
         }
-        if (elem.selected) {
-          cls = 'lesson_row__selected'
-        }
-        return Object.assign({}, elem, {cls})
       }, this)
     },
 
     checkCuePosition (currentTime) {
-      const idx = this.cue.findIndex((el) => el.pos >= currentTime) - 1
+      const idx = this.cue.length - 1 - this.cue.findIndex((el) => el.pos < currentTime)
       if (idx >= 0 && idx !== this.indexLessonDictionary) {
         this.indexLessonDictionary = idx
         this.refreshDictionary()
+
+        if (this.indexLessonDictionary > numFixedRows && this.indexLessonDictionary < this.items.length - numFixedRows) {
+          if (this.$refs.rows) {
+            const elem = this.$refs.rows.find((el) => el.item.index === this.indexLessonDictionary, this)
+            if (elem) {
+              this.scrollToElement(elem.$el, false)
+            }
+          }
+        }
       }
     },
 
@@ -240,17 +306,22 @@ export default {
 </script>
 
 <style scoped>
-.lesson {
-  display: flex;
-  flex-flow: column nowrap;
-}
+  .lesson {
+    display: flex;
+    flex-flow: column nowrap;
+  }
 
-.lesson-box {
-  /*height: 30vh;*/
-  width: 100%;
-  border: lightgray 1px solid;
-  /*overflow: hidden;*/
-}
+  .lesson-box {
+    height: 50vh;
+    width: 100%;
+    border: lightgray 1px solid;
+    overflow: hidden;
+
+    background-color: white;
+    box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, .2);
+
+    margin: 1rem 0 0 0;
+  }
 
   .lesson-row {
     display: flex;
@@ -259,38 +330,10 @@ export default {
     padding: 0.5rem 0;
   }
 
-  .lesson_row__active {
-    background-color: aquamarine;
-  }
-
-  .lesson_row__selected {
-    background-color: darkseagreen;
-  }
-
   .lesson_row__words {
     display: flex;
     flex-flow: row nowrap;
   }
-
-  .lesson-word {
-    padding: 0.2rem 0;
-    width: 40%;
-  }
-
-  .lesson-word__center {
-    text-align: center;
-    margin-right: 1rem;
-  }
-
-  .lesson-word__left {
-    text-align: right;
-    margin-right: 1rem;
-  }
-
-.lesson-word__right {
-  text-align: left;
-  margin-left: 1rem;
-}
 
   .lesson-title {
     display: flex;
@@ -302,11 +345,15 @@ export default {
     margin-right: 1rem;
   }
 
+  .lesson-title__title {
+
+  }
+
   .lesson-title__num {
     font-weight: bold;
   }
 
-  .lesson-title__stage {
-    font-weight: bold;
+  .lesson-title__description {
+    font-size: 1.2rem;
   }
 </style>

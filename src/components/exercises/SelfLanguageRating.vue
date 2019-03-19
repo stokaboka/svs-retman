@@ -65,6 +65,7 @@ export default {
 
 <style>
   .row-levels {
+    margin: 0.4rem 0;
     border-bottom: #d9d9d9 solid 1px;
   }
 

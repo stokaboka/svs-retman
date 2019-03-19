@@ -1,14 +1,12 @@
 <template>
-  <q-page padding>
+  <q-page class="page-container">
 
-    <step-stepper-component>
-    </step-stepper-component>
-
-    <h5 v-if="step">{{step.title}}</h5>
+    <div class="stepper-container">
+      <step-stepper-component :brief="showBrief" ></step-stepper-component>
+    </div>
 
     <section v-if="phase">
-      <div>
-        <h6>{{phase.title}}</h6>
+      <div class="phase-text-containre">
         <div v-html="phase.text"></div>
       </div>
 
@@ -32,21 +30,24 @@
         @exercies-action="onExerciesAction"
       ></component>
 
-      <q-btn
-        class="button__next-phase"
-        v-if="showNextBtn"
-        label="Продолжить"
-        color="primary"
-        @click="doNextAction">
-      </q-btn>
-
     </section>
+
+    <div class="page-footer">
+    <q-btn
+      class="button__next-phase"
+      v-if="showNextBtn"
+      label="Продолжить"
+      color="primary"
+      @click="doNextAction">
+    </q-btn>
+    </div>
 
   </q-page>
 </template>
 
 <script>
-
+// <span>{{phase.title}}</span>
+// <span v-else>{{step.title}}</span>
 import {createNamespacedHelpers} from 'vuex'
 import StepStepperComponent from '../components/StepStepperComponent'
 import SoundTest from '../components/exercises/SoundTest'
@@ -92,6 +93,9 @@ export default {
   },
 
   computed: {
+    showBrief () {
+      return !this.phase.component
+    },
     ...mapGetters([
       'steps',
       'step',
@@ -139,4 +143,33 @@ export default {
 </script>
 
 <style>
+
+  .phase-text-containre {
+    margin: 0.5rem;
+  }
+
+  .button__next-phase {
+    margin-top: 1rem;
+    width: 120px;
+  }
+
+  .page-container {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+  }
+
+  .page-footer {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+
+    width: 100%;
+  }
+
+  .stepper-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+  }
 </style>

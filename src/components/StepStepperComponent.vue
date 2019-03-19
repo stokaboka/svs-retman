@@ -3,17 +3,17 @@
   <div class="stepper-wrapper">
     <div v-for="stp in steps" :key="stp.id" class="stepper-step">
       <q-icon
-        v-if="stp.id < step.id"
+        v-if="brief && stp.id < step.id"
         name="check_circle_outline"
         :color="stepIconColor(stp)"
         size="2rem"/>
       <q-icon
-        v-if="stp.id === step.id"
+        v-if="brief && stp.id === step.id"
         name="play_circle_outline"
         :color="stepIconColor(stp)"
         size="2rem"/>
       <q-icon
-        v-if="step.id < stp.id"
+        v-if="brief && step.id < stp.id"
         name="label_important_outline"
         :color="stepIconColor(stp)"
         size="2rem"/>
@@ -27,25 +27,18 @@
 
 <script>
 
-/*
-  <q-stepper v-if="steps" ref="stepper" contractable alternative-labels>
-    <q-step
-      v-for="stp in steps"
-      active-icon="play_arrow"
-      :title="stp.title"
-      :key="stp.id"
-      :name="stp.id"
-      :order="stp.id"
-    >
-    </q-step>
-  </q-stepper>
-   */
-
 import {createNamespacedHelpers} from 'vuex'
 const { mapState, mapGetters, mapActions } = createNamespacedHelpers('beginners')
 
 export default {
   name: 'StepStepperComponent',
+
+  props: {
+    brief: {
+      type: Boolean,
+      required: true
+    }
+  },
 
   data () {
     return {}
@@ -71,14 +64,6 @@ export default {
     },
     ...mapActions(['getSteps', 'gotoStep'])
   }
-
-  // watch: {
-  //   step (val, oldVal) {
-  //     if (val) {
-  //       this.$refs.stepper.goToStep(val.id)
-  //     }
-  //   }
-  // }
 }
 </script>
 
@@ -99,10 +84,10 @@ export default {
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-items: center;
-    margin: 3px 9px;
   }
 
   .stepper-step__title {
+    font-weight: 700;
     padding: 3px 6px;
   }
 </style>
