@@ -70,6 +70,7 @@ export default {
   }
 
   .lesson_row__selected {
-    background-color: cadetblue;
+    color: black;
+    background-color: lightgreen;
   }
 </style>

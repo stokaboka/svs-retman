@@ -1,29 +1,29 @@
 <template>
-  <div>
+  <div class="rows-container">
     <GlobalEvents @keyup.space.prevent="onPressSpace"></GlobalEvents>
 
-      <div v-if="ready" class="row no-wrap justify-between q-mt-xs" v-for="i in 25" :key="i">
+      <div v-if="ready" class="row-container q-mt-xs" v-for="i in 25" :key="i">
 
         <div
-          class="col-3 q-ml-xs q-mr-xs q-pa-xs"
+          class="word q-ml-xs q-mr-xs q-pa-xs"
           :class="testDictionary[i-1].class">
           {{testDictionary[i-1].word1}}
         </div>
 
         <div
-          class="col-3 q-ml-xs q-mr-xs q-pa-xs"
+          class="word q-ml-xs q-mr-xs q-pa-xs"
           :class="testDictionary[i+25-1].class">
           {{testDictionary[i+25-1].word1}}
         </div>
 
         <div
-          class="col-3 q-ml-xs q-mr-xs q-pa-xs"
+          class="word q-ml-xs q-mr-xs q-pa-xs"
           :class="testDictionary[i+50-1].class">
           {{testDictionary[i+50-1].word1}}
         </div>
 
         <div
-          class="col-3 q-ml-xs q-mr-xs q-pa-xs"
+          class="word q-ml-xs q-mr-xs q-pa-xs"
           :class="testDictionary[i+75-1].class">
           {{testDictionary[i+75-1].word1}}
         </div>
@@ -142,5 +142,28 @@ export default {
   }
   .check-word {
     background-color: greenyellow;
+  }
+
+  .word {
+    width: 20vw;
+  }
+
+  .rows-container {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .row-container {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  .words-row {
+    min-height: 26px;
+    margin-bottom: 3px;
   }
 </style>

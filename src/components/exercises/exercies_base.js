@@ -1,6 +1,6 @@
 
 const mode = process.env.MODE
-const developmentTimeSeconds = 10
+// const developmentTimeSeconds = 10
 
 import AudioHelper from '../../lib/AudioHelper'
 import TimerHelper from '../../lib/TimerHelper'
@@ -9,13 +9,17 @@ export default {
   data () {
     return {
       // startStep: 6,
-      startStep: 0,
+      startStep: 3,
       audio: new AudioHelper(this),
       timer: new TimerHelper(this),
       baseMethods: {
         'fix-step': this.onFixStep,
-        'fix-phase': this.onFixPhase
+        'fix-phase': this.onFixPhase,
+        'do-next-action': this.doNextAction
       },
+      progressVisible: true,
+      stepperFullScreenVisible: true,
+      briefVisible: true,
       // mnemonic: remember word pairs
       checkedWordsPairs: [],
       // mnemonic: restore word pairs
@@ -70,7 +74,7 @@ export default {
     showNextBtn () {
       if (this.phase) {
         const out = mode === 'PRODUCTION' ? this.phase.next === 1 : true
-        return out
+        return out && !this.$q.fullscreen.isActive
       }
       return true
     },
@@ -95,12 +99,12 @@ export default {
 
     startTimer () {
       if (this.phase.time && this.phase.time > 0) {
-        let seconds = mode === 'PRODUCTION' ? this.phase.time : developmentTimeSeconds
-        console.log('startTimer', seconds, mode, developmentTimeSeconds)
-        if (this.phase.result === 'lexical') {
-          seconds = this.phase.time
-        }
-        this.timer.start(seconds)
+        // let seconds = mode === 'PRODUCTION' ? this.phase.time : developmentTimeSeconds
+        // console.log('startTimer', seconds, mode, developmentTimeSeconds)
+        // if (this.phase.result === 'lexical') {
+        //   seconds = this.phase.time
+        // }
+        this.timer.start(this.phase.time)
       }
     },
 
@@ -119,6 +123,9 @@ export default {
     },
 
     doNextAction () {
+      if (!this.$q.fullscreen.isActive) {
+        this.$q.fullscreen.exit()
+      }
       this.timer.stop()
       this.audio.stop()
       this.onFixPhase()

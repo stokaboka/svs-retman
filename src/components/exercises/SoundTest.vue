@@ -27,8 +27,8 @@
 
 import {createNamespacedHelpers} from 'vuex'
 
-import AudioHelper from '../../lib/AudioHelper'
-const audio = new AudioHelper()
+// import AudioHelper from '../../lib/AudioHelper'
+// const audio = new AudioHelper()
 
 const { mapState, mapGetters } = createNamespacedHelpers('beginners')
 
@@ -36,13 +36,19 @@ export default {
   name: 'SoundTest',
 
   mounted () {
-    audio.init(this.api, this.sound)
+    this.audio.init(this.api, this.sound)
+  },
+
+  props: {
+    audio: {
+      type: Object,
+      required: true
+    }
   },
 
   data () {
     return {
-      tested: false,
-      audio: audio
+      tested: false
     }
   },
 
@@ -60,15 +66,15 @@ export default {
     },
 
     setTestResult (value) {
-      audio.stop()
+      this.audio.stop()
       this.$emit('exercies-action', {id: 'fix-phase', data: value})
     },
 
     startTest () {
-      if (audio.playing) {
-        audio.stop()
+      if (this.audio.playing) {
+        this.audio.stop()
       } else {
-        audio
+        this.audio
           .sounds(this.phase.sounds)
           .mode(this.phase.mode)
           .play()

@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-layout-header>
+    <q-layout-header v-if="headerVivible">
       <q-toolbar
         color="primary">
 
@@ -59,7 +59,8 @@ export default {
   data () {
     return {
       // leftDrawerOpen: this.$q.platform.is.desktop
-      leftDrawerOpen: false
+      leftDrawerOpen: false,
+      headerVivible: true
     }
   },
 
@@ -69,6 +70,13 @@ export default {
 
   methods: {
     openURL
+  },
+
+  watch: {
+    '$q.fullscreen.isActive' (val) {
+      console.log(val ? 'In fullscreen now' : 'Exited fullscreen')
+      this.headerVivible = !val
+    }
   }
 }
 </script>

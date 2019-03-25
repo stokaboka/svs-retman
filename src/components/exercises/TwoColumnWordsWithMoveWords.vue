@@ -1,10 +1,10 @@
 <template>
-  <div>
-      <div v-if="ready" class="row no-wrap words-row" v-for="i in 25" :key="i">
+  <div class="rows-container">
+      <div v-if="ready" class="row-container words-row" v-for="i in 25" :key="i">
 
-        <div class="col left-word1">{{leftWords[i-1].word1}}</div>
+        <div class="left-word1">{{leftWords[i-1].word1}}</div>
 
-        <drop @drop="onDrop(i-1, ...arguments)" class="col left-word2 q-ml-md">
+        <drop @drop="onDrop(i-1, ...arguments)" class="left-word2 q-ml-md">
           {{leftWords[i-1].word2}}
         </drop>
         <q-btn
@@ -16,9 +16,9 @@
           @click="onRemoveWordFromLeft(leftWords[i-1].word2)">
         </q-btn>
 
-        <div class="col left-word1">{{leftWords[i+25-1].word1}}</div>
+        <div class="left-word1">{{leftWords[i+25-1].word1}}</div>
 
-        <drop @drop="onDrop(i+25-1, ...arguments)" class="col left-word2 q-ml-md">
+        <drop @drop="onDrop(i+25-1, ...arguments)" class="left-word2 q-ml-md">
           {{leftWords[i+25-1].word2}}
         </drop>
         <q-btn
@@ -31,13 +31,13 @@
         </q-btn>
 
         <drag
-          class="col right-word2"
+          class="right-word2"
           :transfer-data="rightWords[i-1].word2">
           {{rightWords[i-1].word2}}
         </drag>
 
         <drag
-          class="col right-word2 q-ml-md"
+          class="right-word2 q-ml-md"
           :transfer-data="rightWords[i+25-1].word2">
           {{rightWords[i+25-1].word2}}
         </drag>
@@ -163,28 +163,48 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+  .rows-container {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .row-container {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    align-items: flex-start;
+  }
+
   .left-word1 {
     text-align: right;
+    width: 12vw;
   }
 
   .left-word2 {
     border: solid 1px #999;
     min-width: 50px;
-    height: 26px;
+    min-height: 26px;
     padding: 0 3px 0 3px;
+    width: 12vw;
+    background-color: white;
   }
 
   .right-word2 {
     border: solid 1px #999;
     min-width: 50px;
-    height: 26px;
+    min-height: 26px;
     cursor: pointer;
     text-align: center;
+    width: 12vw;
+    background-color: white;
   }
 
   .words-row {
-    height: 26px;
+    min-height: 26px;
     margin-bottom: 3px;
   }
 

@@ -1,17 +1,19 @@
 <template>
   <q-page class="page-container">
 
-    <div class="stepper-container">
+    <div v-show="stepperFullScreenVisible" class="stepper-container">
       <step-stepper-component :brief="showBrief" ></step-stepper-component>
     </div>
 
-    <section v-if="phase">
-      <div class="phase-text-containre">
-        <div v-html="phase.text"></div>
+    <section v-if="phase" class="phase-section">
+      <div v-if="briefVisible && phase.text" class="phase-text-container">
+        <q-icon name="error_outline" size="3rem" color="positive"/>
+        <div v-html="phase.text" class="phase-text-container__text"></div>
       </div>
 
       <time-progress
-        v-if="timer.active"
+        v-show="timer.active && progressVisible"
+        class="section-time-progress"
         :timer="timer">
       </time-progress>
 
@@ -33,13 +35,13 @@
     </section>
 
     <div class="page-footer">
-    <q-btn
-      class="button__next-phase"
-      v-if="showNextBtn"
-      label="Продолжить"
-      color="primary"
-      @click="doNextAction">
-    </q-btn>
+      <q-btn
+        class="button__next-phase"
+        v-if="showNextBtn"
+        label="Продолжить"
+        color="primary"
+        @click="doNextAction">
+      </q-btn>
     </div>
 
   </q-page>
@@ -137,6 +139,15 @@ export default {
       'getLessons',
       'getCue'
     ])
+  },
+
+  watch: {
+    '$q.fullscreen.isActive' (val) {
+      console.log(val ? 'In fullscreen now' : 'Exited fullscreen')
+      this.progressVisible = !val
+      this.briefVisible = !val
+      this.stepperFullScreenVisible = !val
+    }
   }
 
 }
@@ -144,8 +155,39 @@ export default {
 
 <style>
 
-  .phase-text-containre {
-    margin: 0.5rem;
+  /*.lesson-box {*/
+    /*height: 50vh;*/
+    /*width: 100%;*/
+    /*border: lightgray 1px solid;*/
+    /*overflow: hidden;*/
+
+    /*background-color: white;*/
+    /*box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, .2);*/
+
+    /*margin: 1rem 0 0 0;*/
+  /*}  */
+  .phase-text-container {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: left;
+    align-items: flex-start;
+
+    margin: 1rem;
+    border: lightgray 1px solid;
+    overflow: hidden;
+
+    background-color: white;
+    box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, .2);
+
+    padding: 2rem;
+
+    max-width: 75vw;
+
+  }
+
+  .phase-text-container__text {
+    max-width: 50vw;
+    margin-left: 1rem;
   }
 
   .button__next-phase {
@@ -171,5 +213,22 @@ export default {
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
+    margin-top: 1rem;
   }
+
+  .phase-section {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .section-time-progress {
+    width: 100%;
+  }
+
+  .component-container {
+    width: 100%;
+  }
+
 </style>

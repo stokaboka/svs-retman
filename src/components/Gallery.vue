@@ -32,11 +32,17 @@ let flags = {
   show: false,
   scale: false,
   hide: false
-};
+}
 
 export default {
-  name: "Gallery",
-  data() {
+  name: 'Gallery',
+  props: {
+    path: {
+      type: String,
+      required: true
+    }
+  },
+  data () {
     return {
       one: {
         ...flags
@@ -44,98 +50,98 @@ export default {
       two: {
         ...flags
       },
-      oneImageSrc: "",
-      twoImageSrc: "",
+      oneImageSrc: '',
+      twoImageSrc: '',
       images: [
-        "1.jpg",
-        "2.jpg",
-        "3.jpg",
-        "4.jpg",
-        "5.jpg",
-        "6.jpg",
-        "7.jpg",
-        "7.jpg",
-        "8.jpg",
-        "10.jpg",
-        "11.jpg",
-        "12.jpg",
-        "13.jpg",
-        "14.jpg",
-        "15.jpg",
-        "16.jpg",
-        "17.jpg",
-        "18.jpg",
-        "19.jpg",
-        "20.jpg"
+        '1.jpg',
+        '2.jpg',
+        '3.jpg',
+        '4.jpg',
+        '5.jpg',
+        '6.jpg',
+        '7.jpg',
+        '7.jpg',
+        '8.jpg',
+        '10.jpg',
+        '11.jpg',
+        '12.jpg',
+        '13.jpg',
+        '14.jpg',
+        '15.jpg',
+        '16.jpg',
+        '17.jpg',
+        '18.jpg',
+        '19.jpg',
+        '20.jpg'
       ],
       imageIndex: -1
-    };
+    }
   },
-  mounted() {
-    this.$refs.one.addEventListener("animationend", this.onOneAnimation, false);
-    this.$refs.two.addEventListener("animationend", this.onTwoAnimation, false);
+  mounted () {
+    this.$refs.one.addEventListener('animationend', this.onOneAnimation, false)
+    this.$refs.two.addEventListener('animationend', this.onTwoAnimation, false)
 
-    this.oneImageSrc = this.nextImage();
+    this.oneImageSrc = this.nextImage()
   },
   methods: {
     nextImage () {
-      this.imageIndex = ++this.imageIndex % this.images.length;
-      return `../assets/${this.images[this.imageIndex]}`;
+      this.imageIndex = ++this.imageIndex % this.images.length
+      return `${this.path}/${this.images[this.imageIndex]}`
     },
-    onOneLoaded() {
-      this.two.top = false;
+    onOneLoaded () {
+      this.two.top = false
       this.one = {
         ...flags,
         show: true,
         top: true
-      };
+      }
     },
-    onTwoLoaded() {
-      this.one.top = false;
+    onTwoLoaded () {
+      this.one.top = false
       this.two = {
         ...flags,
         show: true,
         top: true
-      };
+      }
     },
-    onOneAnimation(event) {
+    onOneAnimation (event) {
       switch (event.type) {
-        case "animationend":
+        case 'animationend':
           switch (event.animationName) {
-            case "motion":
+            case 'motion':
               this.one = {
                 ...flags,
                 top: true,
                 hide: true
-              };
-              this.twoImageSrc = this.nextImage();
-              break;
-            case "fadeout":
-              break;
+              }
+              this.twoImageSrc = this.nextImage()
+              break
+            case 'fadeout':
+              break
           }
-          break;
+          break
       }
     },
-    onTwoAnimation(event) {
+    onTwoAnimation (event) {
       switch (event.type) {
-        case "animationend":
+        case 'animationend':
           switch (event.animationName) {
-            case "motion":
+            case 'motion':
               this.two = {
                 ...flags,
                 top: true,
                 hide: true
-              };
-              this.oneImageSrc = this.nextImage();
-              break;
-            case "fadeout":
-              break;
+              }
+              this.oneImageSrc = this.nextImage()
+              break
+            case 'fadeout':
+              break
           }
-          break;
+          break
       }
     }
   }
-};
+}
 </script>
 
 <style>

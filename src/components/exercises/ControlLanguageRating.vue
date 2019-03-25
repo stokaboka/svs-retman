@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <div v-if="ready" class="row no-wrap words-row" v-for="i in dictionaryLength" :key="i">
+  <div class="rows-container">
+    <div v-if="ready" class="row-container words-row" v-for="i in dictionaryLength" :key="i">
 
-      <div class="col-2 left-word1">{{leftWords[i-1].word1}}</div>
+      <div class="left-word1">{{leftWords[i-1].word1}}</div>
 
-        <drop @drop="onDrop(i-1, ...arguments)" class="col-5 left-word2 q-ml-md">
+        <drop @drop="onDrop(i-1, ...arguments)" class="left-word2 q-ml-md">
           {{leftWords[i-1].word2}}
         </drop>
         <q-btn
@@ -17,7 +17,7 @@
         </q-btn>
 
       <drag
-        class="col-5 right-word2"
+        class="right-word2"
         :transfer-data="rightWords[i-1].word2">
         {{rightWords[i-1].word2}}
       </drag>
@@ -153,5 +153,47 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+  .rows-container {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .row-container {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .words-row {
+    min-height: 26px;
+    margin-bottom: 3px;
+  }
+
+  .left-word1 {
+    text-align: right;
+    width: 20vw;
+  }
+
+  .left-word2 {
+    border: solid 1px #999;
+    min-width: 50px;
+    min-height: 26px;
+    padding: 0 3px 0 3px;
+    width: 20vw;
+    background-color: white;
+  }
+
+  .right-word2 {
+    border: solid 1px #999;
+    min-width: 50px;
+    min-height: 26px;
+    cursor: pointer;
+    text-align: center;
+    width: 20vw;
+    background-color: white;
+  }
 </style>
