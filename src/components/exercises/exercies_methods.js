@@ -46,6 +46,9 @@ export default {
     },
 
     onInitLesson (value) {
+      if (value && value.lang) {
+        this.setLearningLang(value.lang)
+      }
       this.setDictionary([])
       this.getLessons({lang: this.learningLang})
     },
@@ -56,8 +59,21 @@ export default {
     },
 
     onLessonItemSelected (value) {
+      const idx = value.lesson - 1
+      if (!this.lesson[idx]) {
+        this.lesson[idx] = {
+          lang: '',
+          stages: [ [], [], [], [] ],
+          matches: [0, 0, 0, 0],
+          partials: [0, 0, 0, 0],
+          difference: [0, 0, 0, 0]
+        }
+      }
 
+      this.lesson[idx].lang = value.lang
+      this.lesson[idx].stages[value.stage - 1] = value.items
+
+      // console.log(this.lesson)
     }
-
   }
 }

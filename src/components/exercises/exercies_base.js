@@ -8,8 +8,9 @@ import TimerHelper from '../../lib/TimerHelper'
 export default {
   data () {
     return {
-      // startStep: 6,
-      startStep: 3,
+      startStep: 7,
+      // startStep: 5,
+      // startStep: 3,
       audio: new AudioHelper(this),
       timer: new TimerHelper(this),
       baseMethods: {
@@ -43,7 +44,9 @@ export default {
       AT: {
         before: 4,
         after: 4
-      }
+      },
+
+      lesson: [null, null, null, null]
     }
   },
 
@@ -72,6 +75,9 @@ export default {
     },
 
     showNextBtn () {
+      if (this.isLastStep) {
+        return false
+      }
       if (this.phase) {
         const out = mode === 'PRODUCTION' ? this.phase.next === 1 : true
         return out && !this.$q.fullscreen.isActive
@@ -80,7 +86,8 @@ export default {
     },
 
     video () {
-      return `${this.api}/video/BigBuckBunny.mp4`
+      // return `${this.api}/video/BigBuckBunny.mp4`
+      return ''
     }
   },
 

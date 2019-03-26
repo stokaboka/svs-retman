@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="gallery-container">
     <gallery class="gallery" path="/statics/assets"></gallery>
   </div>
 </template>
@@ -47,6 +47,15 @@ export default {
 </script>
 
 <style scoped>
+  .gallery-container {
+    margin: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
   .gallery {
     margin: 0;
     top: 0;

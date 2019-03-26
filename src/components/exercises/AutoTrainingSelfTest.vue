@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="at-self-container">
   <q-slider
     v-model="level"
     @input="onChangedInput"
@@ -44,5 +44,7 @@ export default {
 </script>
 
 <style scoped>
-
+.at-self-container {
+  width: 60vw;
+}
 </style>

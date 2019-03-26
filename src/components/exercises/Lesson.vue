@@ -39,7 +39,6 @@ let itemElementBotton = null
 let topLimit = 0
 let bottomLimit = 0
 let rowHeight = 0
-// offsetHeight
 
 export default {
   name: 'Lesson',
@@ -123,9 +122,11 @@ export default {
       .on('PROGRESS', this.audioHandler)
       .on('COMPLETE', this.audioHandler)
 
-    const data = null
     this.readyLesson = false
     this.readyDictionary = false
+
+    let data = process.env.NODE_ENV === 'production' ? null : {lang: 'FR'}
+    // const data = null
     this.$emit('exercies-action', {id: 'init-lesson', data})
   },
 
@@ -220,6 +221,7 @@ export default {
         this.playLesson()
       } else {
         console.log('THE END')
+        this.$emit('exercies-action', {id: 'do-next-action', data: null})
       }
     },
 
@@ -241,11 +243,17 @@ export default {
         this.items[this.indexLessonDictionary].selected = true
         this.refreshDictionary()
 
-        this.selectedLessonItems = this.items
+        const items = this.items
           .filter((elem) => { return elem.selected })
-          .map((elem, index) => { return index })
+          .map((elem, index) => { return elem.word1 })
 
-        this.$emit('exercies-action', {id: 'lesson-item-selected', data: this.selectedLessonItems})
+        const data = {
+          lesson: this.lesson.lesson,
+          lang: this.lesson.lang,
+          stage: this.lesson.stage,
+          items
+        }
+        this.$emit('exercies-action', {id: 'lesson-item-selected', data})
       }
     },
 
@@ -309,11 +317,13 @@ export default {
   .lesson {
     display: flex;
     flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
   }
 
   .lesson-box {
     height: 50vh;
-    width: 100%;
+    width: 75vw;
     border: lightgray 1px solid;
     overflow: hidden;
 

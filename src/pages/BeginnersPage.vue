@@ -63,6 +63,8 @@ import TwoColumnWordsWithMoveWords from '../components/exercises/TwoColumnWordsW
 import AutoTrainingSelfTest from '../components/exercises/AutoTrainingSelfTest'
 import AutoTraining from '../components/exercises/AutoTraining'
 
+import BeginnerFinalResult from '../components/exercises/BeginnerFinalResult'
+
 import Lesson from '../components/exercises/Lesson'
 
 import exerciesBase from '../components/exercises/exercies_base'
@@ -91,7 +93,8 @@ export default {
     SelfLexicalLearningLang,
     AutoTrainingSelfTest,
     AutoTraining,
-    Lesson
+    Lesson,
+    BeginnerFinalResult
   },
 
   computed: {
@@ -101,6 +104,7 @@ export default {
     ...mapGetters([
       'steps',
       'step',
+      'isLastStep',
       'phases',
       'phase',
       'dictionary',
@@ -155,17 +159,6 @@ export default {
 
 <style>
 
-  /*.lesson-box {*/
-    /*height: 50vh;*/
-    /*width: 100%;*/
-    /*border: lightgray 1px solid;*/
-    /*overflow: hidden;*/
-
-    /*background-color: white;*/
-    /*box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, .2);*/
-
-    /*margin: 1rem 0 0 0;*/
-  /*}  */
   .phase-text-container {
     display: flex;
     flex-flow: row nowrap;

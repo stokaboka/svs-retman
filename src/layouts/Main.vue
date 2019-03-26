@@ -10,7 +10,7 @@
         </q-toolbar-title>
 
         <q-tabs color="primary">
-          <q-route-tab slot="title" icon="view_quilt" to="/about" replace hide="icon" label="About" ></q-route-tab>
+          <q-route-tab slot="title" icon="help_outline" to="/about" replace hide="icon" label="About" ></q-route-tab>
           <user-log-in-out-button slot="title"></user-log-in-out-button>
         </q-tabs>
 

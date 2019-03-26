@@ -92,8 +92,12 @@ export default class AudioHelper {
     this.audio.addEventListener('pause', (e) => self.eventsHandler(e))
     this.audio.addEventListener('timeupdate', (e) => self.eventsHandler(e))
 
-    this.audio.play()
-    this.playing = true
+    try {
+      this.audio.play()
+      this.playing = true
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   play (sound) {

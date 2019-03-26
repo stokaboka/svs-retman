@@ -72,8 +72,8 @@ const nextPhase = ({ commit, state }) => {
 }
 
 const getDictionary = ({ commit, getters }, p) => {
-  console.log('getDictionary')
-  console.log(p)
+  // console.log('getDictionary')
+  // console.log(p)
   return axios.get(`${getters.api}/words/scope/${p.scope}/lang1/${p.lang1}/lang2/${p.lang2}`)
     .then(response => {
       let data = response.data.filter((elem, index) => {
@@ -92,8 +92,8 @@ const getDictionary = ({ commit, getters }, p) => {
 }
 
 const getLessons = ({ commit, getters }, p) => {
-  console.log('getLessons')
-  console.log(p)
+  // console.log('getLessons')
+  // console.log(p)
   return axios.get(`${getters.api}/ls/lang/${p.lang}`)
     .then(response => {
       commit('setLessons', response.data)
@@ -105,8 +105,8 @@ const getLessons = ({ commit, getters }, p) => {
 }
 
 const getCue = ({ commit, getters }, p) => {
-  console.log('getCue')
-  console.log(p)
+  // console.log('getCue')
+  // console.log(p)
   return axios.get(`${getters.api}/cue/file/${p.file}`)
     .then(response => {
       commit('setCue', response.data)

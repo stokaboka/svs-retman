@@ -26,6 +26,10 @@ const stepIndex = (state) => {
   return state.stepIndex
 }
 
+const isLastStep = (state) => {
+  return state.stepIndex === state.steps.length - 1
+}
+
 const phases = (state) => {
   return state.phases
 }
@@ -98,6 +102,7 @@ export {
   steps,
   step,
   stepIndex,
+  isLastStep,
   phases,
   phaseIndex,
   stages,

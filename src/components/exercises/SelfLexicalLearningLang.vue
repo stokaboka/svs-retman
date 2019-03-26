@@ -97,8 +97,7 @@ export default {
       this.refreshTestDictionary()
 
       this.checkedWordsPairs = this.testDictionary
-        .filter((elem) => { return elem.selected })
-        .map((elem, index) => { return index })
+        .filter(elem => elem.selected)
 
       this.$emit('exercies-action', {id: 'word-pair-checked', data: this.checkedWordsPairs})
     },
