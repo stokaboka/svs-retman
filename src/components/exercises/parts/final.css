@@ -34,6 +34,10 @@
   color: #333
 }
 
+.final-neutral {
+  color: mediumblue;
+}
+
 .final-negative {
   color: darkred;
 }
