@@ -2,39 +2,23 @@
   <q-layout view="lHh Lpr lFf">
     <q-layout-header v-if="headerVivible">
       <q-toolbar
-        color="primary">
+        color="white"
+        :text-color="color">
 
         <q-toolbar-title>
           {{title}}
           <version-label slot="subtitle"></version-label>
         </q-toolbar-title>
 
-        <q-tabs color="primary">
-          <q-route-tab slot="title" icon="help_outline" to="/about" replace hide="icon" label="About" ></q-route-tab>
-          <user-log-in-out-button slot="title"></user-log-in-out-button>
+        <q-tabs color="white">
+          <q-route-tab slot="title" :color="color" icon="help_outline" to="/about" replace hide="icon" label="About" ></q-route-tab>
+          <user-log-in-out-button :color="color" slot="title"></user-log-in-out-button>
         </q-tabs>
 
       </q-toolbar>
     </q-layout-header>
 
-    <q-layout-drawer
-      v-model="leftDrawerOpen"
-      :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null"
-    >
-      <q-list
-        no-border
-        link
-        inset-delimiter
-      >
-        <q-list-header>Essential Links</q-list-header>
-        <q-item @click.native="openURL('/about')">
-          <q-item-side icon="school" />
-          <q-item-main label="Информация" sublabel="quasar-framework.org" />
-        </q-item>
-      </q-list>
-    </q-layout-drawer>
-
-    <q-page-container>
+       <q-page-container>
       <router-view />
     </q-page-container>
   </q-layout>
@@ -58,6 +42,7 @@ export default {
   components: {UserLogInOutButton, VersionLabel},
   data () {
     return {
+      color: 'indigo-10',
       // leftDrawerOpen: this.$q.platform.is.desktop
       leftDrawerOpen: false,
       headerVivible: true

@@ -24,7 +24,7 @@ module.exports = function (ctx) {
       scopeHoisting: true,
       // vueRouterMode: 'history',
       // vueCompiler: true,
-      // gzip: true,
+      gzip: true,
       // analyze: true,
       // extractCSS: false,
       env: ctx.dev
@@ -56,7 +56,7 @@ module.exports = function (ctx) {
       components: [
         'QLayout',
         'QLayoutHeader',
-        'QLayoutDrawer',
+        // 'QLayoutDrawer',
         'QPageContainer',
         'QPage',
         'QToolbar',
@@ -69,12 +69,12 @@ module.exports = function (ctx) {
         'QItemMain',
         'QItemSide',
         'QTabs',
-        'QTab',
+        // 'QTab',
         'QRouteTab',
-        'QStepper',
-        'QStep',
+        // 'QStepper',
+        // 'QStep',
         'QSlider',
-        'QStepperNavigation',
+        // 'QStepperNavigation',
         'QProgress',
         'QCheckbox',
         'QSlideTransition',
@@ -85,7 +85,7 @@ module.exports = function (ctx) {
       ],
       // Quasar plugins
       plugins: [
-        'Notify',
+        // 'Notify',
         'AppFullscreen'
       ]
       // iconSet: ctx.theme.mat ? 'material-icons' : 'ionicons'

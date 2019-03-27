@@ -1,10 +1,10 @@
 {
   "name": "svs-retman",
   "version": "0.0.1",
-  "description": "A SVS Retmap Rpoject",
-  "productName": "svs-retman",
+  "description": "SVS: Testing Linguistic Abilities",
+  "productName": "svs-beginners",
   "cordovaId": "org.cordova.quasar.app",
-  "author": "igorkhorev <igorhorev@gmail.com>",
+  "author": "Igor Khorev <igorhorev@gmail.com>",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue src",

@@ -1,7 +1,7 @@
 <template>
   <div>
     <GlobalEvents @keyup.space.prevent="onPressSpace"></GlobalEvents>
-    <q-btn @click="play()"></q-btn>
+
     <div class="lesson">
       <div v-if="lesson" class="lesson-title">
         <div><span class="lesson-title__label">Урок:</span><span class="lesson-title__num">{{lesson.lesson}}</span></div>
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-
+// <q-btn @click="play()"></q-btn>
 import GlobalEvents from 'vue-global-events'
 import { scroll } from 'quasar'
 import LessonRow from './parts/LessonRow'

@@ -1,6 +1,5 @@
 
 const mode = process.env.MODE
-// const developmentTimeSeconds = 10
 
 import AudioHelper from '../../lib/AudioHelper'
 import TimerHelper from '../../lib/TimerHelper'
@@ -8,7 +7,7 @@ import TimerHelper from '../../lib/TimerHelper'
 export default {
   data () {
     return {
-      startStep: 8,
+      startStep: 0,
       // startStep: 7,
       // startStep: 5,
       // startStep: 3,
@@ -194,7 +193,7 @@ export default {
 
     playStep () {
       const self = this
-      console.log('playStep')
+      // console.log('playStep')
 
       this.checkedWordsPairs = []
       this.rememberedWordsPairs = []

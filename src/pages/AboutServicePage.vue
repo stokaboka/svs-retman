@@ -1,12 +1,10 @@
 <template>
   <q-page padding :style-fn="myTweak" class="shadow-6 page-container__layout">
     <div class="doc-container">
-      <div class="column justify-center">
-        <div class="col-auto">
-          <about-service-component ></about-service-component>
-        </div>
+      <div class="row justify-center items-center">
 
-        <div class="col col-md-4  justify-center">
+          <about-service-component ></about-service-component>
+
           <q-btn
             label="Старт !"
             color="primary"
@@ -14,7 +12,6 @@
             @click="onStartBtnClick"
             >
           </q-btn>
-        </div>
 
       </div>
     </div>

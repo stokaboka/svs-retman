@@ -69,22 +69,6 @@ const selfrating = {
 
 const lexical = {
   initResults: (context) => {
-    // const out = {
-    //   checked: context.checkedWordsPairs.length,
-    //   checkedWordsPairs: context.checkedWordsPairs,
-    //   rememberedWordsPairs: null,
-    //   remembered: 0
-    // }
-    //
-    // out.rememberedWordsPairs = []
-    //   .concat(context.rememberedWordsPairs1.map(elem => { return {word1: elem.word1, word2: elem.word2} }))
-    //   .concat(context.rememberedWordsPairs2.map(elem => { return {word1: elem.word1, word2: elem.word2} }))
-    //
-    // for (const checkedWordPair of context.checkedWordsPairs) {
-    //   out.remembered += findWW(context.rememberedWordsPairs1, checkedWordPair) ? 1 : 0
-    //   out.remembered += findWW(context.rememberedWordsPairs2, checkedWordPair) ? 1 : 0
-    // }
-    // return out
     const rememberedWordsPairs = []
       .concat(context.rememberedWordsPairs1.map(elem => { return {word1: elem.word1, word2: elem.word2} }))
       .concat(context.rememberedWordsPairs2.map(elem => { return {word1: elem.word1, word2: elem.word2} }))
@@ -172,16 +156,11 @@ const lesson = {
       resultText = resultText + `<br><p>Урок <strong>${l + 1}</strong>, язык обучения <strong>${result[l].lang}</strong></p>`
 
       for (let i = 0; i < 4; i++) {
-        // const phrases = result[l].stages[i]
-        //   .map(w => `<li>w</li>`)
-        //   .join('')
-
         const matches = `<strong>${result[l].matches[i]}</strong>`
         const partials = `<strong>${result[l].partials[i]}</strong>`
         const difference = `<strong>${result[l].difference[i]}</strong>`
 
         resultText = resultText + `<p>Проход ${i + 1}: совпадений полных <strong>${matches}</strong>, частичных - <strong>${partials}</strong>, без совпадений - <strong>${difference}</strong></p>`
-        // resultText = resultText + `<p>Отмечены фразы: <ul>${phrases}</ul></p><br/>`
       }
     }
     text = text.replace('{{LESSON_RESULT}}', resultText)
