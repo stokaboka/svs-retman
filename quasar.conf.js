@@ -24,7 +24,7 @@ module.exports = function (ctx) {
       scopeHoisting: true,
       // vueRouterMode: 'history',
       // vueCompiler: true,
-      gzip: true,
+      // gzip: true,
       // analyze: true,
       // extractCSS: false,
       env: ctx.dev
@@ -34,7 +34,8 @@ module.exports = function (ctx) {
         }
         : { // and on build (production):
           API: JSON.stringify(''),
-          MODE: JSON.stringify('PRODUCTION')
+          // MODE: JSON.stringify('PRODUCTION')
+          MODE: JSON.stringify('DEVELOPMENT')
         },
       extendWebpack (cfg) {
         cfg.module.rules.push({

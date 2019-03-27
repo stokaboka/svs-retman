@@ -19,7 +19,9 @@
     <p>После выполнения этих тестов, Тестируемый получает автоматическую интерпретацию результатов тестирования.</p>
     </div>
 
-    <img src="/statics/assets/icons_1082x972_new_02_small.png" class="col">
+    <div class="col">
+      <img src="/statics/assets/icons_1082x972_new_02_small.png" >
+    </div>
 
   </div>
 </template>

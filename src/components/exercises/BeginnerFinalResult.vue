@@ -125,14 +125,14 @@ export default {
     FinalEndLexical
   },
   props: {
-    results1: {
+    results: {
       type: Object,
       required: false
     }
   },
   data () {
     return {
-      results: {
+      resultsX: {
         'mnemonic': {
           'checked': 2,
           'checkedWordsPairs': [
