@@ -8,7 +8,8 @@ import TimerHelper from '../../lib/TimerHelper'
 export default {
   data () {
     return {
-      startStep: 7,
+      startStep: 8,
+      // startStep: 7,
       // startStep: 5,
       // startStep: 3,
       audio: new AudioHelper(this),
@@ -42,8 +43,14 @@ export default {
       },
 
       AT: {
-        before: 4,
-        after: 4
+        before: {
+          level: 4,
+          label: ''
+        },
+        after: {
+          level: 4,
+          label: ''
+        }
       },
 
       lesson: [null, null, null, null]

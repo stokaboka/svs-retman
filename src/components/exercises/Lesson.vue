@@ -1,6 +1,7 @@
 <template>
   <div>
     <GlobalEvents @keyup.space.prevent="onPressSpace"></GlobalEvents>
+    <q-btn @click="play()"></q-btn>
     <div class="lesson">
       <div v-if="lesson" class="lesson-title">
         <div><span class="lesson-title__label">Урок:</span><span class="lesson-title__num">{{lesson.lesson}}</span></div>
@@ -125,8 +126,8 @@ export default {
     this.readyLesson = false
     this.readyDictionary = false
 
-    let data = process.env.NODE_ENV === 'production' ? null : {lang: 'FR'}
-    // const data = null
+    // let data = process.env.NODE_ENV === 'production' ? null : {lang: 'FR'}
+    const data = null
     this.$emit('exercies-action', {id: 'init-lesson', data})
   },
 

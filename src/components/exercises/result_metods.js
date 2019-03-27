@@ -1,27 +1,8 @@
-import {testWordReducer, testLevelReducer, minKeysValues, reduce} from '../../lib/utils'
-
-function findWW (list, obj) {
-  let out = list.findIndex((elem) => {
-    return (elem.word1 === obj.word1 && elem.word2 === obj.word2)
-  })
-  return out >= 0
-}
+import {testWordReducer, testLevelReducer, minKeysValues, reduce, lexicalResult} from '../../lib/utils'
 
 const mnemonic = {
   initResults: (context) => {
-    const out = {
-      checked: context.checkedWordsPairs.length,
-      remembered: 0
-    }
-
-    for (let i = 0; i < context.checkedWordsPairs.length; i++) {
-      const checkedWordPair = context.dictionary[context.checkedWordsPairs[i] - 1]
-      const isRememberedProperly = context.rememberedWordsPairs.findIndex((elem) => {
-        return (elem.word1 === checkedWordPair.word1 && elem.word2 === checkedWordPair.word2)
-      })
-      out.remembered += isRememberedProperly >= 0 ? 1 : 0
-    }
-    return out
+    return lexicalResult(context.checkedWordsPairs, context.rememberedWordsPairs)
   },
 
   initRecomendation: (context, phase, result) => {
@@ -44,22 +25,36 @@ const selfrating = {
   initResults: (context) => {
     const out = {
       SelfRating: {
-        EN: reduce(context.SelfRating.EN, testLevelReducer, 0),
-        DE: reduce(context.SelfRating.DE, testLevelReducer, 0),
-        FR: reduce(context.SelfRating.FR, testLevelReducer, 0)
+        raw: {
+          EN: context.SelfRating.EN,
+          DE: context.SelfRating.DE,
+          FR: context.SelfRating.FR
+        },
+        reduced: {
+          EN: reduce(context.SelfRating.EN, testLevelReducer, 0, 'id'),
+          DE: reduce(context.SelfRating.DE, testLevelReducer, 0, 'id'),
+          FR: reduce(context.SelfRating.FR, testLevelReducer, 0, 'id')
+        }
       },
       ControlRating: {
-        EN: reduce(context.ControlRating.EN, testWordReducer, 0),
-        DE: reduce(context.ControlRating.DE, testWordReducer, 0),
-        FR: reduce(context.ControlRating.FR, testWordReducer, 0)
+        raw: {
+          EN: context.ControlRating.EN.filter(e => e.word2).map(e => { return {word1: e.word1, word2: e.word2, hide: e.hide} }),
+          DE: context.ControlRating.DE.filter(e => e.word2).map(e => { return {word1: e.word1, word2: e.word2, hide: e.hide} }),
+          FR: context.ControlRating.FR.filter(e => e.word2).map(e => { return {word1: e.word1, word2: e.word2, hide: e.hide} })
+        },
+        reduced: {
+          EN: reduce(context.ControlRating.EN, testWordReducer, 0),
+          DE: reduce(context.ControlRating.DE, testWordReducer, 0),
+          FR: reduce(context.ControlRating.FR, testWordReducer, 0)
+        }
       },
       langSelfRating: '',
       langControlRating: '',
       langResult: ''
     }
 
-    out.langSelfRating = minKeysValues(['EN', 'DE', 'FR'], out.SelfRating)
-    out.langControlRating = minKeysValues(['EN', 'DE', 'FR'], out.ControlRating)
+    out.langSelfRating = minKeysValues(['EN', 'DE', 'FR'], out.SelfRating.reduced)
+    out.langControlRating = minKeysValues(['EN', 'DE', 'FR'], out.ControlRating.reduced)
     out.langResult = out.langControlRating.value < out.langSelfRating.value ? out.langControlRating.lang : out.langSelfRating.lang
 
     return out
@@ -74,16 +69,26 @@ const selfrating = {
 
 const lexical = {
   initResults: (context) => {
-    const out = {
-      checked: context.checkedWordsPairs.length,
-      remembered: 0
-    }
-
-    for (const checkedWordPair of context.checkedWordsPairs) {
-      out.remembered += findWW(context.rememberedWordsPairs1, checkedWordPair) ? 1 : 0
-      out.remembered += findWW(context.rememberedWordsPairs2, checkedWordPair) ? 1 : 0
-    }
-    return out
+    // const out = {
+    //   checked: context.checkedWordsPairs.length,
+    //   checkedWordsPairs: context.checkedWordsPairs,
+    //   rememberedWordsPairs: null,
+    //   remembered: 0
+    // }
+    //
+    // out.rememberedWordsPairs = []
+    //   .concat(context.rememberedWordsPairs1.map(elem => { return {word1: elem.word1, word2: elem.word2} }))
+    //   .concat(context.rememberedWordsPairs2.map(elem => { return {word1: elem.word1, word2: elem.word2} }))
+    //
+    // for (const checkedWordPair of context.checkedWordsPairs) {
+    //   out.remembered += findWW(context.rememberedWordsPairs1, checkedWordPair) ? 1 : 0
+    //   out.remembered += findWW(context.rememberedWordsPairs2, checkedWordPair) ? 1 : 0
+    // }
+    // return out
+    const rememberedWordsPairs = []
+      .concat(context.rememberedWordsPairs1.map(elem => { return {word1: elem.word1, word2: elem.word2} }))
+      .concat(context.rememberedWordsPairs2.map(elem => { return {word1: elem.word1, word2: elem.word2} }))
+    return lexicalResult(context.checkedWordsPairs, rememberedWordsPairs)
   },
   initRecomendation: (context, phase, result) => {
     let text = phase.text
@@ -101,23 +106,23 @@ const atself = {
   initRecomendation: (context, phase, result) => {
     let text = phase.text
     let rec = ''
-    if (result.before < result.after) {
+    if (result.before.level < result.after.level) {
       rec = 'Аутотренинг улучшил Ваше настроение и самочувствие, '
-    } else if (result.before > result.after) {
+    } else if (result.before.level > result.after.level) {
       rec = 'После аутотренинга Ваше самочувствие ухудшилось и '
     } else {
       rec = 'Ваше настроение и самочувствие не изменились и '
     }
 
-    if (result.after < 4) {
+    if (result.after.level < 4) {
       rec = rec + 'мы рекомендуем повторить тестирование в другое время.'
     } else {
       rec = rec + 'Вы можете перейти к следующему уроку.'
     }
 
     text = text
-      .replace('{{AUTOSELFBEFORE}}', context.atLevels[result.before])
-      .replace('{{AUTOSELFAFTER}}', context.atLevels[result.after])
+      .replace('{{AUTOSELFBEFORE}}', result.before.label)
+      .replace('{{AUTOSELFAFTER}}', result.after.label)
       .replace('{{AUTOSELFRECOMENDATION}}', rec)
     return text
   }
@@ -187,16 +192,10 @@ const lesson = {
 
 const endlexical = {
   initResults: (context) => {
-    const out = {
-      checked: context.checkedWordsPairs.length,
-      remembered: 0
-    }
-
-    for (const checkedWordPair of context.checkedWordsPairs) {
-      out.remembered += findWW(context.rememberedWordsPairs1, checkedWordPair) ? 1 : 0
-      out.remembered += findWW(context.rememberedWordsPairs2, checkedWordPair) ? 1 : 0
-    }
-    return out
+    const rememberedWordsPairs = []
+      .concat(context.rememberedWordsPairs1.map(elem => { return {word1: elem.word1, word2: elem.word2} }))
+      .concat(context.rememberedWordsPairs2.map(elem => { return {word1: elem.word1, word2: elem.word2} }))
+    return lexicalResult(context.checkedWordsPairs, rememberedWordsPairs)
   },
   initRecomendation: (context, phase, result) => {
     let text = phase.text

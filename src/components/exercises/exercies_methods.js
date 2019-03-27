@@ -38,10 +38,14 @@ export default {
     },
 
     onChangedAtSelf (value) {
+      const obj = {
+        level: value,
+        label: this.atLevels[value]
+      }
       if (this.phase.phase === 1) {
-        this.AT.before = value
+        this.AT.before = obj
       } else {
-        this.AT.after = value
+        this.AT.after = obj
       }
     },
 

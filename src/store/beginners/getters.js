@@ -94,6 +94,14 @@ const cue = (state) => {
   return state.cue
 }
 
+const selfRatingColumns = (state) => {
+  return state.selfRatingColumns
+}
+
+const selfRatingLevels = (state) => {
+  return state.selfRatingLevels
+}
+
 export {
   title,
   api,
@@ -123,5 +131,8 @@ export {
 
   atLevels,
 
-  cue
+  cue,
+
+  selfRatingColumns,
+  selfRatingLevels
 }

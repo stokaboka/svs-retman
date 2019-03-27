@@ -28,6 +28,7 @@
         :video="video"
         :audio="audio"
         :timer="timer"
+        :results="results"
         ref="phaseComponent"
         @exercies-action="onExerciesAction"
       ></component>

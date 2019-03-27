@@ -64,7 +64,11 @@ export default {
   },
   methods: {
     wordPairChecked () {
-      this.$emit('exercies-action', {id: 'word-pair-checked', data: this.checkedWordsPairs})
+      const data = this.checkedWordsPairs.map(e => {
+        const d = this.dictionary[e - 1]
+        return {word1: d.word1, word2: d.word2}
+      })
+      this.$emit('exercies-action', {id: 'word-pair-checked', data})
     }
   }
 }

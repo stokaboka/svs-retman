@@ -1,0 +1,39 @@
+.final-container {
+  border: 1px solid lightgray;
+}
+
+.final-section {
+  margin: 1rem 0;
+}
+
+.final-row {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: baseline;
+}
+
+.final-num-label {
+  margin: 0.1rem 1rem;
+}
+
+.final-num-value {
+  margin-left: 1rem;
+}
+
+.final-table-header {
+  width: 100%;
+  border-bottom: 1px solid gray;
+}
+
+.final-table-row {
+  width: 100%;
+  border-bottom: 1px solid gray;
+}
+
+.final-positive {
+  color: #333
+}
+
+.final-negative {
+  color: darkred;
+}
