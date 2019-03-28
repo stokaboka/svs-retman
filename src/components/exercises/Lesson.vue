@@ -326,6 +326,7 @@ export default {
     height: 50vh;
     width: 75vw;
     border: lightgray 1px solid;
+    border-radius: 3px;
     overflow: hidden;
 
     background-color: white;

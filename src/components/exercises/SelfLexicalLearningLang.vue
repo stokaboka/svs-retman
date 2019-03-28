@@ -1,30 +1,34 @@
 <template>
-  <div class="rows-container">
+  <div class="rows-container" @touchend="onTouchEnd">
     <GlobalEvents @keyup.space.prevent="onPressSpace"></GlobalEvents>
 
       <div v-if="ready" class="row-container q-mt-xs" v-for="i in 25" :key="i">
 
         <div
           class="word q-ml-xs q-mr-xs q-pa-xs"
-          :class="testDictionary[i-1].class">
+          :class="testDictionary[i-1].class"
+        >
           {{testDictionary[i-1].word1}}
         </div>
 
         <div
           class="word q-ml-xs q-mr-xs q-pa-xs"
-          :class="testDictionary[i+25-1].class">
+          :class="testDictionary[i+25-1].class"
+        >
           {{testDictionary[i+25-1].word1}}
         </div>
 
         <div
           class="word q-ml-xs q-mr-xs q-pa-xs"
-          :class="testDictionary[i+50-1].class">
+          :class="testDictionary[i+50-1].class"
+        >
           {{testDictionary[i+50-1].word1}}
         </div>
 
         <div
           class="word q-ml-xs q-mr-xs q-pa-xs"
-          :class="testDictionary[i+75-1].class">
+          :class="testDictionary[i+75-1].class"
+        >
           {{testDictionary[i+75-1].word1}}
         </div>
 
@@ -90,6 +94,12 @@ export default {
           })
       })
       this.ready = this.testDictionary.length === 100
+    },
+
+    onTouchEnd (event) {
+      console.log('onTouchEnd')
+      event.stopPropagation()
+      this.onPressSpace()
     },
 
     onPressSpace () {

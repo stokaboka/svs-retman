@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 
 import beginners from './beginners'
 import user from './user'
+import auth from './auth'
 
 Vue.use(Vuex)
 
@@ -15,7 +16,8 @@ export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
       beginners,
-      user
+      user,
+      auth
     },
 
     strict: process.env.NODE_ENV !== 'production'

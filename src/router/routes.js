@@ -4,10 +4,17 @@ const routes = [
     path: '/',
     component: () => import('layouts/Main.vue'),
     children: [
-      // { path: '', component: () => import('pages/Index.vue') },
-      { path: '', component: () => import('pages/AboutServicePage.vue') },
-      { path: 'about', component: () => import('pages/AboutServicePage.vue') },
-      { path: 'beginners', name: 'beginners', component: () => import('pages/BeginnersPage.vue') }
+      { path: '', name: 'home', component: () => import('pages/AboutServicePage.vue') },
+      { path: 'about', name: 'about', component: () => import('pages/AboutServicePage.vue') },
+      { path: 'beginners', name: 'beginners', component: () => import('pages/BeginnersPage.vue') },
+      { path: 'auth',
+        name: 'auth',
+        component: () => import('pages/auth/Auth.vue'),
+        children: [
+          {path: 'signin', name: 'auth-signin', component: () => import('pages/auth/SignIn.vue')},
+          {path: 'register', name: 'auth-register', component: () => import('pages/auth/Register.vue')}
+        ]
+      }
     ]
   }
 ]

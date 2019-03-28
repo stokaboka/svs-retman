@@ -1,9 +1,16 @@
 <template>
-  <div class="gallery">
+  <div class="gallery"
+       :class="{
+        'gallery-width': gallerySizeBy === 'width',
+        'gallery-height': gallerySizeBy === 'height'
+      }"
+  >
     <img
       ref="one"
       class="gallery-image"
       :class="{
+        'gallery-image-width': gallerySizeBy === 'width',
+        'gallery-image-height': gallerySizeBy === 'height',
         'gallery-image__top': one.top,
         'show-animation': one.show,
         'hide-animation': one.hide
@@ -15,6 +22,8 @@
       ref="two"
       class="gallery-image"
       :class="{
+        'gallery-image-width': gallerySizeBy === 'width',
+        'gallery-image-height': gallerySizeBy === 'height',
         'gallery-image__top': two.top,
         'show-animation': two.show,
         'hide-animation': two.hide
@@ -40,6 +49,10 @@ export default {
     path: {
       type: String,
       required: true
+    },
+    images: {
+      type: Array,
+      required: true
     }
   },
   data () {
@@ -52,38 +65,30 @@ export default {
       },
       oneImageSrc: '',
       twoImageSrc: '',
-      images: [
-        '1.jpg',
-        '2.jpg',
-        '3.jpg',
-        '4.jpg',
-        '5.jpg',
-        '6.jpg',
-        '7.jpg',
-        '7.jpg',
-        '8.jpg',
-        '10.jpg',
-        '11.jpg',
-        '12.jpg',
-        '13.jpg',
-        '14.jpg',
-        '15.jpg',
-        '16.jpg',
-        '17.jpg',
-        '18.jpg',
-        '19.jpg',
-        '20.jpg'
-      ],
-      imageIndex: -1
+      imageIndex: -1,
+      gallerySizeBy: 'width'
     }
   },
   mounted () {
+    this.$nextTick(function () {
+      window.addEventListener('resize', this.onWindowResize)
+    })
+
+    this.onWindowResize()
+
     this.$refs.one.addEventListener('animationend', this.onOneAnimation, false)
     this.$refs.two.addEventListener('animationend', this.onTwoAnimation, false)
 
     this.oneImageSrc = this.nextImage()
   },
+  destroyed () {
+    window.removeEventListener('resize', this.onWindowResize)
+  },
   methods: {
+    onWindowResize () {
+      this.gallerySizeBy = window.innerWidth > window.innerHeight ? 'width' : 'height'
+      console.log(this.gallerySizeBy)
+    },
     nextImage () {
       this.imageIndex = ++this.imageIndex % this.images.length
       return `${this.path}/${this.images[this.imageIndex]}`
@@ -150,13 +155,31 @@ export default {
   overflow: hidden;
 }
 
+.gallery-width {
+  width: 100vw;
+  height: auto;
+}
+
+.gallery-height {
+  width: auto;
+  height: 100vh;
+}
+
 .gallery-image {
   position: absolute;
-  width: 100%;
-  height: auto;
   left: 0;
   top: 0;
   z-index: 0;
+}
+
+.gallery-image-width {
+  width: auto;
+  height: 114vh;
+}
+
+.gallery-image-height {
+  width: auto;
+  height: 114vh;
 }
 
 .gallery-image__top {

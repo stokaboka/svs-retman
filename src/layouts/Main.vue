@@ -10,17 +10,20 @@
           <version-label slot="subtitle"></version-label>
         </q-toolbar-title>
 
+        <span v-if="user">{{user.login}}</span>
+
         <q-tabs color="white">
-          <q-route-tab slot="title" :color="color" icon="help_outline" to="/about" replace hide="icon" label="About" ></q-route-tab>
+          <q-route-tab slot="title" :color="color" icon="home" to="/about" replace hide="icon" label="Home" ></q-route-tab>
           <user-log-in-out-button :color="color" slot="title"></user-log-in-out-button>
         </q-tabs>
 
       </q-toolbar>
     </q-layout-header>
 
-       <q-page-container>
+    <q-page-container>
       <router-view />
     </q-page-container>
+
   </q-layout>
 </template>
 
@@ -30,8 +33,7 @@
         :glossy="$q.theme === 'mat'"
         :inverted="$q.theme === 'ios'"
  */
-import {createNamespacedHelpers} from 'vuex'
-const { mapGetters } = createNamespacedHelpers('beginners')
+import { mapGetters } from 'vuex'
 
 import { openURL } from 'quasar'
 import VersionLabel from '../components/VersionLabel'
@@ -50,7 +52,8 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['title'])
+    ...mapGetters('beginners', ['title']),
+    ...mapGetters('auth', ['isLogged', 'user'])
   },
 
   methods: {

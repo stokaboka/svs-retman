@@ -11,8 +11,7 @@
 
 <script>
 
-import {createNamespacedHelpers} from 'vuex'
-const { mapGetters } = createNamespacedHelpers('user')
+import {mapGetters} from 'vuex'
 
 export default {
   name: 'UserLogInOutButton',
@@ -33,18 +32,19 @@ export default {
   computed: {
 
     userIcon () {
-      return this.loggedIn ? 'logout' : 'person'
+      return this.isLogged ? 'logout' : 'person'
     },
 
     userLabel () {
-      return this.loggedIn ? 'Logout' : 'Login'
+      return this.isLogged ? 'Logout' : 'Login'
     },
 
     userRoute () {
-      return this.loggedIn ? '/logout' : '/login'
+      return `/auth${this.isLogged ? '/logout' : '/signin'}`
     },
 
-    ...mapGetters(['user', 'loggedIn'])
+    // ...mapGetters('user', ['user', 'loggedIn']),
+    ...mapGetters('auth', ['isLogged', 'user'])
   }
 }
 </script>

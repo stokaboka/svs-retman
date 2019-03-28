@@ -20,7 +20,7 @@
     </div>
 
     <div class="col">
-      <img src="/statics/assets/icons_1082x972_new_02_small.png" >
+      <img src="/statics/assets/icons_1082x972_new_02_small.png">
     </div>
 
   </div>

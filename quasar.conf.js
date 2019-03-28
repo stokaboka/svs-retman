@@ -4,7 +4,8 @@ module.exports = function (ctx) {
   return {
     // app plugins (/src/plugins)
     plugins: [
-      'axios'
+      'axios',
+      'veevalidate'
     ],
     css: [
       'app.styl'
@@ -58,6 +59,7 @@ module.exports = function (ctx) {
         'QLayout',
         'QLayoutHeader',
         // 'QLayoutDrawer',
+        'QModal',
         'QPageContainer',
         'QPage',
         'QToolbar',
@@ -70,6 +72,8 @@ module.exports = function (ctx) {
         'QItemMain',
         'QItemSide',
         'QTabs',
+        'QInput',
+        'QField',
         // 'QTab',
         'QRouteTab',
         // 'QStepper',
@@ -82,11 +86,12 @@ module.exports = function (ctx) {
         'QCollapsible'
       ],
       directives: [
-        'Ripple'
+        'Ripple',
+        'CloseOverlay'
       ],
       // Quasar plugins
       plugins: [
-        // 'Notify',
+        'Notify',
         'AppFullscreen'
       ]
       // iconSet: ctx.theme.mat ? 'material-icons' : 'ionicons'
