@@ -1,3 +1,4 @@
+import store from '../store'
 
 const routes = [
   {
@@ -10,9 +11,18 @@ const routes = [
       { path: 'auth',
         name: 'auth',
         component: () => import('pages/auth/Auth.vue'),
+        async beforeEnter (to, from, next) {
+          if (to.name === 'auth-signout') {
+            await store.dispatch('auth/signout')
+            next({name: 'home'})
+          } else {
+            next()
+          }
+        },
         children: [
           {path: 'signin', name: 'auth-signin', component: () => import('pages/auth/SignIn.vue')},
-          {path: 'register', name: 'auth-register', component: () => import('pages/auth/Register.vue')}
+          {path: 'register', name: 'auth-register', component: () => import('pages/auth/Register.vue')},
+          {path: 'signout', name: 'auth-signout'}
         ]
       }
     ]

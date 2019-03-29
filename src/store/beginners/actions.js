@@ -105,8 +105,6 @@ const getLessons = ({ commit, getters }, p) => {
 }
 
 const getCue = ({ commit, getters }, p) => {
-  // console.log('getCue')
-  // console.log(p)
   return axios.get(`${getters.api}/cue/file/${p.file}`)
     .then(response => {
       commit('setCue', response.data)
@@ -114,6 +112,43 @@ const getCue = ({ commit, getters }, p) => {
     })
     .catch(error => {
       commit('setCue', [])
+      commit('setError', error)
+    })
+}
+
+const saveResult = ({ commit, getters, rootGetters }, p) => {
+  if (rootGetters['auth/isLogged']) {
+    const user = rootGetters['auth/user']
+    const results = JSON.stringify(getters.results)
+    const data = {
+      user: user.login,
+      results,
+      date: new Date()
+    }
+
+    return axios.post(`${getters.api}/user/results`, data)
+      .then(response => {
+        commit('setResult', 'OK')
+        return true
+      })
+      .catch(error => {
+        commit('setError', error)
+        return false
+      })
+  } else {
+    return false
+  }
+}
+
+// TODO load results table
+const loadResult = ({ commit, getters, rootGetters }, p) => {
+  const user = rootGetters['auth/user']
+  return axios.get(`${getters.api}/user/results/${user.login}`)
+    .then(response => {
+      commit('setResults', response.data)
+      commit('setResult', 'OK')
+    })
+    .catch(error => {
       commit('setError', error)
     })
 }
@@ -140,6 +175,8 @@ export {
   getDictionary,
   getLessons,
 
-  getCue
+  getCue,
+  saveResult,
+  loadResult
   // getMnemonicRecommendation
 }

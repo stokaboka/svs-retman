@@ -36,11 +36,11 @@ export default {
     },
 
     userLabel () {
-      return this.isLogged ? 'Logout' : 'Login'
+      return this.isLogged ? 'Выход' : 'Войти'
     },
 
     userRoute () {
-      return `/auth${this.isLogged ? '/logout' : '/signin'}`
+      return `/auth${this.isLogged ? '/signout' : '/signin'}`
     },
 
     // ...mapGetters('user', ['user', 'loggedIn']),

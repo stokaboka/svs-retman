@@ -1,7 +1,7 @@
 <template>
   <q-page padding :style-fn="myTweak" class="shadow-6 page-container__layout">
     <div class="doc-container">
-      <div class="row justify-center items-center">
+      <div class="column justify-center items-center">
 
           <about-service-component ></about-service-component>
 
@@ -13,6 +13,21 @@
             >
           </q-btn>
 
+        <q-card v-if="!isLogged" class="about-info-card">
+          <q-card-title>
+            Вас сегодня не узнать!
+          </q-card-title>
+          <q-card-main>
+            <p>Вы можете пройти тест анонимно, но результаты теста и рекомендации останутся Вам незвестны.</p>
+            <p class="">Чтобы получить рекомендации по результатам теста <router-link :to="{name: 'auth-signin'}">войдите</router-link> или <router-link :to="{name: 'auth-register'}">зарегистрируйтесь</router-link>.</p>
+          </q-card-main>
+          <q-card-separator />
+          <q-card-actions>
+            <q-btn label="Войти" color="primary" @click="$router.push({name: 'auth-signin'})"/>
+            <q-btn label="Зарегистрироваться" color="secondary" @click="$router.push({name: 'auth-register'})"/>
+          </q-card-actions>
+        </q-card>
+
       </div>
     </div>
   </q-page>
@@ -20,10 +35,8 @@
 
 <script>
 // to="/beginners"
-import {createNamespacedHelpers} from 'vuex'
 import AboutServiceComponent from '../components/AboutServiceComponent'
-
-const { mapState, mapActions } = createNamespacedHelpers('beginners')
+import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {AboutServiceComponent},
@@ -31,7 +44,8 @@ export default {
   name: 'AboutServicePage',
 
   computed: {
-    ...mapState([ 'error' ])
+    ...mapState('beginners', [ 'error' ]),
+    ...mapGetters('auth', ['isLogged', 'user'])
   },
 
   methods: {
@@ -50,14 +64,14 @@ export default {
       return { minHeight: offset ? `calc(100vh - ${offset}px)` : '100vh' }
     },
 
-    ...mapActions(['resetSteps'])
+    ...mapActions('beginners', ['resetSteps'])
   }
 }
 </script>
 
 <style>
-  .page-container__layout {
-    background-color: white;
-  }
-
+.about-info-card {
+  width: 40vw;
+  margin-top: 3rem;
+}
 </style>

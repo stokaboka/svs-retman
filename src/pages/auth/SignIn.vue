@@ -1,38 +1,48 @@
 <template>
   <div class="auth-login-container">
-    <q-icon name="person" size="5rem" color="secondary" class="auth-login-icon"></q-icon>
+    <q-icon name="person_outline" size="5rem" color="secondary" class="auth-login-icon"></q-icon>
     <span class="auth-login-subtitle">Для входа введите имя пользователя и пароль</span>
 
     <q-field
-      :error="!!veeerrors.first('Логин')"
-      :error-label="veeerrors.first('Логин')"
+      class="auth-input"
+      icon="person_outline"
+      icon-color="primary"
+      :error="$v.form.login.$error"
+      :error-label="loginErrorLabel"
     >
       <q-input
-        class="auth-input"
-        v-model="login"
-        name="Логин"
-        v-validate="'required'"
+        v-model="form.login"
+        name="login"
+        @blur="$v.form.login.$touch"
+        @keyup.enter="submit"
+        :error="$v.form.login.$error"
         float-label="Имя пользователя">
       </q-input>
     </q-field>
 
     <q-field
-      :error="!!veeerrors.first('Пароль')"
-      :error-label="veeerrors.first('Пароль')"
+      class="auth-input"
+      icon="vpn_key"
+      icon-color="primary"
+      count
+      :error="$v.form.password.$error"
+      :error-label="passwordErrorLabel"
     >
       <q-input
-        class="auth-input"
-        v-model="password"
-        name="Пароль"
-        v-validate="'required|min:6'"
+        icon="lock"
+        v-model="form.password"
+        name="password"
+        @blur="$v.form.password.$touch"
+        @keyup.enter="submit"
+        :error="$v.form.password.$error"
         type="password"
         float-label="Пароль" >
       </q-input>
     </q-field>
 
     <div class="auth-login-buttons">
-      <q-btn @click="onReg" color="primary" class=" auth-btn_reg">Регистрация</q-btn>
-      <q-btn @click="onLogin" color="primary" class=" auth-btn">Логин</q-btn>
+      <q-btn @click="onRegistration" color="primary" class=" auth-btn_reg">Регистрация</q-btn>
+      <q-btn @click="submit" color="primary" class=" submit auth-btn" :disabled="$v.form.$error">Логин</q-btn>
       <q-btn @click="onCancel" class="auth-btn">Отмена</q-btn>
     </div>
   </div>
@@ -41,30 +51,74 @@
 <script>
 
 import { mapState, mapGetters, mapActions } from 'vuex'
+import { required, alphaNum, minLength, maxLength } from 'vuelidate/lib/validators'
 
 export default {
   name: 'SignIn',
   data () {
     return {
-      login: '',
-      password: ''
+      form: {
+        login: '',
+        password: ''
+      }
+    }
+  },
+
+  validations: {
+    form: {
+      login: {
+        required,
+        alphaNum,
+        minLength: minLength(4),
+        maxLength: maxLength(30)
+      },
+      password: {
+        required,
+        minLength: minLength(6),
+        maxLength: maxLength(15)
+      }
     }
   },
 
   computed: {
+
+    loginErrorLabel () {
+      if (this.$v.form.password.$error) {
+        if (!this.$v.form.login.required) return 'Имя пользователя должно быть заполнено'
+        if (!this.$v.form.login.alphaNum) return 'Имя пользователя должно содержать буквы и цифры'
+        if (!this.$v.form.login.minLength) return `Имя пользователя не менее ${this.$v.form.login.$params.minLength.min} символов`
+        if (!this.$v.form.login.maxLength) return `Имя пользователя не более ${this.$v.form.login.$params.maxLength.max} символов`
+      }
+      return ''
+    },
+    passwordErrorLabel () {
+      if (this.$v.form.password.$error) {
+        if (!this.$v.form.password.required) return 'Пароль быть заполнен'
+        if (!this.$v.form.password.minLength) return `Длина пароля не менее ${this.$v.form.password.$params.minLength.min} символов. Введено ${this.$v.form.password.$model.length}.`
+        if (!this.$v.form.password.maxLength) return `Длина пароля не более ${this.$v.form.password.$params.maxLength.max} символов. Введено ${this.$v.form.password.$model.length}.`
+      }
+      return ''
+    },
     ...mapState('beginners', [ 'error' ]),
     ...mapGetters('auth', ['isLogged', 'user'])
   },
 
   methods: {
-    onReg () {
+    onRegistration () {
       this.$router.push({name: 'auth-register'})
     },
     onCancel () {
       this.$router.push({name: 'home'})
     },
-    async onLogin () {
-      const {login, password} = this
+    async submit () {
+      this.$v.form.$touch()
+
+      if (this.$v.form.$error) {
+        this.$q.notify({message: 'Пожалуйста, заполните все поля.', type: 'warning'})
+        return
+      }
+
+      const {login, password} = this.form
       await this.signin({login, password})
 
       if (this.isLogged) {
@@ -78,7 +132,7 @@ export default {
 
 <style scoped>
   .auth-input {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
   }
 
   .auth-btn {

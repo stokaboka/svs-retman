@@ -5,7 +5,7 @@ module.exports = function (ctx) {
     // app plugins (/src/plugins)
     plugins: [
       'axios',
-      'veevalidate'
+      'vuelidate'
     ],
     css: [
       'app.styl'
@@ -74,6 +74,7 @@ module.exports = function (ctx) {
         'QTabs',
         'QInput',
         'QField',
+        'QDatetime',
         // 'QTab',
         'QRouteTab',
         // 'QStepper',
@@ -83,7 +84,13 @@ module.exports = function (ctx) {
         'QProgress',
         'QCheckbox',
         'QSlideTransition',
-        'QCollapsible'
+        'QCollapsible',
+        'QCard',
+        'QCardTitle',
+        'QCardMain',
+        'QCardMedia',
+        'QCardSeparator',
+        'QCardActions'
       ],
       directives: [
         'Ripple',

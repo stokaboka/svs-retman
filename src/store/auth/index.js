@@ -6,13 +6,12 @@ const state = {
 }
 
 const getters = {
-  isLogged: s => !!s.user,
+  isLogged: s => s.user && s.user.login,
   user: s => s.user
 }
 
 const mutations = {
   SET_USER (state, playload = null) {
-    let result = true
     if (playload) {
       if (Array.isArray(playload) && playload.length > 0) {
         state.user = playload[0]
@@ -20,18 +19,25 @@ const mutations = {
         state.user = playload
       }
     } else {
-      result = false
+      state.user = null
     }
 
-    if (result && state.user) {
-      Notify.create({
-        message: `Выполнен вход: ${state.user.login}`,
-        type: 'positive'
-      })
+    if (state.user) {
+      if (state.user.login) {
+        Notify.create({
+          message: `Выполнен вход: ${state.user.login}`,
+          type: 'positive'
+        })
+      } else {
+        Notify.create({
+          message: 'Пользователь не найдет или неверный пароль',
+          type: 'warning'
+        })
+      }
     } else {
       Notify.create({
-        message: 'Пользователь не найдет или неверный пароль',
-        type: 'warning'
+        message: `Выполнен выход`,
+        type: 'positive'
       })
     }
   }
@@ -40,7 +46,6 @@ const mutations = {
 
 const actions = {
   signin ({ commit, rootGetters }, playload) {
-    console.log(playload)
     return axios.post(`${rootGetters['beginners/api']}/login`, playload)
       .then(response => {
         commit('SET_USER', response.data)
@@ -54,8 +59,8 @@ const actions = {
       })
   },
 
-  signout ({ commit, rootGetters }, playload) {
-    return axios.post(`${rootGetters['beginners/api']}/logout`, playload)
+  signout ({ commit, rootGetters }) {
+    return axios.post(`${rootGetters['beginners/api']}/logout`)
       .then(response => {
         commit('SET_USER', null)
       })

@@ -13,7 +13,7 @@
         <span v-if="user">{{user.login}}</span>
 
         <q-tabs color="white">
-          <q-route-tab slot="title" :color="color" icon="home" to="/about" replace hide="icon" label="Home" ></q-route-tab>
+          <q-route-tab slot="title" :color="color" icon="home" to="/about" replace hide="icon" label="Главная" ></q-route-tab>
           <user-log-in-out-button :color="color" slot="title"></user-log-in-out-button>
         </q-tabs>
 

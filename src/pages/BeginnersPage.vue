@@ -51,7 +51,7 @@
 <script>
 // <span>{{phase.title}}</span>
 // <span v-else>{{step.title}}</span>
-import {createNamespacedHelpers} from 'vuex'
+// import {createNamespacedHelpers} from 'vuex'
 import StepStepperComponent from '../components/StepStepperComponent'
 import SoundTest from '../components/exercises/SoundTest'
 
@@ -74,7 +74,8 @@ import exerciesMethods from '../components/exercises/exercies_methods'
 
 import TimeProgress from '../components/TimeProgress'
 
-const { mapState, mapGetters, mapMutations, mapActions } = createNamespacedHelpers('beginners')
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+// const { mapState, mapGetters, mapMutations, mapActions } = createNamespacedHelpers('beginners')
 
 export default {
   name: 'BeginnersPage',
@@ -102,7 +103,8 @@ export default {
     showBrief () {
       return !this.phase.component
     },
-    ...mapGetters([
+    ...mapGetters('auth', ['isLogged', 'user']),
+    ...mapGetters('beginners', [
       'steps',
       'step',
       'isLastStep',
@@ -120,18 +122,18 @@ export default {
       'atLevels',
       'cue'
     ]),
-    ...mapState([ 'api', 'sound', 'error' ])
+    ...mapState('beginners', [ 'api', 'sound', 'error' ])
   },
 
   methods: {
-    ...mapMutations([
+    ...mapMutations('beginners', [
       'setPhraseText',
       'setStepperVisible',
       'setLearningLang',
       'setResults',
       'setDictionary'
     ]),
-    ...mapActions([
+    ...mapActions('beginners', [
       'getSteps',
       'resetSteps',
       'nextStep',
@@ -142,13 +144,14 @@ export default {
       'gotoStep',
       'getDictionary',
       'getLessons',
-      'getCue'
+      'getCue',
+      'saveResult'
     ])
   },
 
   watch: {
     '$q.fullscreen.isActive' (val) {
-      console.log(val ? 'In fullscreen now' : 'Exited fullscreen')
+      // console.log(val ? 'In fullscreen now' : 'Exited fullscreen')
       this.progressVisible = !val
       this.briefVisible = !val
       this.stepperFullScreenVisible = !val

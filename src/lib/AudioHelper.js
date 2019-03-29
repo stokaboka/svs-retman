@@ -75,12 +75,6 @@ export default class AudioHelper {
   _play (sound) {
     const self = this
     if (this.audio) {
-      this.audio.removeEventListener('ended', (e) => self.eventsHandler(e))
-      this.audio.removeEventListener('play', (e) => self.eventsHandler(e))
-      this.audio.removeEventListener('playing', (e) => self.eventsHandler(e))
-      this.audio.removeEventListener('pause', (e) => self.eventsHandler(e))
-      this.audio.removeEventListener('timeupdate', (e) => self.eventsHandler(e))
-
       this.audio.pause()
       this.audio = null
     }
@@ -115,6 +109,11 @@ export default class AudioHelper {
 
   pause () {
     if (this.audio) {
+      this.audio.removeEventListener('ended', (e) => self.eventsHandler(e))
+      this.audio.removeEventListener('play', (e) => self.eventsHandler(e))
+      this.audio.removeEventListener('playing', (e) => self.eventsHandler(e))
+      this.audio.removeEventListener('pause', (e) => self.eventsHandler(e))
+      this.audio.removeEventListener('timeupdate', (e) => self.eventsHandler(e))
       this.audio.pause()
       this.playing = false
     }

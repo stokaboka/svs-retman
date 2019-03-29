@@ -81,7 +81,7 @@ export default {
 
     this.oneImageSrc = this.nextImage()
   },
-  destroyed () {
+  beforeDestroy () {
     window.removeEventListener('resize', this.onWindowResize)
   },
   methods: {

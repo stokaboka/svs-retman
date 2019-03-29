@@ -5,6 +5,10 @@ import AudioHelper from '../../lib/AudioHelper'
 import TimerHelper from '../../lib/TimerHelper'
 
 export default {
+  beforeDestroy () {
+    this.audio.pause()
+    this.audio = null
+  },
   data () {
     return {
       startStep: 0,
@@ -227,7 +231,27 @@ export default {
 
     testComplete () {
       console.log('testComplete')
-    }
+    },
 
+    async save () {
+      if (this.isLogged) {
+        const result = await this.saveResult()
+        if (result) {
+          this.$q.notify({message: 'Результы теста успешно сохранены.', type: 'info'})
+        } else {
+          this.$q.notify({message: 'Результы теста не удалось сохранить.', type: 'negative'})
+        }
+      } else {
+        this.$q.notify({message: 'Вы не выполнили вход. Результаты теста не будут сохранены.', type: 'info'})
+      }
+    }
+  },
+
+  watch: {
+    isLastStep (val) {
+      if (val) {
+        this.save()
+      }
+    }
   }
 }
