@@ -13,7 +13,7 @@ export default {
     return {
       startStep: 0,
       // startStep: 7,
-      // startStep: 5,
+      // startStep: 5, // AT
       // startStep: 3,
       audio: new AudioHelper(this),
       timer: new TimerHelper(this),

@@ -35,7 +35,7 @@
 
 <script>
 // to="/beginners"
-import AboutServiceComponent from '../components/AboutServiceComponent'
+import AboutServiceComponent from '../../components/AboutServiceComponent'
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {

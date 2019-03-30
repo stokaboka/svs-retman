@@ -80,6 +80,9 @@ export default {
   methods: {
 
     onDrop (index, data, event) {
+      if (this.leftWords[index].word2) {
+        this.onRemoveWordFromLeft(this.leftWords[index].word2)
+      }
       const wrd2 = Object.assign({}, this.leftWords[index], {word2: data})
       this.$set(this.leftWords, index, wrd2)
       this.hideWordOnLeft(data)

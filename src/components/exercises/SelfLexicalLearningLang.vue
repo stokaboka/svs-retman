@@ -97,7 +97,7 @@ export default {
     },
 
     onTouchEnd (event) {
-      console.log('onTouchEnd')
+      // console.log('onTouchEnd')
       event.stopPropagation()
       this.onPressSpace()
     },

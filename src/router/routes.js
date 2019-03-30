@@ -5,9 +5,9 @@ const routes = [
     path: '/',
     component: () => import('layouts/Main.vue'),
     children: [
-      { path: '', name: 'home', component: () => import('pages/AboutServicePage.vue') },
-      { path: 'about', name: 'about', component: () => import('pages/AboutServicePage.vue') },
-      { path: 'beginners', name: 'beginners', component: () => import('pages/BeginnersPage.vue') },
+      { path: '', name: 'home', component: () => import('pages/about/AboutServicePage.vue') },
+      { path: 'about', name: 'about', component: () => import('pages/about/AboutServicePage.vue') },
+      { path: 'beginners', name: 'beginners', component: () => import('pages/beginners/BeginnersPage.vue') },
       { path: 'auth',
         name: 'auth',
         component: () => import('pages/auth/Auth.vue'),

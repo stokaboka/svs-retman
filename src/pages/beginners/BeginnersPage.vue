@@ -52,30 +52,29 @@
 // <span>{{phase.title}}</span>
 // <span v-else>{{step.title}}</span>
 // import {createNamespacedHelpers} from 'vuex'
-import StepStepperComponent from '../components/StepStepperComponent'
-import SoundTest from '../components/exercises/SoundTest'
+import StepStepperComponent from '../../components/StepStepperComponent'
+import SoundTest from '../../components/exercises/SoundTest'
 
-import SelfLanguageRating from '../components/exercises/SelfLanguageRating'
-import ControlLanguageRating from '../components/exercises/ControlLanguageRating'
-import SelfLexicalLearningLang from '../components/exercises/SelfLexicalLearningLang'
-import TwoColumnWordsWithCheckBox from '../components/exercises/TwoColumnWordsWithCheckBox'
-import TwoColumnWordsWithMoveWords from '../components/exercises/TwoColumnWordsWithMoveWords'
+import SelfLanguageRating from '../../components/exercises/SelfLanguageRating'
+import ControlLanguageRating from '../../components/exercises/ControlLanguageRating'
+import SelfLexicalLearningLang from '../../components/exercises/SelfLexicalLearningLang'
+import TwoColumnWordsWithCheckBox from '../../components/exercises/TwoColumnWordsWithCheckBox'
+import TwoColumnWordsWithMoveWords from '../../components/exercises/TwoColumnWordsWithMoveWords'
 
-import AutoTrainingSelfTest from '../components/exercises/AutoTrainingSelfTest'
-import AutoTraining from '../components/exercises/AutoTraining'
+import AutoTrainingSelfTest from '../../components/exercises/AutoTrainingSelfTest'
+import AutoTraining from '../../components/exercises/AutoTraining'
 
-import BeginnerFinalResult from '../components/exercises/BeginnerFinalResult'
+import BeginnerFinalResult from '../../components/exercises/BeginnerFinalResult'
 
-import Lesson from '../components/exercises/Lesson'
+import Lesson from '../../components/exercises/Lesson'
 
-import exerciesBase from '../components/exercises/exercies_base'
-import resultMetods from '../components/exercises/result_metods'
-import exerciesMethods from '../components/exercises/exercies_methods'
+import exerciesBase from './exercies_base'
+import resultMetods from './result_metods'
+import exerciesMethods from './exercies_methods'
 
-import TimeProgress from '../components/TimeProgress'
+import TimeProgress from '../../components/TimeProgress'
 
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
-// const { mapState, mapGetters, mapMutations, mapActions } = createNamespacedHelpers('beginners')
 
 export default {
   name: 'BeginnersPage',

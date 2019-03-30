@@ -8,7 +8,7 @@
         <div><span class="lesson-title__label">Проход:</span><span class="lesson-title__num">{{lesson.stage}}</span></div>
         <div><span class="lesson-title__label">Задание:</span><span class="lesson-title__title" v-html="lesson.title"></span></div>
       </div>
-      <div class="lesson-box" ref="lessonBox">
+      <div class="lesson-box" ref="lessonBox" @touchend="onTouchEnd">
         <lesson-row v-for="(item) in items"
                     :key="item.id"
                     class="lesson-row"
@@ -237,6 +237,12 @@ export default {
         this.scrollToElement(itemElementFirst.$el, true)
       }
       this.audio.mode('ONCE').play(this.lesson.sound)
+    },
+
+    onTouchEnd (event) {
+      // console.log('onTouchEnd')
+      event.stopPropagation()
+      this.onPressSpace()
     },
 
     onPressSpace () {
