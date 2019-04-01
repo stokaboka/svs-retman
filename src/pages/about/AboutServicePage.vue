@@ -1,50 +1,40 @@
 <template>
-  <q-page padding :style-fn="myTweak" class="shadow-6 page-container__layout">
-    <div class="doc-container">
-      <div class="column justify-center items-center">
+  <q-page :style-fn="myTweak" class="column about-service-container">
 
-          <about-service-component ></about-service-component>
+    <transition
+      appear
+      enter-active-class="animated fadeIn"
+      leave-active-class="animated fadeOut"
+    >
+      <offer-to-enter-or-register v-if="!isLogged"/>
+    </transition>
 
-          <q-btn
-            label="Старт !"
-            color="primary"
-            size="xl"
-            @click="onStartBtnClick"
-            >
-          </q-btn>
+    <about-service-component></about-service-component>
 
-        <q-card v-if="!isLogged" class="about-info-card">
-          <q-card-title>
-            Вас сегодня не узнать!
-          </q-card-title>
-          <q-card-main>
-            <p>Вы можете пройти тест анонимно, но результаты теста и рекомендации останутся Вам незвестны.</p>
-            <p class="">Чтобы получить рекомендации по результатам теста <router-link :to="{name: 'auth-signin'}">войдите</router-link> или <router-link :to="{name: 'auth-register'}">зарегистрируйтесь</router-link>.</p>
-          </q-card-main>
-          <q-card-separator />
-          <q-card-actions>
-            <q-btn label="Войти" color="primary" @click="$router.push({name: 'auth-signin'})"/>
-            <q-btn label="Зарегистрироваться" color="secondary" @click="$router.push({name: 'auth-register'})"/>
-          </q-card-actions>
-        </q-card>
+    <q-btn
+      label="Начать тестирование"
+      color="primary"
+      size="xl"
+      @click="onStartBtnClick"
+    >
+    </q-btn>
 
-      </div>
-    </div>
   </q-page>
 </template>
 
 <script>
 // to="/beginners"
-import AboutServiceComponent from '../../components/AboutServiceComponent'
-import { mapState, mapGetters, mapActions } from 'vuex'
+import AboutServiceComponent from '../../components/about/AboutServiceComponent'
+import {mapState, mapGetters, mapActions} from 'vuex'
+import OfferToEnterOrRegister from '../../components/about/OfferToEnterOrRegister'
 
 export default {
-  components: {AboutServiceComponent},
+  components: {OfferToEnterOrRegister, AboutServiceComponent},
 
   name: 'AboutServicePage',
 
   computed: {
-    ...mapState('beginners', [ 'error' ]),
+    ...mapState('beginners', ['error']),
     ...mapGetters('auth', ['isLogged', 'user'])
   },
 
@@ -61,7 +51,7 @@ export default {
 
       // this is actually what the default style-fn does in Quasar
       // offset = offset + 30 * 2
-      return { minHeight: offset ? `calc(100vh - ${offset}px)` : '100vh' }
+      return {minHeight: offset ? `calc(100vh - ${offset}px)` : '100vh'}
     },
 
     ...mapActions('beginners', ['resetSteps'])
@@ -70,8 +60,10 @@ export default {
 </script>
 
 <style>
-.about-info-card {
-  width: 40vw;
-  margin-top: 3rem;
+.about-service-container {
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 </style>

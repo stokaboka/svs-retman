@@ -1,5 +1,5 @@
 <template>
-  <q-page class="page-container">
+  <q-page class="container page-container">
 
     <div v-show="stepperFullScreenVisible" class="stepper-container">
       <step-stepper-component :brief="showBrief" ></step-stepper-component>
@@ -7,7 +7,7 @@
 
     <section v-if="phase" class="phase-section">
       <div v-if="briefVisible && phase.text" class="phase-text-container">
-        <q-icon name="error_outline" size="3rem" color="positive"/>
+        <q-icon :name="phaseIcon" size="3rem" color="positive"/>
         <div v-html="phase.text" class="phase-text-container__text"></div>
       </div>
 
@@ -101,6 +101,10 @@ export default {
   computed: {
     showBrief () {
       return !this.phase.component
+    },
+    phaseIcon () {
+      // return this.phase.result ? 'check_circle_outline' : 'error_outline'
+      return 'error_outline'
     },
     ...mapGetters('auth', ['isLogged', 'user']),
     ...mapGetters('beginners', [

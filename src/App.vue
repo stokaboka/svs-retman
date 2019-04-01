@@ -13,7 +13,7 @@ export default {
 
 <style>
   #q-app {
-    background-color: #f2f2f2;
+    background-color: #fff;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -21,7 +21,7 @@ export default {
   }
 
   .container {
-
+    padding: 0 6rem;
   }
 
   .component-container {
@@ -31,4 +31,5 @@ export default {
   .button__delete-variant {
     padding-left: 3px;
   }
+
 </style>
