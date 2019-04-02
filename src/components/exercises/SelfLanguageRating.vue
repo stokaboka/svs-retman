@@ -75,7 +75,8 @@ export default {
   }
 
   .self-rating-container {
-    width: 75vw;
+    /*width: 75vw;*/
+    padding: 0 6rem;
   }
 
 </style>

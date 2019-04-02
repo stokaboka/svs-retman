@@ -99,13 +99,6 @@ export default {
   },
 
   computed: {
-    showBrief () {
-      return !this.phase.component
-    },
-    phaseIcon () {
-      // return this.phase.result ? 'check_circle_outline' : 'error_outline'
-      return 'error_outline'
-    },
     ...mapGetters('auth', ['isLogged', 'user']),
     ...mapGetters('beginners', [
       'steps',

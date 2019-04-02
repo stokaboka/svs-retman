@@ -169,6 +169,7 @@ export default {
     flex-flow: row nowrap;
     justify-content: center;
     align-items: center;
+    padding: 0 6rem;
   }
 
   .words-row {

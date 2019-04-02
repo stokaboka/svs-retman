@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="sound-test-container">
 
     <div class="row no-wrap justify-between q-mt-md">
       <q-btn
@@ -85,6 +85,10 @@ export default {
 </script>
 
 <style>
+  .sound-test-container {
+    padding: 0 6rem;
+  }
+
   .snd-btn {
     margin: 0 1rem;
   }

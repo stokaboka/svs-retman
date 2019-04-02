@@ -173,6 +173,8 @@ export default {
     flex-flow: column nowrap;
     justify-content: center;
     align-items: flex-start;
+
+    padding: 0 6rem;
   }
 
   .row-container {

@@ -21,7 +21,7 @@ export default {
   }
 
   .container {
-    padding: 0 6rem;
+    padding: 0 0;
   }
 
   .component-container {

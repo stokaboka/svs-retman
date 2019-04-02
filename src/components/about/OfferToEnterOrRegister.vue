@@ -1,5 +1,5 @@
 <template>
-  <div class="container offer-to-enter-container">
+  <div class="offer-to-enter-container">
     <div class="offer-to-enter-body">
       <div class="offer-to-enter__title">
         Вас сегодня не узнать!
@@ -15,8 +15,8 @@
       </div>
 
       <div class="offer-to-enter__footer">
-        <q-btn label="Войти" flat @click="$router.push({name: 'auth-signin'})" class="offer-to-enter__footer-button"/>
-        <q-btn label="Зарегистрироваться" flat @click="$router.push({name: 'auth-register'})"
+        <q-btn label="Войти" @click="$router.push({name: 'auth-signin'})" class="offer-to-enter__footer-button"/>
+        <q-btn label="Зарегистрироваться" @click="$router.push({name: 'auth-register'})"
                class="offer-to-enter__footer-button"/>
       </div>
     </div>
@@ -33,6 +33,8 @@ export default {
   .offer-to-enter-container {
     width: 100vw;
     background-color: royalblue;
+
+    padding: 0 2rem;
   }
 
   .offer-to-enter-body {

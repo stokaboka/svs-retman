@@ -79,6 +79,16 @@ export default {
   },
 
   computed: {
+    showBrief () {
+      return !this.phase.component
+    },
+    phaseIcon () {
+      if (this.phase.action === 'BRIEF' && this.phase.result && this.results[this.phase.result]) {
+        return 'check_circle_outline'
+      } else {
+        return 'error_outline'
+      }
+    },
     stepperVisibleComputed: {
       get () { return this.stepperVisible },
       set (value) { this.setStepperVisible(value) }

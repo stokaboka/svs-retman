@@ -1,5 +1,5 @@
 <template>
-  <div v-if="ready" class="row no-wrap justify-around">
+  <div v-if="ready" class="row no-wrap justify-around" style="width: 75vw">
 
     <div class="col-6">
       <div class="row no-wrap justify-between" v-for="i in 25" :key="i">
@@ -74,7 +74,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
   .word-pair__column {
     min-width: 270px;
   }

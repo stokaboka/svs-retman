@@ -65,5 +65,7 @@ export default {
   flex-flow: column;
   justify-content: flex-start;
   align-items: center;
+
+  padding: 0 6rem;
 }
 </style>
