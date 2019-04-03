@@ -51,7 +51,7 @@
 <script>
 
 import { mapState, mapGetters, mapActions } from 'vuex'
-import { required, alphaNum, minLength, maxLength } from 'vuelidate/lib/validators'
+import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 
 export default {
   name: 'SignIn',
@@ -68,9 +68,8 @@ export default {
     form: {
       login: {
         required,
-        alphaNum,
-        minLength: minLength(4),
-        maxLength: maxLength(30)
+        minLength: minLength(1),
+        maxLength: maxLength(50)
       },
       password: {
         required,

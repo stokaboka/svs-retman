@@ -1,13 +1,55 @@
 import axios from 'axios'
 import { Notify } from 'quasar'
 
+const showUserNotify = function (user, act) {
+  let message = {
+    positive: '',
+    negative: ''
+  }
+
+  switch (act) {
+    case 'signin':
+      message.positive = `Выполнен вход пользователя: ${user.login}`
+      message.negative = 'Пользователь не найден или неверный пароль'
+      break
+    case 'signout':
+      message.positive = `Выполнен выход`
+      message.negative = `Выполнен выход`
+      break
+    case 'register':
+      message.positive = `Зарегистрирован пользователь: ${user.login}`
+      message.negative = `При регистрирации пользователя произошла ошибка`
+      break
+  }
+  if (user) {
+    if (user.login) {
+      Notify.create({
+        message: message.positive,
+        type: 'positive'
+      })
+    } else {
+      Notify.create({
+        message: message.negative,
+        type: 'warning'
+      })
+    }
+  } else {
+    Notify.create({
+      message: message.positive,
+      type: 'positive'
+    })
+  }
+}
+
 const state = {
-  user: null
+  user: null,
+  offer: false
 }
 
 const getters = {
   isLogged: s => s.user && s.user.login,
-  user: s => s.user
+  user: s => s.user,
+  offer: s => s.offer
 }
 
 const mutations = {
@@ -21,37 +63,51 @@ const mutations = {
     } else {
       state.user = null
     }
+  },
 
-    if (state.user) {
-      if (state.user.login) {
-        Notify.create({
-          message: `Выполнен вход: ${state.user.login}`,
-          type: 'positive'
-        })
-      } else {
-        Notify.create({
-          message: 'Пользователь не найдет или неверный пароль',
-          type: 'warning'
-        })
-      }
-    } else {
-      Notify.create({
-        message: `Выполнен выход`,
-        type: 'positive'
-      })
-    }
+  SET_OFFER (state, playload) {
+    state.offer = playload
   }
 
 }
 
 const actions = {
-  signin ({ commit, rootGetters }, playload) {
-    return axios.post(`${rootGetters['beginners/api']}/login`, playload)
+  signin ({ commit, getters, rootGetters }, playload) {
+    const data = Object.assign(
+      {login: '-', password: '-'},
+      playload
+    )
+    return axios.post(`${rootGetters['beginners/api']}/login`, data)
       .then(response => {
         commit('SET_USER', response.data)
+        commit('SET_OFFER', false)
+        showUserNotify(getters['user'], 'signin')
       })
       .catch(error => {
         commit('SET_USER', null)
+        if (error.response.status === 401) {
+          commit('SET_OFFER', true)
+        } else {
+          Notify.create({
+            message: `Что-то пошло не так...: ${error}`,
+            type: 'negative'
+          })
+        }
+      })
+  },
+
+  signout ({ commit, getters, rootGetters }) {
+    commit('SET_OFFER', false)
+
+    return axios.post(`${rootGetters['beginners/api']}/logout`)
+      .then(response => {
+        commit('SET_USER', null)
+        showUserNotify(state.user, 'signout')
+        showUserNotify(getters['user'], 'signout')
+      })
+      .catch(error => {
+        commit('SET_USER', null)
+        console.warn(error)
         Notify.create({
           message: `Что-то пошло не так...: ${error}`,
           type: 'negative'
@@ -59,28 +115,25 @@ const actions = {
       })
   },
 
-  signout ({ commit, rootGetters }) {
-    return axios.post(`${rootGetters['beginners/api']}/logout`)
-      .then(response => {
-        commit('SET_USER', null)
-      })
-      .catch(error => {
-        commit('SET_USER', null)
-        console.warn(error)
-      })
-  },
-
-  register ({ commit, rootGetters }, playload) {
+  register ({ commit, getters, rootGetters }, playload) {
     const data = Object.assign({
       login: '-', password: '-', firstName: '-', secondName: '-', lastName: '-', birthday: new Date()
     }, playload)
+
+    commit('SET_OFFER', false)
+
     return axios.post(`${rootGetters['beginners/api']}/register`, data)
       .then(response => {
         commit('SET_USER', response.data)
+        showUserNotify(getters['user'], 'register')
       })
       .catch(error => {
         commit('SET_USER', null)
         console.warn(error)
+        Notify.create({
+          message: `Что-то пошло не так...: ${error}`,
+          type: 'negative'
+        })
       })
   }
 }

@@ -6,7 +6,7 @@
       enter-active-class="animated fadeIn"
       leave-active-class="animated fadeOut"
     >
-      <offer-to-enter-or-register v-if="!isLogged"/>
+      <hero/>
     </transition>
 
     <about-service-component></about-service-component>
@@ -26,10 +26,10 @@
 // to="/beginners"
 import AboutServiceComponent from '../../components/about/AboutServiceComponent'
 import {mapState, mapGetters, mapActions} from 'vuex'
-import OfferToEnterOrRegister from '../../components/about/OfferToEnterOrRegister'
+import Hero from '../../components/about/Hero'
 
 export default {
-  components: {OfferToEnterOrRegister, AboutServiceComponent},
+  components: {Hero, AboutServiceComponent},
 
   name: 'AboutServicePage',
 

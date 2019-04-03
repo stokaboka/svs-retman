@@ -29,6 +29,9 @@ export default {
       stepLevel: 1
     }
   },
+  mounted () {
+    this.onChangedInput()
+  },
   methods: {
     onChangedInput () {
       this.$emit('exercies-action', {id: 'changed-atself', data: this.level})

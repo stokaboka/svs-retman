@@ -12,7 +12,7 @@
 
 <script>
 
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import MainHeader from '../components/layout/MainHeader'
 
 export default {
@@ -25,9 +25,16 @@ export default {
     }
   },
 
+  mounted () {
+    this.signin()
+  },
+
+  methods: {
+    ...mapActions('auth', ['signin'])
+  },
   computed: {
-    ...mapGetters('beginners', ['title']),
-    ...mapGetters('auth', ['isLogged', 'user'])
+    ...mapGetters('beginners', ['title'])
+    // ...mapGetters('auth', ['isLogged', 'user'])
   },
 
   watch: {

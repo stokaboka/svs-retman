@@ -1,3 +1,5 @@
+const sleep = (ms) => (new Promise(resolve => setTimeout(resolve, ms)))
+
 const testWordReducer = (acc, val) => {
   if (val.word2 && val.word2 === val.hide) {
     return acc + 1
@@ -59,5 +61,6 @@ export {
   testLevelReducer,
   minKeysValues,
   reduce,
-  lexicalResult
+  lexicalResult,
+  sleep
 }

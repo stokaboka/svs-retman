@@ -163,7 +163,7 @@ const lesson = {
         resultText = resultText + `<p>Проход ${i + 1}: совпадений полных <strong>${matches}</strong>, частичных - <strong>${partials}</strong>, без совпадений - <strong>${difference}</strong></p>`
       }
     }
-    text = text.replace('{{LESSON_RESULT}}', resultText)
+    text = text.replace('{{LESSON_RESULT}}', (resultText || '<strong>Вы не выполнили задание урока</strong>'))
 
     return text
   }
