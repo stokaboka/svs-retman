@@ -6,6 +6,8 @@ export default class TimerHelper {
     this.context = context
 
     this.active = false
+    this.paused = false
+
     this.complete = false
     this.seconds = 0
     this.progress = 0
@@ -19,6 +21,8 @@ export default class TimerHelper {
 
     this.EVENTS = {
       START: 'START',
+      PAUSE: 'PAUSE',
+      RESUME: 'RESUME',
       PROGRESS: 'PROGRESS',
       COMPLETE: 'COMPLETE'
     }
@@ -27,6 +31,7 @@ export default class TimerHelper {
   start (seconds) {
     this.stop()
     this.active = true
+    this.paused = false
     this.complete = false
     this.seconds = seconds
     this.progress = 0
@@ -43,12 +48,42 @@ export default class TimerHelper {
     return this
   }
 
+  pause () {
+    if (this.active) {
+      this.paused = true
+    }
+    return this
+  }
+
+  _pause () {
+    if (this.id) {
+      clearTimeout(this.id)
+      this.id = null
+    }
+  }
+
+  resume () {
+    if (this.active) {
+      if (this.paused) {
+        this.paused = false
+
+        this.id = setInterval(() => {
+          this.onInterval()
+        }, 1000)
+
+        this.fire(this.EVENTS.RESUME)
+      }
+    }
+    return this
+  }
+
   stop () {
     if (this.id) {
       clearTimeout(this.id)
       this.id = null
     }
     this.active = false
+    this.paused = false
     this.complete = false
     return this
   }
@@ -56,6 +91,7 @@ export default class TimerHelper {
   info (event) {
     return {
       event: event,
+      paused: this.paused,
       passed: this.passed,
       left: this.left,
       progress: this.progress,
@@ -77,6 +113,9 @@ export default class TimerHelper {
       this.passed = this.seconds
       this.left = 0
       event = this.EVENTS.COMPLETE
+    } else if (this.paused) {
+      this._pause()
+      event = this.EVENTS.PAUSE
     }
 
     this.passedTime = this.toTimeString(this.passed)

@@ -1,10 +1,11 @@
 <template>
   <div class="container about-container">
+    <q-window-resize-observable @resize="onWindowResize" />
     <div class="about-body">
 
       <div class="about-text">
         <p>
-          <span class="tls">ТЛС</span> предназначена для автоматизированной оценки способностей тестируемого для
+          <span class="tls">ТЛС</span> предназначен для автоматизированной оценки способностей тестируемого для
           изучения
           иностранного языка в автоматическом режиме.
         </p>
@@ -47,9 +48,9 @@ let hintOnScreen = false
 export default {
   name: 'AboutServiceComponent',
   async mounted () {
-    this.$nextTick(function () {
-      window.addEventListener('resize', this.onWindowResize)
-    })
+    // this.$nextTick(function () {
+    //   window.addEventListener('resize', this.onWindowResize)
+    // })
 
     await sleep(2000)
     this.animateHint()
@@ -58,9 +59,9 @@ export default {
     return {}
   },
   methods: {
-    onWindowResize () {
+    onWindowResize (size) {
       if (hintOnScreen) {
-        const toImgRight = window.innerWidth - (this.$refs.img.offsetLeft + this.$refs.img.offsetWidth)
+        const toImgRight = size.width - (this.$refs.img.offsetLeft + this.$refs.img.offsetWidth)
         this.$refs.hint.style.top = `${this.$refs.img.offsetTop + this.$refs.img.offsetHeight / 2}px`
         this.$refs.hint.style.right = `${toImgRight}px`
       }
@@ -85,10 +86,10 @@ export default {
         }
       })
     }
-  },
-  beforeDestroy () {
-    window.removeEventListener('resize', this.onWindowResize)
   }
+  // beforeDestroy () {
+  //   window.removeEventListener('resize', this.onWindowResize)
+  // }
 }
 </script>
 

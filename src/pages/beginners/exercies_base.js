@@ -72,6 +72,8 @@ export default {
 
     this.timer
       .on('START', this.onTimerFired)
+      .on('PAUSE', this.onTimerFired)
+      .on('RESUME', this.onTimerFired)
       .on('PROGRESS', this.onTimerFired)
       .on('COMPLETE', this.onTimerFired)
 
@@ -79,6 +81,9 @@ export default {
   },
 
   computed: {
+    playPauseIcon () {
+      return (this.timer && this.timer.paused) ? 'play_circle_filled' : 'pause_circle_filled'
+    },
     showBrief () {
       return !this.phase.component
     },
@@ -112,9 +117,28 @@ export default {
   },
 
   methods: {
+    onPlayPause () {
+      if (this.timer) {
+        if (this.timer.paused) {
+          this.timer.resume()
+        } else {
+          this.timer.pause()
+        }
+      }
+    },
     onTimerFired (event) {
       switch (event.event) {
         case 'START' :
+          break
+        case 'PAUSE':
+          if (this.audio) {
+            this.audio.pause()
+          }
+          break
+        case 'RESUME' :
+          if (this.audio) {
+            this.audio.resume()
+          }
           break
         case 'PROGRESS' :
           break

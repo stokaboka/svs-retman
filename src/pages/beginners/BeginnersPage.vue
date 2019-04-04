@@ -1,6 +1,10 @@
 <template>
   <q-page class="container page-container">
 
+    <q-page-sticky v-if="phase && timer.active" position="right" :offset="[18, 18]">
+      <q-btn round dense color="secondary" size="xl" @click="onPlayPause" :icon="playPauseIcon" />
+    </q-page-sticky>
+
     <div v-show="stepperFullScreenVisible" class="stepper-container">
       <step-stepper-component :brief="showBrief" ></step-stepper-component>
     </div>

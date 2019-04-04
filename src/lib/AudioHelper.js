@@ -11,6 +11,7 @@ export default class AudioHelper {
     this._soundsIndex = 0
 
     this.playing = false
+    this.paused = false
 
     this.timeStamp = {
       play: 0
@@ -89,6 +90,7 @@ export default class AudioHelper {
     try {
       this.audio.play()
       this.playing = true
+      this.paused = false
     } catch (e) {
       console.log(e)
     }
@@ -108,6 +110,27 @@ export default class AudioHelper {
   }
 
   pause () {
+    if (this.audio && this.playing) {
+      // this.audio.removeEventListener('ended', (e) => self.eventsHandler(e))
+      // this.audio.removeEventListener('play', (e) => self.eventsHandler(e))
+      // this.audio.removeEventListener('playing', (e) => self.eventsHandler(e))
+      // this.audio.removeEventListener('pause', (e) => self.eventsHandler(e))
+      // this.audio.removeEventListener('timeupdate', (e) => self.eventsHandler(e))
+      this.audio.pause()
+      this.playing = false
+      this.paused = true
+    }
+  }
+
+  resume () {
+    if (this.audio && this.paused) {
+      this.audio.play()
+      this.playing = true
+      this.paused = false
+    }
+  }
+
+  stop () {
     if (this.audio) {
       this.audio.removeEventListener('ended', (e) => self.eventsHandler(e))
       this.audio.removeEventListener('play', (e) => self.eventsHandler(e))
@@ -116,26 +139,17 @@ export default class AudioHelper {
       this.audio.removeEventListener('timeupdate', (e) => self.eventsHandler(e))
       this.audio.pause()
       this.playing = false
-    }
-  }
-
-  resume () {
-    if (this.audio) {
-      this.audio.play()
-      this.playing = false
-    }
-  }
-
-  stop () {
-    if (this.audio) {
-      this.audio.pause()
-      this.playing = false
+      this.paused = false
       this.once()
     }
   }
 
   isPlaying () {
     return this.playing
+  }
+
+  isPaused () {
+    return this.paused
   }
 
   nextSound () {
@@ -203,23 +217,27 @@ export default class AudioHelper {
 
   eventsHandler (event) {
     const self = this
+    console.log(event)
     switch (event.type) {
       case 'ended' :
         self.nextPlay()
         this.fire(this.EVENTS.COMPLETE)
         break
       case 'timeupdate' :
-        // console.log(event.target.currentTime)
+        console.log(event.target.currentTime)
         this.fire(this.EVENTS.PROGRESS)
         break
       case 'play' :
-        // console.log(event)
+        this.playing = true
+        this.paused = false
         break
       case 'playing' :
-        // console.log(event)
+        this.playing = true
+        this.paused = false
         break
       case 'pause' :
-        // console.log(event)
+        this.playing = false
+        this.paused = true
         break
     }
   }

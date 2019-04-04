@@ -90,7 +90,9 @@ module.exports = function (ctx) {
         'QCardMain',
         'QCardMedia',
         'QCardSeparator',
-        'QCardActions'
+        'QCardActions',
+        'QWindowResizeObservable',
+        'QPageSticky'
       ],
       directives: [
         'Ripple',

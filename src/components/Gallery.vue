@@ -1,5 +1,6 @@
 <template>
   <div class="gallery">
+    <q-window-resize-observable @resize="onWindowResize" />
     <img
       ref="one"
       class="gallery-image"
@@ -99,20 +100,20 @@ export default {
     }
   },
   mounted () {
-    this.$nextTick(function () {
-      window.addEventListener('resize', this.onWindowResize)
-    })
-
-    this.onWindowResize()
+    // this.$nextTick(function () {
+    //   window.addEventListener('resize', this.onWindowResize)
+    // })
+    //
+    // this.onWindowResize()
 
     this.$refs.one.addEventListener('animationend', this.onOneAnimation, false)
     this.$refs.two.addEventListener('animationend', this.onTwoAnimation, false)
 
     this.oneImageSrc = this.nextImage()
   },
-  beforeDestroy () {
-    window.removeEventListener('resize', this.onWindowResize)
-  },
+  // beforeDestroy () {
+  //   window.removeEventListener('resize', this.onWindowResize)
+  // },
   computed: {
     sImages () {
       return this.images
