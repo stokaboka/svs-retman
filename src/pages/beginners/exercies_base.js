@@ -6,7 +6,7 @@ import TimerHelper from '../../lib/TimerHelper'
 
 export default {
   beforeDestroy () {
-    this.audio.pause()
+    this.audio.stop()
     this.audio = null
   },
   data () {

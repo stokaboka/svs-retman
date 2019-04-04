@@ -1,6 +1,8 @@
 <template>
   <div class="container about-container">
-    <q-window-resize-observable @resize="onWindowResize" />
+
+    <q-window-resize-observable @resize="onWindowResize"/>
+
     <div class="about-body">
 
       <div class="about-text">
@@ -21,6 +23,19 @@
           <li>Выходной тест знания лексики языка пробного обучения</li>
         </ul>
         <p>После выполнения этих тестов, Тестируемый получает автоматическую интерпретацию результатов тестирования.</p>
+        <q-btn
+          color="secondary"
+          @click="playInstruction"
+        >
+          {{playInstructionLabel}}
+        </q-btn>
+        <q-btn v-show="(audio.playing || audio.paused)"
+               class="about-palyer about-palyer__button"
+               round dense color="secondary"
+               size="xl"
+               @click="onPlayPause"
+               :icon="playPauseIcon"/>
+        <q-spinner-audio color="secondary" :size="30" v-show="audio.playing"/>
       </div>
 
       <div class="about-image" ref="img">
@@ -40,25 +55,62 @@
 
 <script>
 
-import { animate, easing } from 'quasar'
+import {mapState} from 'vuex'
+import {animate, easing} from 'quasar'
 import {sleep} from '../../lib/utils'
+import AudioHelper from '../../lib/AudioHelper'
 
 let hintOnScreen = false
 
 export default {
   name: 'AboutServiceComponent',
   async mounted () {
-    // this.$nextTick(function () {
-    //   window.addEventListener('resize', this.onWindowResize)
-    // })
+    this.audio
+      .init(this.api, this.sound)
+      .on('COMPLETE', this.audioEventsHandler)
 
     await sleep(2000)
     this.animateHint()
   },
   data () {
-    return {}
+    return {
+      audio: new AudioHelper(this)
+    }
+  },
+  computed: {
+    playInstructionLabel () {
+      return (this.audio.playing || this.audio.paused) ? 'Остановить инструкцию' : 'Прослушать инструкцию'
+    },
+    playPauseIcon () {
+      return this.audio.paused ? 'play_circle_filled' : 'pause_circle_filled'
+    },
+    ...mapState('beginners', ['api', 'sound'])
+  },
+  beforeDestroy () {
+    this.audio.stop()
+    this.audio = null
   },
   methods: {
+    audioEventsHandler () {
+
+    },
+    onPlayPause () {
+      if (this.audio) {
+        if (this.audio.paused) {
+          this.audio.resume()
+        } else {
+          this.audio.pause()
+        }
+      }
+    },
+    playInstruction () {
+      const sounds = ['cy-inst2fm0.mp3', 'cy-inst2fm1.mp3']
+      if (this.audio.playing || this.audio.paused) {
+        this.audio.stop()
+      } else {
+        this.audio.sounds(sounds).mode('ONCE').play()
+      }
+    },
     onWindowResize (size) {
       if (hintOnScreen) {
         const toImgRight = size.width - (this.$refs.img.offsetLeft + this.$refs.img.offsetWidth)
@@ -87,9 +139,6 @@ export default {
       })
     }
   }
-  // beforeDestroy () {
-  //   window.removeEventListener('resize', this.onWindowResize)
-  // }
 }
 </script>
 
@@ -125,18 +174,18 @@ export default {
     display: none;
     position: absolute;
     right: -1000px;
-
     width: 320px;
-    /*width: 0;*/
     height: auto;
-
     padding: 2rem;
-
     border-radius: 1rem;
-
     color: white;
-
     background-color: rgba(65, 105, 225, 0.95);
-
   }
+
+  .about-palyer{}
+
+  .about-palyer__button {
+    margin-left: 2rem;
+  }
+
 </style>

@@ -178,6 +178,8 @@ export default class AudioHelper {
       case this.MODES.ONCE :
       case this.MODES.RANDOM :
       default :
+        this.playing = false
+        this.paused = false
     }
   }
 
@@ -217,27 +219,29 @@ export default class AudioHelper {
 
   eventsHandler (event) {
     const self = this
-    console.log(event)
+    // console.log(event)
     switch (event.type) {
       case 'ended' :
+        this.playing = false
+        this.paused = false
         self.nextPlay()
         this.fire(this.EVENTS.COMPLETE)
         break
       case 'timeupdate' :
-        console.log(event.target.currentTime)
+        // console.log(event.target.currentTime)
         this.fire(this.EVENTS.PROGRESS)
         break
       case 'play' :
-        this.playing = true
-        this.paused = false
+        // this.playing = true
+        // this.paused = false
         break
       case 'playing' :
-        this.playing = true
-        this.paused = false
+        // this.playing = true
+        // this.paused = false
         break
       case 'pause' :
-        this.playing = false
-        this.paused = true
+        // this.playing = false
+        // this.paused = true
         break
     }
   }
