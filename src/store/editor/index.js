@@ -4,6 +4,7 @@ const state = {
   result: '',
   error: '',
   dictionaryColumns: [
+    // { name: 'id', field: 'id', label: 'Слово/фраза 1', sortable: true },
     { name: 'word1', field: 'word1', label: 'Слово/фраза 1', sortable: true },
     { name: 'word2', field: 'word2', label: 'Слово/фраза 2', sortable: true },
     { name: 'lang1', field: 'lang1', label: 'Язык родной', sortable: true },
@@ -32,6 +33,7 @@ const mutations = {
 
 const actions = {
   updateDictionary ({commit, getters, rootGetters}, playload) {
+    console.log(playload)
     return axios.put(`${rootGetters['beginners/api']}/words`, playload)
       .then(response => {
         commit('beginners/setDictionaryById', playload, { root: true })

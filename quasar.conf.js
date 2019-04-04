@@ -96,8 +96,12 @@ module.exports = function (ctx) {
         'QSpinner',
         'QSpinnerAudio',
         'QTable',
+        'QTr',
+        'QTd',
         'QPopupEdit',
-        'QSelect'
+        'QSelect',
+        'QSearch',
+        'QTableColumns'
 
       ],
       directives: [

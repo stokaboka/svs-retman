@@ -77,7 +77,7 @@ const getDictionary = ({ commit, getters }, p) => {
   return axios.get(`${getters.api}/words/scope/${p.scope}/lang1/${p.lang1}/lang2/${p.lang2}`)
     .then(response => {
       let data = response.data.filter((elem, index) => {
-        if (p.index1 && p.index2) {
+        if (!isNaN(p.index1) && !isNaN(p.index2)) {
           return p.index1 <= index && index <= p.index2
         }
         return true

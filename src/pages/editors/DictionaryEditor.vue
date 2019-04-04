@@ -6,29 +6,30 @@
         v-model="lang1"
         :options="langs"
         @input="getData"
+        stack-label="Язык 1"
       />
       <q-select
         class="editor-filter_item"
         v-model="lang2"
         :options="langs"
         @input="getData"
+        stack-label="Язык 2"
       />
       <q-select
         class="editor-filter_item"
         v-model="scope"
         :options="scopes"
         @input="getData"
+        stack-label="Тест / урок"
       />
     </div>
     <editable-data-table
-      grid
-      selection="single"
-      separator="cell"
       title="Словари"
+      :loading="loading"
       :data="data"
       :columns="columns"
-      :row-key="id"
-      :on-row-update="onRowUpdate"
+      :showcolumns="showColumns"
+      @on-row-update="onRowUpdate"
     >
     </editable-data-table>
   </q-page>
@@ -43,9 +44,11 @@ export default {
   components: {EditableDataTable},
   data () {
     return {
+      loading: false,
       scope: '',
       lang1: '',
       lang2: '',
+      showColumns: ['word1', 'word2'],
       scopes: [
         {label: 'Мнемонический тест', value: 'mnemonic::test'},
         {label: 'Урок 1', value: 'test::lesson::1'},
@@ -74,11 +77,14 @@ export default {
     ...mapGetters('editor', {columns: 'dictionaryColumns'})
   },
   methods: {
-    getData () {
+    async getData () {
+      this.loading = true
       const {scope, lang1, lang2} = this
-      this.getDictionary({scope, lang1, lang2})
+      await this.getDictionary({scope, lang1, lang2})
+      this.loading = false
     },
     onRowUpdate (row) {
+      console.log(row)
       this.updateDictionary(row)
     },
     ...mapActions('beginners', ['getDictionary']),
@@ -92,6 +98,8 @@ export default {
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
+
+    padding: 0.5rem 3rem;
   }
 
   .editor-filter_item {

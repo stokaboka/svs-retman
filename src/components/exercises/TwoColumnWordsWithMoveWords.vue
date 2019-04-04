@@ -139,13 +139,7 @@ export default {
           }
         })
         .sort((a, b) => {
-          if (a.word2.toUpperCase() > b.word2.toUpperCase()) {
-            return 1
-          }
-          if (a.word2.toUpperCase() < b.word2.toUpperCase()) {
-            return -1
-          }
-          return 0
+          return a.word2.localeCompare(b.word2)
         })
 
       this.ready = true
