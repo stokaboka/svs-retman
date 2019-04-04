@@ -103,6 +103,14 @@ const setDictionary = (state, playload) => {
   state.dictionary = playload
 }
 
+const setDictionaryById = (state, playload) => {
+  state.dictionary = playload
+  const idx = state.dictionary.findIndex(e => e.id === playload.id)
+  if (idx >= 0) {
+    state.dictionary[idx] = playload
+  }
+}
+
 const setLessons = (state, playload) => {
   state.lessons = playload
 }
@@ -147,6 +155,8 @@ export {
   resetPhaseIndex,
 
   setDictionary,
+  setDictionaryById,
+
   setLessons,
 
   setPhraseText,

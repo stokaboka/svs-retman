@@ -112,7 +112,7 @@ export default {
       }
     },
     onWindowResize (size) {
-      if (hintOnScreen) {
+      if (hintOnScreen && this.$refs.img) {
         const toImgRight = size.width - (this.$refs.img.offsetLeft + this.$refs.img.offsetWidth)
         this.$refs.hint.style.top = `${this.$refs.img.offsetTop + this.$refs.img.offsetHeight / 2}px`
         this.$refs.hint.style.right = `${toImgRight}px`

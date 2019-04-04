@@ -8,6 +8,7 @@ const routes = [
       { path: '', name: 'home', component: () => import('pages/about/AboutServicePage.vue') },
       { path: 'about', name: 'about', component: () => import('pages/about/AboutServicePage.vue') },
       { path: 'beginners', name: 'beginners', component: () => import('pages/beginners/BeginnersPage.vue') },
+      { path: 'editor', name: 'editor', component: () => import('pages/editors/DictionaryEditor.vue') },
       { path: 'auth',
         name: 'auth',
         component: () => import('pages/auth/Auth.vue'),

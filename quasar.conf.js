@@ -94,7 +94,11 @@ module.exports = function (ctx) {
         'QWindowResizeObservable',
         'QPageSticky',
         'QSpinner',
-        'QSpinnerAudio'
+        'QSpinnerAudio',
+        'QTable',
+        'QPopupEdit',
+        'QSelect'
+
       ],
       directives: [
         'Ripple',

@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import beginners from './beginners'
 import user from './user'
 import auth from './auth'
+import editor from './editor'
 
 Vue.use(Vuex)
 
@@ -16,7 +17,8 @@ const store = new Vuex.Store({
   modules: {
     beginners,
     user,
-    auth
+    auth,
+    editor
   },
 
   strict: process.env.NODE_ENV !== 'production'

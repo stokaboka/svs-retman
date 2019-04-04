@@ -13,6 +13,7 @@
 
       <q-tabs color="white">
         <q-route-tab slot="title" :color="color" icon="home" to="/about" replace hide="icon" label="Главная" ></q-route-tab>
+        <q-route-tab slot="title" :color="color" icon="edit" to="/editor" replace hide="icon" label="Редактор" ></q-route-tab>
         <user-log-in-out-button :color="color" slot="title"></user-log-in-out-button>
       </q-tabs>
 

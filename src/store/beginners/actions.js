@@ -173,6 +173,7 @@ export {
   nextPhase,
 
   getDictionary,
+
   getLessons,
 
   getCue,

@@ -123,8 +123,12 @@ export default {
   },
   methods: {
     onWindowResize () {
-      this.oneStyle = calcImgStyle(this.$refs.one.naturalWidth, this.$refs.one.naturalHeight)
-      this.twoStyle = calcImgStyle(this.$refs.two.naturalWidth, this.$refs.two.naturalHeight)
+      if (this.$refs.one) {
+        this.oneStyle = calcImgStyle(this.$refs.one.naturalWidth, this.$refs.one.naturalHeight)
+      }
+      if (this.$refs.two) {
+        this.twoStyle = calcImgStyle(this.$refs.two.naturalWidth, this.$refs.two.naturalHeight)
+      }
     },
     nextImage () {
       this.imageIndex = ++this.imageIndex % this.sImages.length
