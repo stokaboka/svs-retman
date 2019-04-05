@@ -7,6 +7,8 @@ export default {
         'changed-self-rating': this.onChangedSelfRating,
         'changed-control-rating': this.onChangedControlRating,
         'changed-atself': this.onChangedAtSelf,
+        'changed-san': this.onChangedSANSelf,
+        'changed-at0': this.onChangedAT0Self,
         'init-lesson': this.onInitLesson,
         'init-lesson-dictionary': this.onInitLessonDictionary,
         'lesson-item-selected': this.onLessonItemSelected
@@ -46,6 +48,24 @@ export default {
         this.AT.before = obj
       } else {
         this.AT.after = obj
+      }
+    },
+
+    onChangedSANSelf (value) {
+      console.log(value)
+      if (this.phase.phase === 1) {
+        this.SAN.before = value
+      } else {
+        this.SAN.after = value
+      }
+    },
+
+    onChangedAT0Self (value) {
+      console.log(value)
+      if (this.phase.phase === 1) {
+        this.AT0.before = value
+      } else {
+        this.AT0.after = value
       }
     },
 

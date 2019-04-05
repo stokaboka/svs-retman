@@ -112,6 +112,76 @@ const atself = {
   }
 }
 
+const sanChanges = (b, a) => {
+  if (b < a) {
+    return 'улучшилось'
+  } else if (b > a) {
+    return 'ухудшилось'
+  } else {
+    return 'не изменилось'
+  }
+}
+
+const san = {
+  initResults: (context) => {
+    return context.SAN
+  },
+  initRecomendation: (context, phase, result) => {
+    let text = phase.text
+    let rec = '<p>Ваше '
+
+    rec = rec + `самочувствие ${sanChanges(result.before.s, result.after.s)}, `
+    rec = rec + `активность ${sanChanges(result.before.a, result.after.a)}, `
+    rec = rec + `настроение ${sanChanges(result.before.n, result.after.n)}, `
+    rec = rec + ' после прохождения аутотренинга.</p>'
+
+    const before = result.before.s + result.before.a + result.before.n
+    const after = result.after.s + result.after.a + result.after.n
+
+    if (after >= before) {
+      rec = rec + '<br><p>Вы можете перейти к следующему тесту.</p>'
+    } else {
+      rec = rec + '<br><p>Мы рекомендуем повторить тестирование в другое время.</p>'
+    }
+
+    text = text
+      .replace('{{AUTOSELFBEFORE}}', `С: ${result.before.s}; А: ${result.before.a}; H: ${result.before.n}`)
+      .replace('{{AUTOSELFAFTER}}', `С: ${result.after.s}; А: ${result.after.a}; H: ${result.after.n}`)
+      .replace('{{AUTOSELFRECOMENDATION}}', rec)
+    return text
+  }
+}
+
+const at0 = {
+  initResults: (context) => {
+    return context.AT0
+  },
+  initRecomendation: (context, phase, result) => {
+    let text = phase.text
+    let rec = '<p>Ваше '
+
+    rec = rec + `самочувствие ${sanChanges(result.before.s, result.after.s)}, `
+    rec = rec + `активность ${sanChanges(result.before.a, result.after.a)}, `
+    rec = rec + `настроение ${sanChanges(result.before.n, result.after.n)}, `
+    rec = rec + ' после прохождения аутотренинга.</p>'
+
+    const before = result.before.s + result.before.a + result.before.n
+    const after = result.after.s + result.after.a + result.after.n
+
+    if (before < after) {
+      rec = rec + '<br><p>Мы рекомендуем повторить тестирование в другое время.</p>'
+    } else {
+      rec = rec + '<br><p>Вы можете перейти к следующему тесту.</p>'
+    }
+
+    text = text
+      .replace('{{AUTOSELFBEFORE}}', `С: ${result.before.s}; А: ${result.before.a}; H: ${result.before.n}`)
+      .replace('{{AUTOSELFAFTER}}', `С: ${result.after.s}; А: ${result.after.a}; H: ${result.after.n}`)
+      .replace('{{AUTOSELFRECOMENDATION}}', rec)
+    return text
+  }
+}
+
 const lesson = {
 
   initResults: (context) => {
@@ -191,7 +261,9 @@ const resultMethods = {
   lexical,
   atself,
   lesson,
-  endlexical
+  endlexical,
+  san,
+  at0
 }
 
 export default {

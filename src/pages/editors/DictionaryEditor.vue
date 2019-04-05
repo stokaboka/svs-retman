@@ -85,7 +85,8 @@ export default {
     },
     onRowUpdate (row) {
       console.log(row)
-      this.updateDictionary(row)
+      console.log('Сохранение отключено')
+      // this.updateDictionary(row)
     },
     ...mapActions('beginners', ['getDictionary']),
     ...mapActions('editor', ['updateDictionary'])

@@ -65,6 +65,9 @@ import SelfLexicalLearningLang from '../../components/exercises/SelfLexicalLearn
 import TwoColumnWordsWithCheckBox from '../../components/exercises/TwoColumnWordsWithCheckBox'
 import TwoColumnWordsWithMoveWords from '../../components/exercises/TwoColumnWordsWithMoveWords'
 
+import SANTest from '../../components/exercises/SANTest'
+import AT0Test from '../../components/exercises/AT0Test'
+
 import AutoTrainingSelfTest from '../../components/exercises/AutoTrainingSelfTest'
 import AutoTraining from '../../components/exercises/AutoTraining'
 
@@ -96,6 +99,8 @@ export default {
     SelfLanguageRating,
     ControlLanguageRating,
     SelfLexicalLearningLang,
+    SANTest,
+    AT0Test,
     AutoTrainingSelfTest,
     AutoTraining,
     Lesson,

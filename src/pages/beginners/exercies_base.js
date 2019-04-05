@@ -56,6 +56,16 @@ export default {
         }
       },
 
+      SAN: {
+        before: { s: 3, a: 3, n: 3 },
+        after: { s: 3, a: 3, n: 3 }
+      },
+
+      AT0: {
+        before: { s: 3, a: 3, n: 3 },
+        after: { s: 3, a: 3, n: 3 }
+      },
+
       lesson: [null, null, null, null]
     }
   },
