@@ -16,7 +16,7 @@ export default {
     }
   },
   methods: {
-    // mnemonic test
+    // mnemic test
     onWordPairChecked (values) {
       this.checkedWordsPairs = values
     },

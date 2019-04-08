@@ -130,6 +130,7 @@ export default {
       'learningLangNames',
       'mnemonicRecommendations',
       'results',
+      'testing',
       'learningTime',
       'atLevels',
       'cue'
@@ -158,7 +159,8 @@ export default {
       'getLessons',
       'getCue',
       'getMnemonicRecommendation',
-      'saveResult'
+      'saveResult',
+      'loadResult'
     ])
   },
 

@@ -11,10 +11,10 @@ export default {
   },
   data () {
     return {
-      // startStep: 0,
-      // startStep: 7,
+      startStep: 0,
+      // startStep: 9,
       // startStep: 5, // AT
-      startStep: 3,
+      // startStep: 3,
       audio: new AudioHelper(this),
       timer: new TimerHelper(this),
       baseMethods: {
@@ -26,9 +26,9 @@ export default {
       progressVisible: true,
       stepperFullScreenVisible: true,
       briefVisible: true,
-      // mnemonic: remember word pairs
+      // mnemic: remember word pairs
       checkedWordsPairs: [],
-      // mnemonic: restore word pairs
+      // mnemic: restore word pairs
       rememberedWordsPairs: [],
       rememberedWordsPairs1: [],
       rememberedWordsPairs2: [],
@@ -283,11 +283,21 @@ export default {
       console.log('testComplete')
     },
 
+    async loadTestingResult () {
+      const result = await this.loadResult()
+      if (result) {
+        this.$q.notify({message: 'Выполнена обработка результатов.', type: 'info'})
+      } else {
+        this.$q.notify({message: 'Выполненить обработку результатов не удалось. Попробуйте еще раз позднее.', type: 'negative'})
+      }
+    },
+
     async save () {
       if (this.isLogged) {
         const result = await this.saveResult()
         if (result) {
           this.$q.notify({message: 'Результы теста успешно сохранены.', type: 'info'})
+          this.loadTestingResult()
         } else {
           this.$q.notify({message: 'Результы теста не удалось сохранить.', type: 'negative'})
         }

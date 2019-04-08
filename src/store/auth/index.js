@@ -48,6 +48,9 @@ const state = {
 
 const getters = {
   isLogged: s => s.user && s.user.login,
+  isAdmin: s => s.user && s.user.role === 'admin',
+  isOperator: s => s.user && s.user.role === 'operator',
+  isUser: s => s.user && s.user.role === 'user',
   user: s => s.user,
   offer: s => s.offer
 }

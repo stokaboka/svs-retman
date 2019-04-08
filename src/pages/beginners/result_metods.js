@@ -1,6 +1,6 @@
 import {testWordReducer, testLevelReducer, minKeysValues, reduce, lexicalResult} from '../../lib/utils'
 
-const mnemonic = {
+const mnemic = {
   initResults: (context) => {
     return lexicalResult(context.checkedWordsPairs, context.rememberedWordsPairs)
   },
@@ -259,7 +259,7 @@ const endlexical = {
 }
 
 const resultMethods = {
-  mnemonic,
+  mnemic,
   selfrating,
   lexical,
   atself,

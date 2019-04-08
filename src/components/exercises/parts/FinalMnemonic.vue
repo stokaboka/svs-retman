@@ -41,7 +41,7 @@
 <script>
 require('./final.css')
 /*
-          'mnemonic': {
+          'mnemic': {
             'checked': 2,
             'checkedWordsPairs': [
               {

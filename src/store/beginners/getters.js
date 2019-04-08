@@ -10,6 +10,10 @@ const results = (state) => {
   return state.results
 }
 
+const testing = (state) => {
+  return state.testing
+}
+
 const version = (state) => {
   return state.version
 }
@@ -106,6 +110,7 @@ export {
   title,
   api,
   results,
+  testing,
   version,
   steps,
   step,

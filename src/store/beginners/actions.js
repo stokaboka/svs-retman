@@ -116,17 +116,19 @@ const getCue = ({ commit, getters }, p) => {
     })
 }
 
-const saveResult = ({ commit, getters, rootGetters }, p) => {
+const saveResult = ({ commit, getters, rootGetters }, p = null) => {
   if (rootGetters['auth/isLogged']) {
     const user = rootGetters['auth/user']
-    const results = JSON.stringify(getters.results)
+    // const results = JSON.stringify(getters.results)
+    const results = p ? JSON.stringify(p) : JSON.stringify(getters.results)
     const data = {
       user: user.login,
+      // results: p,
       results,
       date: new Date()
     }
 
-    return axios.post(`${getters.api}/user/results`, data)
+    return axios.post(`${getters.api}/user/result`, data)
       .then(response => {
         commit('setResult', 'OK')
         return true
@@ -140,16 +142,31 @@ const saveResult = ({ commit, getters, rootGetters }, p) => {
   }
 }
 
-// TODO load results table
-const loadResult = ({ commit, getters, rootGetters }, p) => {
+const loadResult = ({ commit, getters, rootGetters }) => {
+  const user = rootGetters['auth/user']
+  return axios.get(`${getters.api}/user/result/${user.login}`)
+    .then(response => {
+      commit('setTesting', response.data)
+      commit('setResult', 'OK')
+      return true
+    })
+    .catch(error => {
+      commit('setError', error)
+      return false
+    })
+}
+
+const loadResults = ({ commit, getters, rootGetters }) => {
   const user = rootGetters['auth/user']
   return axios.get(`${getters.api}/user/results/${user.login}`)
     .then(response => {
       commit('setResults', response.data)
       commit('setResult', 'OK')
+      return true
     })
     .catch(error => {
       commit('setError', error)
+      return false
     })
 }
 
@@ -179,5 +196,6 @@ export {
   getCue,
   saveResult,
   loadResult,
+  loadResults,
   getMnemonicRecommendation
 }

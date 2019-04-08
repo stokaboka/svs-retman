@@ -50,7 +50,7 @@ export default {
       lang2: '',
       showColumns: ['word1', 'word2'],
       scopes: [
-        {label: 'Мнемонический тест', value: 'mnemonic::test'},
+        {label: 'Мнемонический тест', value: 'mnemic::test'},
         {label: 'Урок 1', value: 'test::lesson::1'},
         {label: 'Урок 2', value: 'test::lesson::2'},
         {label: 'Урок 3', value: 'test::lesson::3'},
