@@ -1,3 +1,8 @@
+const RESULTS_INFO = {
+  mnemicWords: 50,
+  mnemicCancel: 5
+}
+
 const sleep = (ms) => (new Promise(resolve => setTimeout(resolve, ms)))
 
 const testWordReducer = (acc, val) => {
@@ -47,12 +52,18 @@ const lexicalResult = (checkedWordsPairs, rememberedWordsPairs) => {
     checked: checkedWordsPairs.length,
     checkedWordsPairs: checkedWordsPairs.map(e => { return {word1: e.word1, word2: e.word2, hide: e.hide ? e.hide : ''} }),
     rememberedWordsPairs: rememberedWordsPairs.filter(e => e.word2),
-    remembered: 0
+    remembered: 0,
+    percent: 0,
+    cancel: false
   }
 
   for (const checkedWordPair of checkedWordsPairs) {
     out.remembered += findWW(rememberedWordsPairs, checkedWordPair) ? 1 : 0
   }
+
+  out.percent = Math.ceil(100 * out.remembered / RESULTS_INFO.mnemicWords)
+  out.cancel = out.remembered < RESULTS_INFO.mnemicCancel
+
   return out
 }
 

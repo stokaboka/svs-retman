@@ -11,10 +11,10 @@ export default {
   },
   data () {
     return {
-      startStep: 0,
+      // startStep: 0,
       // startStep: 7,
       // startStep: 5, // AT
-      // startStep: 4,
+      startStep: 3,
       audio: new AudioHelper(this),
       timer: new TimerHelper(this),
       baseMethods: {
@@ -22,6 +22,7 @@ export default {
         'fix-phase': this.onFixPhase,
         'do-next-action': this.doNextAction
       },
+      showCancelBtn: false,
       progressVisible: true,
       stepperFullScreenVisible: true,
       briefVisible: true,
@@ -183,10 +184,15 @@ export default {
       }
     },
 
+    doCancel () {
+      this.$router.push({name: 'home'})
+    },
+
     doNextAction () {
       if (!this.$q.fullscreen.isActive) {
         this.$q.fullscreen.exit()
       }
+      this.showCancelBtn = false
       this.timer.stop()
       this.audio.stop()
       this.onFixPhase()

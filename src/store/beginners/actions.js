@@ -153,12 +153,12 @@ const loadResult = ({ commit, getters, rootGetters }, p) => {
     })
 }
 
-// const getMnemonicRecommendation = ({getters}, result) => {
-//   const rec = getters.mnemonicRecommendation.find((elem) => {
-//     return (elem.from <= result.remembered && result.remembered <= elem.to)
-//   })
-//   return rec
-// }
+const getMnemonicRecommendation = ({getters}, result) => {
+  const rec = getters.mnemonicRecommendation.find((elem) => {
+    return (elem.from <= result.remembered && result.remembered <= elem.to)
+  })
+  return rec
+}
 
 export {
   getSteps,
@@ -178,6 +178,6 @@ export {
 
   getCue,
   saveResult,
-  loadResult
-  // getMnemonicRecommendation
+  loadResult,
+  getMnemonicRecommendation
 }

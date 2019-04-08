@@ -10,12 +10,15 @@ const mnemonic = {
       return (elem.from <= result.remembered && result.remembered <= elem.to)
     })
 
+    context.showCancelBtn = result.cancel
+
     const recText = rec ? rec.text : '?'
 
     let text = phase.text
     text = text
       .replace('{{RECOMMENDATION}}', recText)
       .replace('{{CHECKED}}', result.checked)
+      .replace('{{REMEMBERED_PERCENT}}', result.percent)
       .replace('{{REMEMBERED}}', result.remembered)
     return text
   }

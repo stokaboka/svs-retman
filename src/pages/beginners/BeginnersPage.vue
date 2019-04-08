@@ -47,6 +47,13 @@
         color="primary"
         @click="doNextAction">
       </q-btn>
+      <q-btn
+        class="button__next-phase"
+        v-if="showCancelBtn"
+        label="Прервать"
+        color="secondary"
+        @click="doCancel">
+      </q-btn>
     </div>
 
   </q-page>
@@ -150,6 +157,7 @@ export default {
       'getDictionary',
       'getLessons',
       'getCue',
+      'getMnemonicRecommendation',
       'saveResult'
     ])
   },
@@ -193,7 +201,7 @@ export default {
   }
 
   .button__next-phase {
-    margin-top: 1rem;
+    margin: 1rem 2rem;
     width: 120px;
   }
 

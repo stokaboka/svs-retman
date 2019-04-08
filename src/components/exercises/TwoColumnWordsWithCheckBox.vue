@@ -2,7 +2,7 @@
   <div v-if="ready" class="row no-wrap justify-around" style="width: 75vw">
 
     <div class="col-6">
-      <div class="row no-wrap justify-between" v-for="i in 25" :key="i">
+      <div class="row no-wrap justify-between q-mb-xs" v-for="i in 25" :key="i">
         <div class="word-pair__left-container">{{dictionary[i-1].word1}}</div>
         <div class="word-pair__checkbox-container">
 
@@ -19,7 +19,7 @@
     </div>
 
     <div class="col-6">
-      <div class="row no-wrap justify-between" v-for="i in 25" :key="i">
+      <div class="row no-wrap justify-between q-mb-xs" v-for="i in 25" :key="i">
         <div class="word-pair__left-container">{{dictionary[i+25-1].word1}}</div>
         <div class="word-pair__checkbox-container">
 
@@ -75,10 +75,6 @@ export default {
 </script>
 
 <style scoped>
-
-  .word-pair__column {
-    min-width: 270px;
-  }
 
   .word-pair__checkbox-container {
     width: 20px;
