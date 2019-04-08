@@ -20,6 +20,7 @@ export default class AudioHelper {
     this.MODES = {
       ONCE: 'ONCE',
       RANDOM: 'RANDOM',
+      RANDOM_CYCLE: 'RANDOM_CYCLE',
       CYCLE: 'CYCLE'
     }
 
@@ -55,8 +56,13 @@ export default class AudioHelper {
     return this
   }
 
+  randomCycle () {
+    this._mode = this.MODES.RANDOM_CYCLE
+    return this
+  }
+
   mode (mode) {
-    if (mode === this.MODES.ONCE || mode === this.MODES.CYCLE || mode === this.MODES.RANDOM) {
+    if (mode === this.MODES.ONCE || mode === this.MODES.CYCLE || mode === this.MODES.RANDOM || mode === this.MODES.RANDOM_CYCLE) {
       this._mode = mode
     } else {
       this._mode = this.MODES.ONCE
@@ -156,6 +162,7 @@ export default class AudioHelper {
     let snd = ''
     switch (this._mode) {
       case this.MODES.RANDOM :
+      case this.MODES.RANDOM_CYCLE:
         const n = Math.ceil(Math.random() * this._sounds.length) - 1
         snd = this._sounds[n || 0]
         break
@@ -173,6 +180,7 @@ export default class AudioHelper {
   nextPlay () {
     switch (this._mode) {
       case this.MODES.CYCLE :
+      case this.MODES.RANDOM_CYCLE:
         this.play()
         break
       case this.MODES.ONCE :
