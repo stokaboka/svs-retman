@@ -1,10 +1,11 @@
 export default {
   title: 'Тест Лингвистических Способностей (ТЛС)',
-  version: '0.1.1',
+  version: '0.1.2',
 
   // api: 'http://localhost:3333',
   api: process.env.API,
   sound: 'sound',
+  soundTheme: '2',
 
   results: {},
 

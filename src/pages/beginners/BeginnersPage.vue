@@ -1,7 +1,11 @@
 <template>
   <q-page class="container page-container">
 
-    <q-page-sticky v-if="phase && timer.active" position="right" :offset="[18, 18]">
+    <q-page-sticky v-if="showTimerPlayPauseBtn" position="right" :offset="[18, 18]">
+      <q-btn round dense color="secondary" size="xl" @click="onPlayPause" :icon="playPauseIcon" />
+    </q-page-sticky>
+
+    <q-page-sticky v-if="showAudioPlayPauseBtn" position="right" :offset="[18, 18]">
       <q-btn round dense color="secondary" size="xl" @click="onPlayPause" :icon="playPauseIcon" />
     </q-page-sticky>
 
@@ -133,7 +137,8 @@ export default {
       'testing',
       'learningTime',
       'atLevels',
-      'cue'
+      'cue',
+      'soundTheme'
     ]),
     ...mapState('beginners', [ 'api', 'sound', 'error' ])
   },

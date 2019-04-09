@@ -34,6 +34,10 @@ const isLastStep = (state) => {
   return state.stepIndex === state.steps.length - 1
 }
 
+const soundTheme = (state) => {
+  return state.soundTheme
+}
+
 const phases = (state) => {
   return state.phases
 }
@@ -139,5 +143,7 @@ export {
   cue,
 
   selfRatingColumns,
-  selfRatingLevels
+  selfRatingLevels,
+
+  soundTheme
 }

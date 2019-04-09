@@ -72,7 +72,7 @@ export default {
   },
 
   mounted () {
-    this.audio.init(this.api, this.sound)
+    this.audio.init(this.api, this.sound).theme(this.soundTheme)
     this.resetSteps()
     this.getSteps()
       .then(() => {
@@ -92,8 +92,20 @@ export default {
   },
 
   computed: {
+    showAudioPlayPauseBtn () {
+      return !this.timer.active && (this.audio.playing || this.audio.paused)
+    },
+    showTimerPlayPauseBtn () {
+      return this.phase && this.timer.active
+    },
     playPauseIcon () {
-      return (this.timer && this.timer.paused) ? 'play_circle_filled' : 'pause_circle_filled'
+      if (this.showTimerPlayPauseBtn) {
+        return (this.timer && this.timer.paused) ? 'play_circle_filled' : 'pause_circle_filled'
+      }
+      if (this.showAudioPlayPauseBtn) {
+        return (this.audio && this.audio.paused) ? 'play_circle_filled' : 'pause_circle_filled'
+      }
+      return ''
     },
     showBrief () {
       return !this.phase.component
@@ -129,11 +141,23 @@ export default {
 
   methods: {
     onPlayPause () {
-      if (this.timer) {
-        if (this.timer.paused) {
-          this.timer.resume()
-        } else {
-          this.timer.pause()
+      if (this.showTimerPlayPauseBtn) {
+        if (this.timer) {
+          if (this.timer.paused) {
+            this.timer.resume()
+          } else {
+            this.timer.pause()
+          }
+        }
+      }
+
+      if (this.showAudioPlayPauseBtn) {
+        if (this.audio) {
+          if (this.audio.paused) {
+            this.audio.resume()
+          } else {
+            this.audio.pause()
+          }
         }
       }
     },

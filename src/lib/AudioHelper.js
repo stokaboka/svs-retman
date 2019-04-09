@@ -10,8 +10,12 @@ export default class AudioHelper {
     this._sounds = []
     this._soundsIndex = 0
 
+    this._theme = '1'
+
     this.playing = false
     this.paused = false
+
+    this._volume = 1
 
     this.timeStamp = {
       play: 0
@@ -33,6 +37,11 @@ export default class AudioHelper {
     this._mode = this.MODES.ONCE
 
     this.listeners = []
+  }
+
+  theme (theme) {
+    this._theme = theme
+    return this
   }
 
   init (api, sndPath) {
@@ -70,6 +79,14 @@ export default class AudioHelper {
     return this
   }
 
+  volume (v) {
+    this._volume = v > 1 ? v / 100 : v
+    if (this.audio) {
+      this.audio.volume = this._volume
+    }
+    return this
+  }
+
   sounds (soundsArr) {
     this._sounds = soundsArr.filter(
       snd => {
@@ -86,12 +103,16 @@ export default class AudioHelper {
       this.audio = null
     }
 
+    sound = sound.replace('{{SOUNDTHEME}}', this._theme)
+
     this.audio = new Audio(sound)
     this.audio.addEventListener('ended', (e) => self.eventsHandler(e))
     this.audio.addEventListener('play', (e) => self.eventsHandler(e))
     this.audio.addEventListener('playing', (e) => self.eventsHandler(e))
     this.audio.addEventListener('pause', (e) => self.eventsHandler(e))
     this.audio.addEventListener('timeupdate', (e) => self.eventsHandler(e))
+
+    this.audio.volume = this._volume
 
     try {
       this.audio.play()
@@ -100,6 +121,18 @@ export default class AudioHelper {
     } catch (e) {
       console.log(e)
     }
+  }
+
+  collection (min, max, prefix = '') {
+    let sounds = []
+    for (let i = min; i <= max; i++) {
+      const snd = i < 10 ? `0${i}.mp3` : `${i}.mp3`
+      sounds.push(`${prefix}${snd}`)
+    }
+
+    this.sounds(sounds)
+
+    return this
   }
 
   play (sound) {

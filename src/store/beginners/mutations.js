@@ -100,7 +100,16 @@ const setError = (state, error) => {
 }
 
 const setDictionary = (state, playload) => {
-  state.dictionary = playload
+  state.dictionary = playload.map(e => {
+    return Object.assign(
+      {},
+      e,
+      {
+        word1: e.word1.toLowerCase(),
+        word2: e.word2.toLowerCase()
+      }
+    )
+  })
 }
 
 const setDictionaryById = (state, playload) => {

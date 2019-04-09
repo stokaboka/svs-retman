@@ -1,25 +1,21 @@
 <template>
   <div class="hero-container">
     <div class="hero-body">
-      <div class="hero-body-left column justify-center items-left">
-        <div class="column justify-center items-center">
+      <div class="hero-body-left column justify-center items-start q-mb-md">
           <img src="statics/assets/svs_logo.png"/>
-        </div>
-        <div class="column justify-center items-center">
           <span class="hero-body__title">Лингвистический проект</span>
-          <span class="hero-body__title">"Свобода слова"</span>
-        </div>
+          <span class="hero-body__title ">"Свобода слова"</span>
       </div>
 
-      <div class="hero-body-right column justify-start items-end">
-        <div class="q-mt-md">
-          <span class="hero-body__title">"Пробное обучение"</span>
+      <div class="hero-body-right column justify-end items-end hero-body-right__text">
+        <div class="column justify-center items-end">
+          <span class="hero-body__title">Программа CONTROL YOURSELF.<br>Тестирование лингвистических способностей и <q>Пробное обучение</q></span>
         </div>
         <div v-if="offer" class="column justify-center items-end offer-to-enter-container">
           <div class="offer-to-enter__title">
             Вас сегодня не узнать!
           </div>
-          <div class="offer-to-enter__text">
+          <div class="">
             <p>Вы можете пройти тест анонимно, но результаты теста и рекомендации останутся Вам незвестны.</p>
             <p class="">Чтобы получить рекомендации по результатам теста
               <router-link :to="{name: 'auth-signin'}" class="offer-to-enter__link">войдите</router-link>
@@ -103,7 +99,7 @@ export default {
     margin-left: 3rem;
   }
 
-  .offer-to-enter__text {
+  .hero-body-right__text {
     text-align: end;
   }
 

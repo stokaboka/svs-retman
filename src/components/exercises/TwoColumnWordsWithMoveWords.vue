@@ -1,58 +1,64 @@
 <template>
   <div class="rows-container">
-      <div v-if="ready" class="row-container words-row" v-for="i in 25" :key="i">
+    <div v-if="ready" class="row-container words-row" v-for="i in 25" :key="i">
 
-        <div class="left-word1">{{leftWords[i-1].word1}}</div>
+      <div class="left-word1">{{leftWords[i-1].word1}}</div>
 
-        <drop @drop="onDrop(i-1, ...arguments)" class="left-word2 q-ml-md">
-          {{leftWords[i-1].word2}}
-        </drop>
+      <drop @drop="onDrop(i-1, ...arguments)" class="left-word2 q-ml-md">
+        {{leftWords[i-1].word2}}
+      </drop>
+      <div class="left-word2-container">
         <q-btn
           class="button__delete-variant"
-          :disable="!leftWords[i-1].word2"
-          icon="close"
-          size="xs"
+          v-if="leftWords[i-1].word2"
+          icon="highlight_off"
+          size="md"
           flat
+          color="red"
           @click="onRemoveWordFromLeft(leftWords[i-1].word2)">
         </q-btn>
-
-        <div class="left-word1">{{leftWords[i+25-1].word1}}</div>
-
-        <drop @drop="onDrop(i+25-1, ...arguments)" class="left-word2 q-ml-md">
-          {{leftWords[i+25-1].word2}}
-        </drop>
-        <q-btn
-          class="button__delete-variant"
-          :disable="!leftWords[i+25-1].word2"
-            icon="close"
-            size="xs"
-            flat
-            @click="onRemoveWordFromLeft(leftWords[i+25-1].word2)">
-        </q-btn>
-
-        <drag
-          class="right-word2"
-          :transfer-data="rightWords[i-1].word2">
-          {{rightWords[i-1].word2}}
-        </drag>
-
-        <drag
-          class="right-word2 q-ml-md"
-          :transfer-data="rightWords[i+25-1].word2">
-          {{rightWords[i+25-1].word2}}
-        </drag>
-
       </div>
+
+      <div class="left-word1">{{leftWords[i+25-1].word1}}</div>
+
+      <drop @drop="onDrop(i+25-1, ...arguments)" class="left-word2 q-ml-md">
+        {{leftWords[i+25-1].word2}}
+      </drop>
+      <div class="left-word2-container">
+      <q-btn
+        class="button__delete-variant"
+        v-if="leftWords[i+25-1].word2"
+        icon="highlight_off"
+        size="md"
+        flat
+        color="red"
+        @click="onRemoveWordFromLeft(leftWords[i+25-1].word2)">
+      </q-btn>
+      </div>
+
+      <drag
+        class="right-word2"
+        :transfer-data="rightWords[i-1].word2">
+        {{rightWords[i-1].word2}}
+      </drag>
+
+      <drag
+        class="right-word2 q-ml-md"
+        :transfer-data="rightWords[i+25-1].word2">
+        {{rightWords[i+25-1].word2}}
+      </drag>
+
+    </div>
   </div>
 </template>
 
 <script>
-import { Drag, Drop } from 'vue-drag-drop'
+import {Drag, Drop} from 'vue-drag-drop'
 import {TouchDragDrop} from '../../directives'
 
 export default {
   name: 'TwoColumnWordsWithMoveWords',
-  components: { Drag, Drop },
+  components: {Drag, Drop},
   directives: {TouchDragDrop},
   props: {
     dictionary: {

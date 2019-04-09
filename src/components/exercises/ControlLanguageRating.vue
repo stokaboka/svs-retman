@@ -7,14 +7,17 @@
         <drop @drop="onDrop(i-1, ...arguments)" class="left-word2 q-ml-md">
           {{leftWords[i-1].word2}}
         </drop>
+      <div class="left-word2-container">
         <q-btn
           flat
           class="button__delete-variant"
-          :disable="!leftWords[i-1].word2"
-          icon="close"
-          size="xs"
+          v-if="leftWords[i-1].word2"
+          icon="highlight_off"
+          size="md"
+          color="red"
           @click="onRemoveWordFromLeft(leftWords[i-1].word2)">
         </q-btn>
+      </div>
 
       <drag
         class="right-word2"

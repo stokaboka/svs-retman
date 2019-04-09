@@ -29,7 +29,19 @@ export default {
   }
 
   .button__delete-variant {
-    padding-left: 3px;
+    height: 30px;
+    margin-top: -4px;
+    padding: 0 3px;
+  }
+
+  .left-word2-container {
+    width: 30px;
+    height: 26px;
+    overflow: hidden;
+  }
+
+  q {
+    quotes: "\00ab" "\00bb";
   }
 
 </style>
