@@ -50,12 +50,7 @@
         <img src="/statics/assets/icons_1082x972_new_02_small.jpg">
       </div>
 
-      <div class="about-hit shadow-4" ref="hint">
-        <span>Ты свободен в выборе!<br/><br/>
-          Но лучший выбор - курс<br/>
-          <span style="font-weight: 600;">"Погружение в языковую среду"</span>
-        </span>
-      </div>
+      <hint ref="hint" :strings="hitStrings"></hint>
 
     </div>
   </div>
@@ -67,11 +62,13 @@ import {mapState} from 'vuex'
 import {animate, easing} from 'quasar'
 import {sleep} from '../../lib/utils'
 import AudioHelper from '../../lib/AudioHelper'
+import Hint from './Hint'
 
 let hintOnScreen = false
 
 export default {
   name: 'AboutServiceComponent',
+  components: {Hint},
   async mounted () {
     this.audio
       .init(this.api, this.sound)
@@ -80,14 +77,20 @@ export default {
 
     this.playBackgroundSound()
 
-    await sleep(2000)
-    this.animateHint()
+    await sleep(200)
+    this.showHint()
   },
   data () {
     return {
       audio: new AudioHelper(this),
       showPlayInstruction: false,
-      backgroundSoundVolume: 30
+      backgroundSoundVolume: 30,
+      hitStrings: [
+        'Ты свободен в выборе!',
+        'Но лучшей выбор – курс',
+        '<q>Погружение в языковую среду</q>',
+        'в <q>Свободе слова</q>'
+      ]
     }
   },
   computed: {
@@ -136,18 +139,19 @@ export default {
       }
     },
 
-    animateHint () {
+    showHint () {
       const element = this.$refs.hint
-      element.style.top = `${this.$refs.img.offsetTop + this.$refs.img.offsetHeight / 2}px`
+      element.$el.style.top = `${this.$refs.img.offsetTop + this.$refs.img.offsetHeight / 2}px`
       const toImgRight = window.innerWidth - (this.$refs.img.offsetLeft + this.$refs.img.offsetWidth)
       animate.start({
-        from: -this.$refs.hint.clientWidth,
+        from: -element.$el.clientWidth,
         to: toImgRight,
         easing: easing.decelerate,
         apply (pos) {
-          element.style.right = `${pos}px`
+          element.$el.style.right = `${pos}px`
           if (pos > 0) {
-            element.style.display = 'block'
+            element.$el.style.display = 'block'
+            element.startAnim()
           }
         },
         done () {
@@ -185,18 +189,6 @@ export default {
     font-size: 3rem;
     font-weight: bold;
     color: royalblue;
-  }
-
-  .about-hit {
-    display: none;
-    position: absolute;
-    right: -1000px;
-    width: 320px;
-    height: auto;
-    padding: 2rem;
-    border-radius: 1rem;
-    color: white;
-    background-color: rgba(65, 105, 225, 0.95);
   }
 
   .about-palyer {

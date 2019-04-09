@@ -113,6 +113,7 @@ export default class AudioHelper {
     this.audio.addEventListener('timeupdate', (e) => self.eventsHandler(e))
 
     this.audio.volume = this._volume
+    console.log('this.audio.volume', this.audio.volume)
 
     try {
       this.audio.play()
