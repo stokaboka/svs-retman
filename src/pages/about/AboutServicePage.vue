@@ -1,29 +1,29 @@
 <template>
   <q-page :style-fn="myTweak" class="column about-service-container">
 
-    <transition
-      appear
-      enter-active-class="animated fadeIn"
-      leave-active-class="animated fadeOut"
-    >
-      <hero/>
-    </transition>
-
-    <about-service-component></about-service-component>
+    <hero
+      v-if="showHero"
+      :class="animationClass"/>
+    <about-service-component
+      v-if="showAbout"
+      :class="animationClass"/>
 
     <q-btn
+      v-if="showStart"
+      :class="animationClass"
       label="Начать тестирование"
       color="primary"
       size="xl"
       @click="onStartBtnClick"
-    >
-    </q-btn>
+    />
 
   </q-page>
 </template>
 
 <script>
 // to="/beginners"
+
+import {animate, easing} from 'quasar'
 import AboutServiceComponent from '../../components/about/AboutServiceComponent'
 import {mapState, mapGetters, mapActions} from 'vuex'
 import Hero from '../../components/about/Hero'
@@ -32,6 +32,31 @@ export default {
   components: {Hero, AboutServiceComponent},
 
   name: 'AboutServicePage',
+
+  data () {
+    return {
+      showHero: false,
+      showAbout: false,
+      showStart: false,
+      animationTime: 4500,
+      animationClass: 'animate-fade\t'
+    }
+  },
+  mounted () {
+    const self = this
+    animate.start({
+      from: 0,
+      to: self.animationTime,
+      easing: easing.decelerate,
+      apply (pos) {
+        if (pos > self.animationTime / 3) self.showHero = true
+        if (pos > self.animationTime / 2) self.showAbout = true
+        if (pos >= self.animationTime) self.showStart = true
+      },
+      done () {
+      }
+    })
+  },
 
   computed: {
     ...mapState('beginners', ['error']),
@@ -60,12 +85,12 @@ export default {
 </script>
 
 <style>
-.about-service-container {
-  display: flex;
-  flex-flow: column;
-  justify-content: flex-start;
-  align-items: center;
+  .about-service-container {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
 
-  padding: 0 6rem;
-}
+    padding: 0 6rem;
+  }
 </style>

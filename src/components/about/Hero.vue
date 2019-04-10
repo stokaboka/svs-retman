@@ -9,7 +9,7 @@
 
       <div class="hero-body-right column justify-end items-end hero-body-right__text">
         <div class="column justify-center items-end">
-          <span class="hero-body__title">Программа CONTROL YOURSELF.<br>Тестирование лингвистических способностей и <q>Пробное обучение</q></span>
+          <span class="hero-body__title">Программа <strong>CONTROL YOURSELF</strong>.<br>Тестирование лингвистических способностей и <q>Пробное обучение</q></span>
         </div>
         <div v-if="offer" class="column justify-center items-end offer-to-enter-container">
           <div class="offer-to-enter__title">
@@ -53,7 +53,8 @@ export default {
 <style scoped>
   .hero-container {
     width: 100vw;
-    background: rgb(65,105,225);
+    /*background: rgb(65,105,225);*/
+    background: #cceaf5;
     padding: 1rem 2rem;
   }
 
@@ -64,7 +65,8 @@ export default {
     align-items: center;
     width: 100%;
 
-    color: white;
+    /*color: white;*/
+    color: #333333;
   }
 
   .hero-body-left {
@@ -82,7 +84,7 @@ export default {
   .offer-to-enter-container {
     min-width: 500px;
     padding: 2rem 0;
-    color: white;
+    /*color: white;*/
   }
 
   .offer-to-enter__title {
@@ -103,23 +105,28 @@ export default {
     text-align: end;
   }
 
+  .offer-to-enter__link {
+    color: #333333;
+  }
+
   .offer-to-enter__link:link {
-    color: #ffffff;
     font-weight: 600;
   }
 
   /* visited link */
-  .offer-to-enter__link:visited {
-    color: #ffffff;
-  }
+  /*.offer-to-enter__link:visited,*/
+  /*.offer-to-enter__link:hover,*/
+  /*offer-to-enter__link:active {*/
+  /*  !*color: #333333;*!*/
+  /*}*/
 
   /* mouse over link */
-  .offer-to-enter__link:hover {
-    color: #ffffff;
-  }
+  /*.offer-to-enter__link:hover {*/
+  /*  color: #333333;*/
+  /*}*/
 
   /* selected link */
-  .offer-to-enter__link:active {
-    color: #ffffff;
-  }
+  /*.offer-to-enter__link:active {*/
+  /*  color: #333333;*/
+  /*}*/
 </style>

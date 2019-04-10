@@ -12,6 +12,10 @@ export default {
 </script>
 
 <style>
+  body {
+    font-family: 'Ubuntu', sans-serif;
+  }
+
   #q-app {
     background-color: #fff;
   }

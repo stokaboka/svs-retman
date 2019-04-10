@@ -1,8 +1,6 @@
 <template>
   <div class="container about-container">
 
-    <q-window-resize-observable @resize="onWindowResize"/>
-
     <q-page-sticky v-show="(audio.playing || audio.paused)" position="right" :offset="[18, 18]">
       <q-btn round dense color="secondary" size="xl" @click="onPlayPause" :icon="playPauseIcon" />
       <q-spinner-audio v-if="false" color="secondary" :size="30" v-show="audio.playing"/>
@@ -46,11 +44,9 @@
 
       </div>
 
-      <div class="about-image" ref="img">
+      <image-box-with-animation-text :text="hitStrings">
         <img src="/statics/assets/icons_1082x972_new_02_small.jpg">
-      </div>
-
-      <hint ref="hint" :strings="hitStrings"></hint>
+      </image-box-with-animation-text>
 
     </div>
   </div>
@@ -59,16 +55,12 @@
 <script>
 
 import {mapState} from 'vuex'
-import {animate, easing} from 'quasar'
-import {sleep} from '../../lib/utils'
 import AudioHelper from '../../lib/AudioHelper'
-import Hint from './Hint'
-
-let hintOnScreen = false
+import ImageBoxWithAnimationText from './ImageBoxWithAnimationText'
 
 export default {
   name: 'AboutServiceComponent',
-  components: {Hint},
+  components: {ImageBoxWithAnimationText},
   async mounted () {
     this.audio
       .init(this.api, this.sound)
@@ -76,18 +68,15 @@ export default {
       .on('COMPLETE', this.audioEventsHandler)
 
     this.playBackgroundSound()
-
-    await sleep(200)
-    this.showHint()
   },
   data () {
     return {
       audio: new AudioHelper(this),
       showPlayInstruction: false,
-      backgroundSoundVolume: 30,
+      backgroundSoundVolume: 20,
       hitStrings: [
         'Ты свободен в выборе!',
-        'Но лучшей выбор – курс',
+        'Но лучший выбор – курс',
         '<q>Погружение в языковую среду</q>',
         'в <q>Свободе слова</q>'
       ]
@@ -107,9 +96,7 @@ export default {
     this.audio = null
   },
   methods: {
-    audioEventsHandler () {
-
-    },
+    audioEventsHandler () {},
     onPlayPause () {
       if (this.audio) {
         if (this.audio.paused) {
@@ -129,35 +116,6 @@ export default {
     },
     playBackgroundSound () {
       this.audio.volume(this.backgroundSoundVolume).collection(1, 16, '{{SOUNDTHEME}}/').randomCycle().play()
-    },
-
-    onWindowResize (size) {
-      if (hintOnScreen && this.$refs.img) {
-        const toImgRight = size.width - (this.$refs.img.offsetLeft + this.$refs.img.offsetWidth)
-        this.$refs.hint.style.top = `${this.$refs.img.offsetTop + this.$refs.img.offsetHeight / 2}px`
-        this.$refs.hint.style.right = `${toImgRight}px`
-      }
-    },
-
-    showHint () {
-      const element = this.$refs.hint
-      element.$el.style.top = `${this.$refs.img.offsetTop + this.$refs.img.offsetHeight / 2}px`
-      const toImgRight = window.innerWidth - (this.$refs.img.offsetLeft + this.$refs.img.offsetWidth)
-      animate.start({
-        from: -element.$el.clientWidth,
-        to: toImgRight,
-        easing: easing.decelerate,
-        apply (pos) {
-          element.$el.style.right = `${pos}px`
-          if (pos > 0) {
-            element.$el.style.display = 'block'
-            element.startAnim()
-          }
-        },
-        done () {
-          hintOnScreen = true
-        }
-      })
     }
   }
 }
