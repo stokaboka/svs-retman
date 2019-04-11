@@ -113,7 +113,7 @@ const setDictionary = (state, playload) => {
 }
 
 const setDictionaryById = (state, playload) => {
-  state.dictionary = playload
+  // state.dictionary = playload
   const idx = state.dictionary.findIndex(e => e.id === playload.id)
   if (idx >= 0) {
     state.dictionary[idx] = playload

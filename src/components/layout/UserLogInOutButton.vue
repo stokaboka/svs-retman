@@ -40,7 +40,9 @@ export default {
     },
 
     userRoute () {
-      return `/auth${this.isLogged ? '/signout' : '/signin'}`
+      const name = this.isLogged ? 'auth-signout' : 'auth-signin'
+      return {name}
+      // return `/auth${this.isLogged ? '/signout' : '/signin'}`
     },
 
     // ...mapGetters('user', ['user', 'loggedIn']),

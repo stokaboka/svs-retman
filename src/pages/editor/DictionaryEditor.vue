@@ -1,6 +1,9 @@
 <template>
   <q-page class="container page-container">
     <div class="row">
+      <span>{{model.title}}</span>
+    </div>
+    <div class="row">
       <q-select
         class="editor-filter_item"
         v-model="lang1"
@@ -25,18 +28,15 @@
     </div>
     <editable-data-table
       title="Словари"
-      :loading="loading"
-      :data="data"
-      :columns="columns"
-      :showcolumns="showColumns"
-      @on-row-update="onRowUpdate"
+      :model="model"
+      :params="params"
     >
     </editable-data-table>
   </q-page>
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex'
+
 import EditableDataTable from '../../components/admin/table/EditableDataTable'
 
 export default {
@@ -44,13 +44,30 @@ export default {
   components: {EditableDataTable},
   data () {
     return {
-      loading: false,
       scope: '',
       lang1: '',
       lang2: '',
-      showColumns: ['word1', 'word2'],
+      model: {
+        title: 'Словарь',
+        suffix: 'words',
+        key: 'id',
+        edit: {
+          insert: false,
+          update: true,
+          delete: false
+        },
+        columns: [
+          { name: 'id', field: 'id', label: 'id', sortable: true, visible: false, update: false, insert: true },
+          { name: 'word1', field: 'word1', label: 'Слово/фраза 1', sortable: true, visible: true, update: true, insert: true },
+          { name: 'word2', field: 'word2', label: 'Слово/фраза 2', sortable: true, visible: true, update: true, insert: true },
+          { name: 'lang1', field: 'lang1', label: 'Язык родной', sortable: true, visible: false, update: false, insert: true },
+          { name: 'lang2', field: 'lang2', label: 'Язык обучения', sortable: true, visible: false, update: false, insert: true },
+          { name: 'scope', field: 'scope', label: 'Тест', sortable: true, visible: false, update: false, insert: true }
+        ]
+      },
+      params: null,
       scopes: [
-        {label: 'Мнемонический тест', value: 'mnemic::test'},
+        {label: 'Мнемический тест', value: 'mnemic::test'},
         {label: 'Урок 1', value: 'test::lesson::1'},
         {label: 'Урок 2', value: 'test::lesson::2'},
         {label: 'Урок 3', value: 'test::lesson::3'},
@@ -72,24 +89,11 @@ export default {
     this.lang2 = this.langs[0].value
     this.getData()
   },
-  computed: {
-    ...mapGetters('beginners', {data: 'dictionary'}),
-    ...mapGetters('editor', {columns: 'dictionaryColumns'})
-  },
   methods: {
     async getData () {
-      this.loading = true
       const {scope, lang1, lang2} = this
-      await this.getDictionary({scope, lang1, lang2})
-      this.loading = false
-    },
-    onRowUpdate (row) {
-      console.log(row)
-      console.log('Сохранение отключено')
-      // this.updateDictionary(row)
-    },
-    ...mapActions('beginners', ['getDictionary']),
-    ...mapActions('editor', ['updateDictionary'])
+      this.params = `/scope/${scope}/lang1/${lang1}/lang2/${lang2}`
+    }
   }
 }
 </script>
