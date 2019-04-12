@@ -13,7 +13,12 @@
     <q-tr slot="body" slot-scope="props" :props="props">
       <q-td v-for="column in columns" :key="column.field" :props="props">
         {{ props.row[column.field] }}
-        <q-popup-edit v-if="edit.insert || edit.update" v-model="props.row[column.field]" buttons :title="props.row[column.label]" @save="onEditRow(props.row)">
+        <q-popup-edit v-if="edit.update && column.update" v-model="props.row[column.field]" buttons :title="props.row[column.label]" @save="onEditRow(props.row)">
+          <q-field count>
+            <q-input v-model="props.row[column.field]" />
+          </q-field>
+        </q-popup-edit>
+        <q-popup-edit v-if="edit.insert && column.insert" v-model="props.row[column.field]" buttons :title="props.row[column.label]" @save="onInsertRow(props.row)">
           <q-field count>
             <q-input v-model="props.row[column.field]" />
           </q-field>
@@ -95,6 +100,9 @@ export default {
     ...mapGetters('editor', ['title', 'columns', 'visibleColumns', 'data', 'result', 'error', 'loading', 'edit', 'key'])
   },
   methods: {
+    onInsertRow (row) {
+
+    },
     async onEditRow (row) {
       const data = Object.assign({}, row)
       console.log('data', data)

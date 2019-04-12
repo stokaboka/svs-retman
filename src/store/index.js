@@ -5,6 +5,8 @@ import beginners from './beginners'
 import user from './user'
 import auth from './auth'
 import editor from './editor'
+import dictionary from './editor/dictionary'
+import phases from './editor/phases'
 
 Vue.use(Vuex)
 
@@ -18,7 +20,9 @@ const store = new Vuex.Store({
     beginners,
     user,
     auth,
-    editor
+    editor,
+    dictionary,
+    phases
   },
 
   strict: process.env.NODE_ENV !== 'production'
