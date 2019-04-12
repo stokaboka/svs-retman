@@ -59,11 +59,14 @@ export default {
       debug: process.env.NODE_ENV !== 'production',
       selectedTab: 'about',
       editorMenu: [
-        {label: 'Словарь', to: {path: 'editor/dictionary'}},
-        {label: 'Фазы', to: {path: 'editor/phases'}},
-        {label: 'Шаги', to: {path: 'editor/steps'}},
-        {label: 'Проходы уроков', to: {path: 'editor/stages'}},
-        {label: 'Звуковые метки', to: {path: 'editor/cue'}}
+        {label: 'Словарь', to: {name: 'editor', params: {module: 'dictionary'}}},
+        {label: 'Фазы', to: {name: 'editor', params: {module: 'phases'}}},
+        {label: 'Шаги', to: {name: 'editor', params: {module: 'steps'}}},
+        {label: 'Проходы уроков', to: {name: 'editor', params: {module: 'stages'}}},
+        {label: 'Звуковые метки', to: {name: 'editor', params: {module: 'cue'}}}
+      ],
+      resultsMenu: [
+        {label: 'Пользователи', to: {name: 'editor', params: {module: 'dictionary'}}}
       ]
     }
   },

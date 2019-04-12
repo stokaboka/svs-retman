@@ -104,6 +104,18 @@ const getLessons = ({ commit, getters }, p) => {
     })
 }
 
+const getAllLessons = ({ commit, getters }, p) => {
+  return axios.get(`${getters.api}/ls`)
+    .then(response => {
+      commit('setResult', 'OK')
+      return response.data
+    })
+    .catch(error => {
+      commit('setError', error)
+      return false
+    })
+}
+
 const getCue = ({ commit, getters }, p) => {
   return axios.get(`${getters.api}/cue/file/${p.file}`)
     .then(response => {
@@ -192,6 +204,7 @@ export {
   getDictionary,
 
   getLessons,
+  getAllLessons,
 
   getCue,
   saveResult,

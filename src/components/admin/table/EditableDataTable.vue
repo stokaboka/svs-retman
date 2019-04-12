@@ -2,6 +2,8 @@
   <q-table
     :loading="loading"
     :separator="separator"
+    :selection="selection"
+    :selected.sync="selectedSecond"
     :title="title"
     :data="rows"
     :columns="columns"
@@ -10,7 +12,7 @@
     :row-key="key"
     :pagination.sync="paginationControl"
   >
-    <q-tr slot="body" slot-scope="props" :props="props">
+    <q-tr slot="body" slot-scope="props" :props="props" @click.native="rowClick(props.row)">
       <q-td v-for="column in columns" :key="column.field" :props="props">
         {{ props.row[column.field] }}
         <q-popup-edit v-if="edit.update && column.update" v-model="props.row[column.field]" buttons :title="props.row[column.label]" @save="onEditRow(props.row)">
@@ -64,6 +66,12 @@ import {mapGetters, mapMutations, mapActions} from 'vuex'
 export default {
   name: 'EditableDataTable',
   props: {
+    selection: {
+      type: String,
+      default () {
+        return 'none'
+      }
+    },
     model: {
       type: Object,
       default () {
@@ -89,17 +97,24 @@ export default {
       separator: 'cell',
       tableVisibleColumns: [],
       rows: [],
-      paginationControl: { rowsPerPage: 10, page: 1 }
+      paginationControl: { rowsPerPage: 10, page: 1 },
+      selectedSecond: []
     }
   },
-  async mounted () {
-    this.setModel(this.model)
-    this.tableVisibleColumns = this.visibleColumns
+  mounted () {
+    this.init(this.model)
   },
   computed: {
     ...mapGetters('editor', ['title', 'columns', 'visibleColumns', 'data', 'result', 'error', 'loading', 'edit', 'key'])
   },
   methods: {
+    init (model) {
+      this.setModel(model)
+      this.tableVisibleColumns = this.visibleColumns
+    },
+    rowClick (row) {
+      this.$emit('table-row-click', row)
+    },
     onInsertRow (row) {
 
     },
@@ -113,6 +128,9 @@ export default {
     ...mapActions('editor', ['load', 'insert', 'update', 'delete'])
   },
   watch: {
+    model (val) {
+      this.init(val)
+    },
     async params (val) {
       await this.load(val)
     },

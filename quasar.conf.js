@@ -76,6 +76,7 @@ module.exports = function (ctx) {
         'QDatetime',
         'QTabs',
         'QTab',
+        'QTabPane',
         'QRouteTab',
         // 'QStepper',
         // 'QStep',
