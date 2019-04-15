@@ -168,11 +168,11 @@ const loadResult = ({ commit, getters, rootGetters }) => {
     })
 }
 
-const loadResults = ({ commit, getters, rootGetters }) => {
-  const user = rootGetters['auth/user']
+const loadUserResults = ({ commit, getters }, user) => {
+  // const user = rootGetters['auth/user']
   return axios.get(`${getters.api}/user/results/${user.login}`)
     .then(response => {
-      commit('setResults', response.data)
+      commit('setUserResults', response.data)
       commit('setResult', 'OK')
       return true
     })
@@ -209,6 +209,6 @@ export {
   getCue,
   saveResult,
   loadResult,
-  loadResults,
+  loadUserResults,
   getMnemonicRecommendation
 }

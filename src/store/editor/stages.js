@@ -14,10 +14,10 @@ const state = {
     { name: 'step', field: 'step', label: 'Шаг', sortable: true, visible: true, update: false, insert: false },
     { name: 'lesson', field: 'lesson', label: 'Урок', sortable: true, visible: true, update: false, insert: false },
     { name: 'stage', field: 'stage', label: 'Проход', sortable: true, visible: true, update: false, insert: false },
-    { name: 'pages', field: 'pages', label: 'Страниц', sortable: true, visible: true, update: false, insert: false },
+    // { name: 'pages', field: 'pages', label: 'Страниц', sortable: true, visible: true, update: false, insert: false },
     { name: 'scope', field: 'scope', label: 'Фильтр', sortable: true, visible: true, update: false, insert: false },
-    { name: 'sound', field: 'sound', label: 'Звук', sortable: true, visible: true, update: false, insert: false },
-    { name: 'time', field: 'time', label: 'Время', sortable: true, visible: true, update: false, insert: false }
+    { name: 'sound', field: 'sound', label: 'Звук', sortable: true, visible: true, update: false, insert: false }
+    // { name: 'time', field: 'time', label: 'Время', sortable: true, visible: true, update: false, insert: false }
   ],
   filter: 'FilterStages'
 }

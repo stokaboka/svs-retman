@@ -52,11 +52,24 @@ export default {
     module: {
       type: String,
       required: true
+    },
+    filter: {
+      type: String,
+      default () {
+        return ''
+      },
+      required: false
     }
   },
   data () {
     return {
       params: null
+    }
+  },
+  mounted () {
+    // console.log('Editor mounted', this.filter)
+    if (this.filter) {
+      this.setFilterParams(this.filter)
     }
   },
   computed: {
@@ -71,8 +84,17 @@ export default {
     onTableRowClick (row) {
       this.$emit('table-row-click', row)
     },
-    async onFilterParamsChanged (params) {
+    onFilterParamsChanged (params) {
+      this.setFilterParams(params)
+    },
+    setFilterParams (params) {
       this.params = params
+    }
+  },
+  watch: {
+    filter (val) {
+      // console.log('Editor', val)
+      this.setFilterParams(val)
     }
   }
 }

@@ -5,6 +5,8 @@ const RESULTS_INFO = {
 
 const sleep = (ms) => (new Promise(resolve => setTimeout(resolve, ms)))
 
+const toDDMMYYYY = (dt) => (dt ? dt.toString().substr(0, 10).split('-').reverse().join('/') : '')
+
 const testWordReducer = (acc, val) => {
   if (val.word2 && val.word2 === val.hide) {
     return acc + 1
@@ -73,5 +75,6 @@ export {
   minKeysValues,
   reduce,
   lexicalResult,
-  sleep
+  sleep,
+  toDDMMYYYY
 }

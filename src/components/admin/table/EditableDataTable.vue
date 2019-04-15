@@ -14,7 +14,7 @@
   >
     <q-tr slot="body" slot-scope="props" :props="props" @click.native="rowClick(props.row)">
       <q-td v-for="column in columns" :key="column.field" :props="props">
-        {{ props.row[column.field] }}
+        {{format(props.row[column.field], column)}}
         <q-popup-edit v-if="edit.update && column.update" v-model="props.row[column.field]" buttons :title="props.row[column.label]" @save="onEditRow(props.row)">
           <q-field count>
             <q-input v-model="props.row[column.field]" />
@@ -62,6 +62,7 @@
 <script>
 
 import {mapGetters, mapMutations, mapActions} from 'vuex'
+import {toDDMMYYYY} from '../../../lib/utils'
 
 export default {
   name: 'EditableDataTable',
@@ -120,9 +121,22 @@ export default {
     },
     async onEditRow (row) {
       const data = Object.assign({}, row)
-      console.log('data', data)
+      // console.log('data', data)
       const result = await this.update(data)
       console.log('result', result)
+    },
+    format (value, column) {
+      if (column.mask) {
+        switch (column.mask) {
+          case 'DD-MM-YYYY':
+            // return value ? value.toString().substr(0, 10).split('-').reverse().join('/') : ''
+            return toDDMMYYYY(value)
+          default:
+            return value
+        }
+      } else {
+        return value
+      }
     },
     ...mapMutations('editor', {setModel: 'SET_MODEL'}),
     ...mapActions('editor', ['load', 'insert', 'update', 'delete'])
@@ -132,6 +146,7 @@ export default {
       this.init(val)
     },
     async params (val) {
+      // console.log('Table', val)
       await this.load(val)
     },
     data (val) {

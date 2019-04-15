@@ -37,6 +37,7 @@
         :audio="audio"
         :timer="timer"
         :results="results"
+        :testing="testing"
         ref="phaseComponent"
         @exercies-action="onExerciesAction"
       ></component>

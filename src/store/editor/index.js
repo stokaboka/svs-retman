@@ -122,7 +122,7 @@ const actions = {
    * @returns {Promise<AxiosResponse<any> | boolean>}
    */
   load ({commit, getters, rootGetters}, params = '') {
-    console.log(params)
+    // console.log(params)
     const api = rootGetters['beginners/api']
     const suffix = getters['suffix']
     const url = `${api}/${suffix}${params}`
@@ -140,7 +140,7 @@ const actions = {
       })
   },
   insert ({commit, getters, rootGetters}, playload) {
-    console.log(playload)
+    // console.log(playload)
     const api = rootGetters['beginners/api']
     const suffix = getters['suffix']
     const url = `${api}/${suffix}`
@@ -157,7 +157,7 @@ const actions = {
       })
   },
   update ({commit, getters, rootGetters}, playload) {
-    console.log(playload)
+    // console.log(playload)
     const api = rootGetters['beginners/api']
     const suffix = getters['suffix']
     const url = `${api}/${suffix}`
@@ -174,7 +174,7 @@ const actions = {
       })
   },
   delete ({commit, getters, rootGetters}, playload) {
-    console.log(playload)
+    // console.log(playload)
     const api = rootGetters['beginners/api']
     const suffix = getters['suffix']
     const url = `${api}/${suffix}`

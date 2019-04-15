@@ -10,6 +10,10 @@ const results = (state) => {
   return state.results
 }
 
+const userResults = (state) => {
+  return state.userResults
+}
+
 const testing = (state) => {
   return state.testing
 }
@@ -114,6 +118,7 @@ export {
   title,
   api,
   results,
+  userResults,
   testing,
   version,
   steps,

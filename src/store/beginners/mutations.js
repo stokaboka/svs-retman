@@ -140,6 +140,10 @@ const setResults = (state, playload) => {
   state.results[playload.prop] = playload.value
 }
 
+const setUserResults = (state, playload) => {
+  state.userResults = playload
+}
+
 const setTesting = (state, playload) => {
   state.testing = playload
 }
@@ -179,6 +183,8 @@ export {
 
   setResults,
   setTesting,
+
+  setUserResults,
 
   setCue
 }

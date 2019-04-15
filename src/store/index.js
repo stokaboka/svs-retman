@@ -11,6 +11,7 @@ import cue from './editor/cue'
 import stages from './editor/stages'
 import steps from './editor/steps'
 import users from './editor/users'
+import usersResults from './editor/usersResults'
 
 Vue.use(Vuex)
 
@@ -30,7 +31,8 @@ const store = new Vuex.Store({
     cue,
     stages,
     steps,
-    users
+    users,
+    usersResults
   },
 
   strict: process.env.NODE_ENV !== 'production'

@@ -15,6 +15,8 @@ export default class AudioHelper {
     this.playing = false
     this.paused = false
 
+    this._offset = 0
+
     this._volume = 1
 
     this.timeStamp = {
@@ -79,6 +81,12 @@ export default class AudioHelper {
     return this
   }
 
+  offset (v) {
+    this._offset = v || 0
+    this._offset = this._offset < 0 ? 0 : this._offset
+    return this
+  }
+
   volume (v) {
     this._volume = v > 1 ? v / 100 : v
     if (this.audio) {
@@ -113,10 +121,13 @@ export default class AudioHelper {
     this.audio.addEventListener('timeupdate', (e) => self.eventsHandler(e))
 
     this.audio.volume = this._volume
-    console.log('this.audio.volume', this.audio.volume)
+    // console.log('this.audio.volume', this.audio.volume)
 
     try {
       this.audio.play()
+      if (this._offset > 0) {
+        this.audio.currentTime = this._offset
+      }
       this.playing = true
       this.paused = false
     } catch (e) {
@@ -136,10 +147,11 @@ export default class AudioHelper {
     return this
   }
 
-  play (sound) {
+  play (sound = '', offset = 0) {
     if (sound) {
       this.sounds([sound])
     }
+    this.offset(offset)
     if (this._sounds.length > 0) {
       let snd = this.nextSound()
       snd = `${this.api}/${this.sndPath}/${snd}`
@@ -182,6 +194,7 @@ export default class AudioHelper {
       this.paused = false
       this.once()
     }
+    this._offset = 0
   }
 
   isPlaying () {

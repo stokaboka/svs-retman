@@ -111,11 +111,18 @@ export default {
       if (this.audio.playing || this.audio.paused) {
         this.audio.stop()
       } else {
-        this.audio.sounds(sounds).mode('ONCE').play()
+        this.audio
+          .sounds(sounds)
+          .mode('ONCE')
+          .play()
       }
     },
     playBackgroundSound () {
-      this.audio.volume(this.backgroundSoundVolume).collection(1, 16, '{{SOUNDTHEME}}/').randomCycle().play()
+      this.audio
+        .volume(this.backgroundSoundVolume)
+        .collection(1, 16, '{{SOUNDTHEME}}/')
+        .randomCycle()
+        .play()
     }
   }
 }

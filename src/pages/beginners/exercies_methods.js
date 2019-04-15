@@ -52,7 +52,7 @@ export default {
     },
 
     onChangedSANSelf (value) {
-      console.log(value)
+      // console.log(value)
       if (this.phase.phase === 1) {
         this.SAN.before = value
       } else {

@@ -27,15 +27,26 @@
 
 <script>
 import get from 'lodash/get'
-import {mapGetters, mapActions} from 'vuex'
+import {toDDMMYYYY} from '../../lib/utils'
 
 export default {
   name: 'BeginnerFinalResult',
   filters: {
     dateDMY: function (value) {
-      if (!value) return ''
-      value = value.toString().substr(0, 10).split('-').reverse().join('/')
-      return value
+      return toDDMMYYYY(value)
+    }
+  },
+  props: {
+    testing: {
+      type: Array,
+      required: true
+    },
+    onlyzero: {
+      type: Boolean,
+      default () {
+        return true
+      },
+      required: false
     }
   },
   data () {
@@ -43,11 +54,6 @@ export default {
       // resultX: {'mnemic': {'checked': 2, 'checkedWordsPairs': [{'word1': 'история', 'word2': 'арка', 'hide': ''}, {'word1': 'будущее', 'word2': 'писать', 'hide': ''}], 'rememberedWordsPairs': [{'word1': 'история', 'word2': 'арка'}, {'word1': 'будущее', 'word2': 'писать'}], 'remembered': 2, 'percent': 4, 'cancel': true, 'recomendation': '<p>Вы запомнили  <strong>2</strong> слов <strong>(4%)</strong></p>  <p><strong><p>Рекомендуем Вам прервать тестирование, устранить все мешающие и отвлекающие факторы, как следует отдохнуть и повторить все с самого начала еще раз.</p> <p>Если результат не улучшился, рискните продолжить тестирование - зрительное ассоциативное запоминание не единственный вид памяти, может быть, Вы сможете компенсировать результаты за счет слуховой или зрительной механической памяти (повторение - мать учения).</p> <p>Эти виды памяти будут задействованы в следующих заданиях.</p></strong></p>'}, 'selfrating': {'SelfRating': {'raw': {'EN': [{'id': 1, 'name': 'Полное отсутствие знаний.'}], 'DE': [{'id': 2, 'name': 'Могу отличить данный язык от другого.'}], 'FR': [{'id': 1, 'name': 'Полное отсутствие знаний.'}, {'id': 4, 'name': 'Понимаю смысл отдельных фраз.'}]}, 'reduced': {'EN': 1, 'DE': 2, 'FR': 5}}, 'ControlRating': {'raw': {'EN': [{'word1': 'boundless', 'word2': 'бакенбарды', 'hide': 'безграничный'}], 'DE': [{'word1': 'färbe', 'word2': 'конец', 'hide': 'краски'}], 'FR': [{'word1': 'Rangée', 'word2': 'посвящать', 'hide': 'Ряд, строй'}]}, 'reduced': {'EN': 3, 'DE': 4, 'FR': 9}}, 'langSelfRating': {'lang': 'EN', 'value': 1}, 'langControlRating': {'lang': 'EN', 'value': 0}, 'langResult': 'EN', 'recomendation': 'В результате тестирования выбран язык обучения: <p><strong>Английский</strong></p>'}, 'lexical': {'checked': 3, 'checkedWordsPairs': [{'word1': 'airport', 'word2': 'аэропорт', 'hide': 'аэропорт'}, {'word1': 'animal', 'word2': 'животное', 'hide': 'животное'}, {'word1': 'apples', 'word2': 'яблоки', 'hide': 'яблоки'}], 'rememberedWordsPairs': [{'word1': 'airport', 'word2': 'аэропорт'}, {'word1': 'animal', 'word2': 'животное'}, {'word1': 'apples', 'word2': 'яблоки'}], 'remembered': 3, 'percent': 6, 'cancel': true, 'recomendation': '<p>Из 100 предъявленных пар слов вы отметили <strong>3</strong> и запомнили <strong>3</strong> пар</p>'}, 'san': {'before': {'s': 1.75, 'a': 3.5, 'n': 3.25}, 'after': {'s': 4.25, 'a': 3.25, 'n': 3}, 'recomendation': '<p>Ваше самочувствие до проведения аутотренинга:<br> <strong>С: 1.75; А: 3.5; H: 3.25</strong>, после аутотренинга: <strong>С: 4.25; А: 3.25; H: 3</strong>. <br><strong><p>Ваше самочувствие улучшилось, активность ухудшилось, настроение ухудшилось,  после прохождения аутотренинга.</p><br><p>Вы можете перейти к следующему тесту.</p></strong></p>'}, 'lesson': {'0': null, '1': null, '2': null, '3': null, 'recomendation': 'После прохождения пробного урока Ваш результат: <br><strong>Вы не выполнили задание урока</strong>'}, 'endlexical': {'checked': 4, 'checkedWordsPairs': [{'word1': 'also', 'word2': 'также', 'hide': 'также'}, {'word1': 'animal', 'word2': 'животное', 'hide': 'животное'}, {'word1': 'apples', 'word2': 'яблоки', 'hide': 'яблоки'}, {'word1': 'bag', 'word2': 'сумка', 'hide': 'сумка'}], 'rememberedWordsPairs': [{'word1': 'airport', 'word2': 'аэропорт'}, {'word1': 'animal', 'word2': 'животное'}, {'word1': 'apples', 'word2': 'яблоки'}, {'word1': 'bag', 'word2': 'сумка'}], 'remembered': 7, 'percent': 6, 'cancel': true, 'recomendation': '<p>Из 100 предъявленных пар слов вы отметили <strong>4</strong> и запомнили <strong>3</strong> пар</p>'}}
     }
   },
-  // async mounted () {
-  // await this.signin({login: '1', password: '111111'})
-  // this.save(this.resultX)
-  // this.loadTestingResult()
-  // },
   computed: {
     testingDate () {
       return get(this.testing, '[0].date', '')
@@ -58,37 +64,8 @@ export default {
     testingData () {
       const tst = get(this.testing, '[0].testing', '[]')
       const tstJson = JSON.parse(tst)
-      return tstJson.filter(e => e.value !== 0)
-      // return tstJson
-    },
-    ...mapGetters('beginners', [
-      'results',
-      'testing'
-    ])
-  },
-  methods: {
-    ...mapActions('auth', ['signin']),
-    // async loadTestingResult () {
-    //   const result = await this.loadResult()
-    //   if (result) {
-    //     this.$q.notify({message: 'Выполнена обработка результатов.', type: 'info'})
-    //   } else {
-    //     this.$q.notify({message: 'Выполненить обработку результатов не удалось. Попробуйте еще раз позднее.', type: 'negative'})
-    //   }
-    // },
-
-    // async save () {
-    //   const result = await this.saveResult(this.resultX)
-    //   if (result) {
-    //     this.$q.notify({message: 'Результы теста успешно сохранены.', type: 'info'})
-    //   } else {
-    //     this.$q.notify({message: 'Результы теста не удалось сохранить.', type: 'negative'})
-    //   }
-    // },
-    ...mapActions('beginners', [
-      'saveResult',
-      'loadResult'
-    ])
+      return this.onlyzero ? tstJson.filter(e => e.value !== 0) : tstJson
+    }
   }
 }
 </script>

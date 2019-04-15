@@ -1,4 +1,3 @@
-
 const mode = process.env.MODE
 
 import AudioHelper from '../../lib/AudioHelper'
@@ -289,7 +288,11 @@ export default {
       if (this.phase) {
         this.setStepperVisible(this.phase.action === 'BRIEF')
         const sounds = this.phase.sounds
-        this.audio.sounds(sounds).mode(this.phase.mode).play()
+        this.audio
+          .sounds(sounds)
+          .mode(this.phase.mode)
+          .volume(this.phase.soundVolume)
+          .play()
 
         if (this.phase.scope) {
           this.getDictionary(this.phase)

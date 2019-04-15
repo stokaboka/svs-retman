@@ -8,6 +8,7 @@ export default {
   soundTheme: '2',
 
   results: {},
+  userResults: [],
 
   testing: [],
 

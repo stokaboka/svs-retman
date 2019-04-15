@@ -27,6 +27,7 @@
 
 <script>
 // <q-btn @click="play()"></q-btn>
+import get from 'lodash/get'
 import GlobalEvents from 'vue-global-events'
 import { scroll } from 'quasar'
 import LessonRow from './parts/LessonRow'
@@ -236,7 +237,13 @@ export default {
       if (itemElementTop) {
         this.scrollToElement(itemElementFirst.$el, true)
       }
-      this.audio.mode('ONCE').play(this.lesson.sound)
+
+      const startSoundOffset = get(this.reverseCue, '[0]', 0) - 1
+      // const startSoundOffset = (this.reverseCue.length === 0 || this.reverseCue[0] - 1) < 0 ? 0 : this.reverseCue[0] - 1
+
+      this.audio
+        .mode('ONCE')
+        .play(this.lesson.sound, startSoundOffset)
     },
 
     onTouchEnd (event) {

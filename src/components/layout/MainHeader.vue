@@ -15,9 +15,9 @@
         <q-route-tab slot="title" name="about" :color="color" icon="home" :to="{name: 'about'}" replace hide="label" default
                      label="Главная"></q-route-tab>
         <user-log-in-out-button :color="color" slot="title" name="login"></user-log-in-out-button>
-        <q-route-tab v-if="debug || isOperator" slot="title" name="result" :color="color" icon="edit" :to="{name: 'results'}" replace hide="label"
+        <q-route-tab v-if="debug || isOperator || isAdmin" slot="title" name="result" :color="color" icon="edit" :to="{name: 'results'}" replace hide="label"
                      label="Результаты"></q-route-tab>
-        <q-tab v-if="debug || isAdmin || isOperator" label="Редактор" name="editor" :color="color" slot="title" icon="edit" replace hide="label">
+        <q-tab v-if="debug || isAdmin" label="Редактор" name="editor" :color="color" slot="title" icon="edit" replace hide="label">
           <q-popover>
             <q-list item-separator link>
               <q-item
@@ -56,7 +56,8 @@ export default {
   },
   data () {
     return {
-      debug: process.env.NODE_ENV !== 'production',
+      // debug: process.env.NODE_ENV !== 'production',
+      debug: false,
       selectedTab: 'about',
       editorMenu: [
         {label: 'Словарь', to: {name: 'editor', params: {module: 'dictionary'}}},

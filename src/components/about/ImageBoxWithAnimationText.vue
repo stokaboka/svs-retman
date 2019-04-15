@@ -49,13 +49,19 @@ export default {
 
     animationHelper.start('showHint')
   },
+  beforeDestroy () {
+    animationHelper = new AnimationHelper(this)
+    animationHelper.off('showHint', this.onShowHint)
+    animationHelper.off('hideHint', this.onHideHint)
+    animationHelper.off('repeatShowHint', this.onRepeatShowHint)
+  },
   methods: {
     onAnimantionComplete () {
       animationHelper.start('hideHint')
       // console.log('onAnimantionComplete - wait hideHint')
     },
     onShowHint () {
-      console.log('onShowHint - start')
+      // console.log('onShowHint - start')
       const self = this
       const element = this.$refs.hint
       element.$el.style.opacity = '1'
@@ -71,7 +77,9 @@ export default {
         },
         done () {
           // console.log('onShowHint - done')
-          element.startAnim()
+          if (element) {
+            element.startAnim()
+          }
         }
       })
     },
