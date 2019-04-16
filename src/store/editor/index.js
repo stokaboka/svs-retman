@@ -13,7 +13,9 @@ const state = {
     delete: false
   },
   key: 'id',
-  loading: false
+  loading: false,
+  rowsNumber: 0,
+  filter: ''
 }
 
 const getters = {
@@ -45,6 +47,12 @@ const getters = {
   title (state) {
     return state.title
   },
+  filterComponent (state) {
+    return state.filter
+  },
+  rowsNumber (state) {
+    return state.rowsNumber
+  },
   data (state) {
     return state.data
   },
@@ -64,6 +72,7 @@ const mutations = {
     state.columns = model.columns
     state.edit = model.edit
     state.key = model.key
+    state.filter = model.filter
   },
 
   SET_EDIT (state, edit) {
@@ -96,7 +105,15 @@ const mutations = {
   },
 
   SET_DATA (state, data) {
-    state.data = data
+    if (Array.isArray(data)) {
+      state.data = data
+      state.rowsNumber = data.length
+    } else {
+      state.data = data.rows
+      state.rowsNumber = data.rowsNumber
+    }
+
+    state.loading = false
   },
 
   SET_RESULT (state, result) {

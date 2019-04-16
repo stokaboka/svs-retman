@@ -16,7 +16,7 @@ const state = {
     { name: 'birthday', field: 'birthday', label: 'Дата рождения', sortable: true, visible: true, update: false, insert: false },
     { name: 'role', field: 'role', label: 'Группа', sortable: true, visible: true, update: false, insert: false }
   ],
-  filter: 'FilterUsers'
+  filter: ''
 }
 
 const getters = {

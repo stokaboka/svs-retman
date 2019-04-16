@@ -64,24 +64,26 @@ export default {
       // console.log('onShowHint - start')
       const self = this
       const element = this.$refs.hint
-      element.$el.style.opacity = '1'
-      animate.start({
-        from: -500,
-        to: -120,
-        easing: easing.decelerate,
-        apply (pos) {
-          element.$el.style.right = `${pos}px`
-          if (pos > -300) {
-            self.visibleHint = true
+      if (element) {
+        element.$el.style.opacity = '1'
+        animate.start({
+          from: -500,
+          to: -120,
+          easing: easing.decelerate,
+          apply (pos) {
+            element.$el.style.right = `${pos}px`
+            if (pos > -300) {
+              self.visibleHint = true
+            }
+          },
+          done () {
+            // console.log('onShowHint - done')
+            if (element) {
+              element.startAnim()
+            }
           }
-        },
-        done () {
-          // console.log('onShowHint - done')
-          if (element) {
-            element.startAnim()
-          }
-        }
-      })
+        })
+      }
     },
     onHideHint () {
       // console.log('onHideHint - start')

@@ -36,23 +36,25 @@ export default {
   },
   methods: {
     startAnim () {
-      this.$refs.s1.reset()
-      this.$refs.s2.reset()
-      this.$refs.s3.reset()
-      this.$refs.s4.reset()
+      if (this.$refs.s1 && this.$refs.s2 && this.$refs.s3 && this.$refs.s4) {
+        this.$refs.s1.reset()
+        this.$refs.s2.reset()
+        this.$refs.s3.reset()
+        this.$refs.s4.reset()
 
-      this.$refs.s1.start()
+        this.$refs.s1.start()
+      }
     },
     onAnimantionComplete (num) {
       switch (num) {
         case 1:
-          this.$refs.s2.start()
+          if (this.$refs.s2) this.$refs.s2.start()
           break
         case 2:
-          this.$refs.s3.start()
+          if (this.$refs.s3) this.$refs.s3.start()
           break
         case 3:
-          this.$refs.s4.start()
+          if (this.$refs.s4) this.$refs.s4.start()
           break
         case 4:
           this.$emit('animation-complete')

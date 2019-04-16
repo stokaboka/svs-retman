@@ -8,8 +8,31 @@ const routes = [
       { path: '', name: 'home', component: () => import('pages/about/AboutServicePage.vue') },
       { path: 'about', name: 'about', component: () => import('pages/about/AboutServicePage.vue') },
       { path: 'beginners', name: 'beginners', component: () => import('pages/beginners/BeginnersPage.vue') },
-      { path: 'editor/:module', name: 'editor', component: () => import('pages/editor/Editor.vue'), props: true },
-      { path: 'results', name: 'results', component: () => import('pages/results/Users.vue') },
+      { path: 'editor/:module',
+        name: 'editor',
+        component: () => import('pages/editor/Editor.vue'),
+        props: true,
+        beforeEnter (to, from, next) {
+          const isLogged = store.getters['auth/isLogged']
+          if (isLogged) {
+            next()
+          } else {
+            next({name: 'home'})
+          }
+        }
+      },
+      { path: 'results',
+        name: 'results',
+        component: () => import('pages/results/Users.vue'),
+        beforeEnter (to, from, next) {
+          const isLogged = store.getters['auth/isLogged']
+          if (isLogged) {
+            next()
+          } else {
+            next({name: 'home'})
+          }
+        }
+      },
       // { path: 'results/:user', name: 'results', component: () => import('pages/results/Results.vue') },
       { path: 'auth',
         name: 'auth',

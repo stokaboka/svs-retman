@@ -3,14 +3,15 @@
     :loading="loading"
     :separator="separator"
     :selection="selection"
-    :selected.sync="selectedSecond"
+    :selected.sync="selected"
     :title="title"
     :data="rows"
     :columns="columns"
     :visible-columns="tableVisibleColumns"
     :filter="filter"
-    :row-key="key"
+    row-key="name"
     :pagination.sync="paginationControl"
+    @request="request"
   >
     <q-tr slot="body" slot-scope="props" :props="props" @click.native="rowClick(props.row)">
       <q-td v-for="column in columns" :key="column.field" :props="props">
@@ -29,7 +30,6 @@
     </q-tr>
 
     <template slot="top-left" slot-scope="props">
-      <span class="table-title">{{title}}</span>
       <q-search
         hide-underline
         color="secondary"
@@ -60,7 +60,8 @@
 </template>
 
 <script>
-
+//  <!--    :selected.sync="selectedSecond"-->
+// <span class="table-title">{{title}}</span>
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 import {toDDMMYYYY} from '../../../lib/utils'
 
@@ -98,15 +99,28 @@ export default {
       separator: 'cell',
       tableVisibleColumns: [],
       rows: [],
-      paginationControl: { rowsPerPage: 10, page: 1 },
-      selectedSecond: []
+      paginationControl: {
+        sortBy: null, // String, column "name" property value
+        descending: false,
+        rowsPerPage: 10,
+        page: 1,
+        rowsNumber: 0
+      },
+      selectedSecond: [],
+      selected: []
     }
   },
   mounted () {
     this.init(this.model)
+    if (!this.filterComponent) {
+      this.request({
+        pagination: this.paginationControl,
+        filter: this.filter
+      })
+    }
   },
   computed: {
-    ...mapGetters('editor', ['title', 'columns', 'visibleColumns', 'data', 'result', 'error', 'loading', 'edit', 'key'])
+    ...mapGetters('editor', ['title', 'columns', 'visibleColumns', 'data', 'result', 'error', 'loading', 'edit', 'key', 'pagination', 'rowsNumber', 'filterComponent'])
   },
   methods: {
     init (model) {
@@ -129,7 +143,6 @@ export default {
       if (column.mask) {
         switch (column.mask) {
           case 'DD-MM-YYYY':
-            // return value ? value.toString().substr(0, 10).split('-').reverse().join('/') : ''
             return toDDMMYYYY(value)
           default:
             return value
@@ -138,6 +151,30 @@ export default {
         return value
       }
     },
+
+    async request ({ pagination, filter }) {
+      // console.log('request', pagination, filter)
+      let ap = [
+        `page=${pagination.page}`,
+        `limit=${pagination.rowsPerPage}`
+      ]
+
+      if (pagination.sortBy) {
+        ap.push(`sortBy=${pagination.sortBy}`)
+        ap.push(`descending=${pagination.descending}`)
+      }
+
+      if (filter) {
+        ap.push(`filter=${filter}`)
+      }
+
+      let query = `?${ap.join('&')}`
+
+      await this.load(`${this.params || ''}${query}`)
+
+      this.paginationControl = pagination
+      this.paginationControl.rowsNumber = this.rowsNumber
+    },
     ...mapMutations('editor', {setModel: 'SET_MODEL'}),
     ...mapActions('editor', ['load', 'insert', 'update', 'delete'])
   },
@@ -145,9 +182,11 @@ export default {
     model (val) {
       this.init(val)
     },
-    async params (val) {
-      // console.log('Table', val)
-      await this.load(val)
+    params (val) {
+      this.request({
+        pagination: this.paginationControl,
+        filter: this.filter
+      })
     },
     data (val) {
       this.rows = val.map(e => Object.assign({}, e))
