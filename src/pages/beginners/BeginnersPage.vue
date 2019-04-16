@@ -1,11 +1,11 @@
 <template>
   <q-page class="container page-container">
 
-    <q-page-sticky v-if="showTimerPlayPauseBtn" position="right" :offset="[18, 18]">
+    <q-page-sticky v-if="showTimerPlayPauseBtn" class="play-pause_btns" position="right" :offset="[18, 18]">
       <q-btn round dense color="secondary" size="xl" @click="onPlayPause" :icon="playPauseIcon" />
     </q-page-sticky>
 
-    <q-page-sticky v-if="showAudioPlayPauseBtn" position="right" :offset="[18, 18]">
+    <q-page-sticky v-if="showAudioPlayPauseBtn" class="play-pause_btns" position="right" :offset="[18, 18]">
       <q-btn round dense color="secondary" size="xl" @click="onPlayPause" :icon="playPauseIcon" />
     </q-page-sticky>
 
@@ -28,6 +28,7 @@
       <component
         v-if="phase.component"
         class="component-container"
+        :style="styleTestComponent"
         :is="phase.component"
         :dictionary="dictionary"
         :lessons="lessons"
@@ -59,6 +60,11 @@
         color="secondary"
         @click="doCancel">
       </q-btn>
+    </div>
+
+    <div v-if="phase.video" class="column justify-center items-center">
+      <span>Пример выполнения теста:</span>
+      <video :src="video" height="320" autoplay controls loop muted></video>
     </div>
 
   </q-page>
@@ -247,6 +253,10 @@ export default {
 
   .component-container {
     width: 100%;
+    transition: opacity 0.5s;
   }
 
+  .play-pause_btns {
+    z-index: 999;
+  }
 </style>

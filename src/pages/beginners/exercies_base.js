@@ -97,6 +97,13 @@ export default {
     showTimerPlayPauseBtn () {
       return this.phase && this.timer.active
     },
+    styleTestComponent () {
+      if (this.showTimerPlayPauseBtn) {
+        return (this.timer && this.timer.paused) ? {opacity: 0} : {opacity: 1}
+      } else {
+        return {opacity: 1}
+      }
+    },
     playPauseIcon () {
       if (this.showTimerPlayPauseBtn) {
         return (this.timer && this.timer.paused) ? 'play_circle_filled' : 'pause_circle_filled'
@@ -133,8 +140,7 @@ export default {
     },
 
     video () {
-      // return `${this.api}/video/BigBuckBunny.mp4`
-      return ''
+      return `${this.api}/video/${this.phase.video}`
     }
   },
 
