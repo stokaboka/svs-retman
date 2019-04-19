@@ -15,7 +15,8 @@ const state = {
     { name: 'rating', field: 'rating', label: 'Баллы', sortable: true, visible: true, false: false, insert: false },
     { name: 'date', field: 'date', label: 'Дата', sortable: true, visible: true, update: false, insert: false, mask: 'DD-MM-YYYY' }
   ],
-  filter: ''
+  filter: '',
+  query: true
 }
 
 const getters = {

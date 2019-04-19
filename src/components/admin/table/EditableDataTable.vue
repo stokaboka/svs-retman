@@ -107,7 +107,8 @@ export default {
         rowsNumber: 0
       },
       selectedSecond: [],
-      selected: []
+      selected: [],
+      loadedParams: '*'
     }
   },
   mounted () {
@@ -120,7 +121,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('editor', ['title', 'columns', 'visibleColumns', 'data', 'result', 'error', 'loading', 'edit', 'key', 'pagination', 'rowsNumber', 'filterComponent'])
+    ...mapGetters('editor', ['title', 'columns', 'visibleColumns', 'data', 'query', 'result', 'error', 'loading', 'edit', 'key', 'pagination', 'rowsNumber', 'filterComponent'])
   },
   methods: {
     init (model) {
@@ -153,24 +154,27 @@ export default {
     },
 
     async request ({ pagination, filter }) {
-      // console.log('request', pagination, filter)
-      let ap = [
-        `page=${pagination.page}`,
-        `limit=${pagination.rowsPerPage}`
-      ]
+      if (this.query || this.loadedParams !== this.params) {
+        let ap = [
+          `page=${pagination.page}`,
+          `limit=${pagination.rowsPerPage}`
+        ]
 
-      if (pagination.sortBy) {
-        ap.push(`sortBy=${pagination.sortBy}`)
-        ap.push(`descending=${pagination.descending}`)
+        if (pagination.sortBy) {
+          ap.push(`sortBy=${pagination.sortBy}`)
+          ap.push(`descending=${pagination.descending}`)
+        }
+
+        if (filter) {
+          ap.push(`filter=${filter}`)
+        }
+
+        let query = this.query ? `?${ap.join('&')}` : ''
+
+        await this.load(`${this.params || ''}${query}`)
+
+        this.loadedParams = this.params
       }
-
-      if (filter) {
-        ap.push(`filter=${filter}`)
-      }
-
-      let query = `?${ap.join('&')}`
-
-      await this.load(`${this.params || ''}${query}`)
 
       this.paginationControl = pagination
       this.paginationControl.rowsNumber = this.rowsNumber

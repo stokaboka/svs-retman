@@ -59,8 +59,8 @@
             </q-card-title>
             <q-card-separator />
             <q-card-main>
-              <beginner-final-result :testing="testing" :onlyzero="false">
-              </beginner-final-result>
+              <user-final-result :testing="testing" :onlyzero="false">
+              </user-final-result>
             </q-card-main>
           </q-card>
         </q-tab-pane>
@@ -88,10 +88,11 @@ import Editor from '../editor/Editor'
 import BeginnerFinalResult from '../../components/exercises/BeginnerFinalResult'
 import Log from '../../components/exercises/Log'
 import {toDDMMYYYY} from '../../lib/utils'
+import UserFinalResult from '../../components/exercises/UserFinalResult'
 
 export default {
   name: 'Users',
-  components: {BeginnerFinalResult, Editor, Log},
+  components: {UserFinalResult, BeginnerFinalResult, Editor, Log},
   data () {
     return {
       selection: 'none',

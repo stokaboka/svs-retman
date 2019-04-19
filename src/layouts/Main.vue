@@ -34,7 +34,6 @@ export default {
   },
   computed: {
     ...mapGetters('beginners', ['title'])
-    // ...mapGetters('auth', ['isLogged', 'user'])
   },
 
   watch: {

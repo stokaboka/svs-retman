@@ -43,7 +43,8 @@ const showUserNotify = function (user, act) {
 
 const state = {
   user: null,
-  offer: false
+  offer: false,
+  token: sessionStorage.getItem('token')
 }
 
 const getters = {
@@ -52,7 +53,8 @@ const getters = {
   isOperator: s => s.user && s.user.role === 'operator',
   isUser: s => s.user && s.user.role === 'user',
   user: s => s.user,
-  offer: s => s.offer
+  offer: s => s.offer,
+  token: s => s.token
 }
 
 const mutations = {
@@ -70,19 +72,31 @@ const mutations = {
 
   SET_OFFER (state, playload) {
     state.offer = playload
-  }
+  },
 
+  SET_TOKEN (state, token) {
+    state.token = token
+    axios.defaults.headers.common['Authorization'] = `Bearer ${state.token}`
+    sessionStorage.setItem('token', state.token)
+  }
 }
 
 const actions = {
-  signin ({ commit, getters, rootGetters }, playload) {
-    const data = Object.assign(
-      {login: '-', password: '-'},
-      playload
-    )
-    return axios.post(`${rootGetters['beginners/api']}/login`, data)
+  signin ({ commit, getters, rootGetters }, playload = {login: '-', password: '-'}) {
+    // const data = Object.assign(
+    //   {login: '-', password: '-'},
+    //   playload
+    // )
+
+    const token = sessionStorage.getItem('token')
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    }
+
+    return axios.post(`${rootGetters['beginners/api']}/login`, playload)
       .then(response => {
-        commit('SET_USER', response.data)
+        commit('SET_TOKEN', response.data.token)
+        commit('SET_USER', response.data.user)
         commit('SET_OFFER', false)
         showUserNotify(getters['user'], 'signin')
       })
@@ -101,7 +115,8 @@ const actions = {
 
   signout ({ commit, getters, rootGetters }) {
     commit('SET_OFFER', false)
-
+    sessionStorage.setItem('token', '')
+    axios.defaults.headers.common['Authorization'] = ''
     return axios.post(`${rootGetters['beginners/api']}/logout`)
       .then(response => {
         commit('SET_USER', null)

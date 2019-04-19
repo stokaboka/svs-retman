@@ -15,7 +15,8 @@ const state = {
   key: 'id',
   loading: false,
   rowsNumber: 0,
-  filter: ''
+  filter: '',
+  query: false
 }
 
 const getters = {
@@ -47,6 +48,9 @@ const getters = {
   title (state) {
     return state.title
   },
+  query (state) {
+    return state.query
+  },
   filterComponent (state) {
     return state.filter
   },
@@ -73,6 +77,7 @@ const mutations = {
     state.edit = model.edit
     state.key = model.key
     state.filter = model.filter
+    state.query = model.hasOwnProperty('query') ? model.query : false
   },
 
   SET_EDIT (state, edit) {

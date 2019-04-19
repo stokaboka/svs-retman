@@ -11,7 +11,7 @@ export default {
   data () {
     return {
       startStep: 0,
-      // startStep: 9,
+      // startStep: 8,  // results
       // startStep: 5, // AT
       // startStep: 3,
       audio: new AudioHelper(this),
@@ -140,7 +140,20 @@ export default {
     },
 
     video () {
-      return `${this.api}/video/${this.phase.video}`
+      if (this.phase.video) {
+        return this.phase.video.split('.')[0]
+      }
+      return ''
+      // return `${this.api}/video/${this.phase.video}`
+    },
+    videoH264 () {
+      return `${this.api}/video/${this.video}.h264.mp4`
+    },
+    videoAV1 () {
+      return `${this.api}/video/${this.video}.av1.mp4`
+    },
+    videoHEVC () {
+      return `${this.api}/video/${this.video}.hevc.mp4`
     }
   },
 

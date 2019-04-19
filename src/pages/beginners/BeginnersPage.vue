@@ -64,7 +64,20 @@
 
     <div v-if="phase.video" class="column justify-center items-center">
       <span>Пример выполнения теста:</span>
-      <video :src="video" height="320" autoplay controls loop muted></video>
+      <video height="320" autoplay controls loop muted>
+        <source
+          :src="videoHEVC"
+          type="video/mp4; codecs=hevc,mp4a.40.2"
+        />
+        <source
+          :src="videoAV1"
+          type="video/mp4; codecs=av01.0.05M.08,opus"
+        />
+        <source
+          :src="videoH264"
+          type="video/mp4; codecs=avc1.4D401E,mp4a.40.2"
+        />
+      </video>
     </div>
 
   </q-page>

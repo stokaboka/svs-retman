@@ -1,28 +1,22 @@
 <template>
   <div class='column justify-center no-wrap final-results-container'>
-      <div class="row justify-center no-wrap table-header">
-        <span class="col-4 cell cell-header">Тест</span>
-        <span class="col-2 cell cell-header">min-max</span>
-        <span class="col-1 cell cell-header">K1</span>
-        <span class="col-1 cell cell-header">K2</span>
-        <span class="col-1 cell cell-header">K</span>
-        <span class="col-1 cell cell-header">Результат теста</span>
-        <span class="col-2 cell cell-header">Балл тестирования</span>
-      </div>
-      <div v-for="test in testingData" :key="test.label" class="row justify-center no-wrap table-row">
-        <span class="col-4 self-end cell cell-text">{{test.label}}</span>
-        <span class="col-2 cell cell-number">{{test.min}}-{{test.max}}</span>
-        <span class="col-1 cell cell-number">{{test.k1}}</span>
-        <span class="col-1 cell cell-number">{{test.k2}}</span>
-        <span class="col-1 cell cell-number">{{test.k}}</span>
-        <span class="col-1 cell cell-number">{{test.value}}</span>
-        <span class="col-2 cell cell-number">{{test.result}}</span>
-      </div>
-      <div class="row justify-center no-wrap table-footer">
-        <span class="col-10 self-end cell cell-text">Суммарный балл тестирования от {{testingDate | dateDMY}}</span>
-        <span class="col-2 cell cell-number">{{totalResult}}</span>
-      </div>
-    </div>
+    <section class="final-results-section">
+      <div class="final-results-section__title">Мнемические способности</div>
+      <div class="final-results-section__text">{{mnemic}}</div>
+    </section>
+    <section class="final-results-section">
+      <div class="final-results-section__title">Словарный запас</div>
+      <div class="final-results-section__text">{{rating}}</div>
+    </section>
+    <section class="final-results-section">
+      <div class="final-results-section__title">Пробное обучение</div>
+      <div class="final-results-section__text">{{delta}}</div>
+    </section>
+    <section class="final-results-section">
+      <div class="final-summary-section__title">Результат</div>
+      <div class="final-summary-section__text">{{summary}}</div>
+    </section>
+  </div>
 </template>
 
 <script>
@@ -51,7 +45,20 @@ export default {
   },
   data () {
     return {
-      // resultX: {'mnemic': {'checked': 2, 'checkedWordsPairs': [{'word1': 'история', 'word2': 'арка', 'hide': ''}, {'word1': 'будущее', 'word2': 'писать', 'hide': ''}], 'rememberedWordsPairs': [{'word1': 'история', 'word2': 'арка'}, {'word1': 'будущее', 'word2': 'писать'}], 'remembered': 2, 'percent': 4, 'cancel': true, 'recomendation': '<p>Вы запомнили  <strong>2</strong> слов <strong>(4%)</strong></p>  <p><strong><p>Рекомендуем Вам прервать тестирование, устранить все мешающие и отвлекающие факторы, как следует отдохнуть и повторить все с самого начала еще раз.</p> <p>Если результат не улучшился, рискните продолжить тестирование - зрительное ассоциативное запоминание не единственный вид памяти, может быть, Вы сможете компенсировать результаты за счет слуховой или зрительной механической памяти (повторение - мать учения).</p> <p>Эти виды памяти будут задействованы в следующих заданиях.</p></strong></p>'}, 'selfrating': {'SelfRating': {'raw': {'EN': [{'id': 1, 'name': 'Полное отсутствие знаний.'}], 'DE': [{'id': 2, 'name': 'Могу отличить данный язык от другого.'}], 'FR': [{'id': 1, 'name': 'Полное отсутствие знаний.'}, {'id': 4, 'name': 'Понимаю смысл отдельных фраз.'}]}, 'reduced': {'EN': 1, 'DE': 2, 'FR': 5}}, 'ControlRating': {'raw': {'EN': [{'word1': 'boundless', 'word2': 'бакенбарды', 'hide': 'безграничный'}], 'DE': [{'word1': 'färbe', 'word2': 'конец', 'hide': 'краски'}], 'FR': [{'word1': 'Rangée', 'word2': 'посвящать', 'hide': 'Ряд, строй'}]}, 'reduced': {'EN': 3, 'DE': 4, 'FR': 9}}, 'langSelfRating': {'lang': 'EN', 'value': 1}, 'langControlRating': {'lang': 'EN', 'value': 0}, 'langResult': 'EN', 'recomendation': 'В результате тестирования выбран язык обучения: <p><strong>Английский</strong></p>'}, 'lexical': {'checked': 3, 'checkedWordsPairs': [{'word1': 'airport', 'word2': 'аэропорт', 'hide': 'аэропорт'}, {'word1': 'animal', 'word2': 'животное', 'hide': 'животное'}, {'word1': 'apples', 'word2': 'яблоки', 'hide': 'яблоки'}], 'rememberedWordsPairs': [{'word1': 'airport', 'word2': 'аэропорт'}, {'word1': 'animal', 'word2': 'животное'}, {'word1': 'apples', 'word2': 'яблоки'}], 'remembered': 3, 'percent': 6, 'cancel': true, 'recomendation': '<p>Из 100 предъявленных пар слов вы отметили <strong>3</strong> и запомнили <strong>3</strong> пар</p>'}, 'san': {'before': {'s': 1.75, 'a': 3.5, 'n': 3.25}, 'after': {'s': 4.25, 'a': 3.25, 'n': 3}, 'recomendation': '<p>Ваше самочувствие до проведения аутотренинга:<br> <strong>С: 1.75; А: 3.5; H: 3.25</strong>, после аутотренинга: <strong>С: 4.25; А: 3.25; H: 3</strong>. <br><strong><p>Ваше самочувствие улучшилось, активность ухудшилось, настроение ухудшилось,  после прохождения аутотренинга.</p><br><p>Вы можете перейти к следующему тесту.</p></strong></p>'}, 'lesson': {'0': null, '1': null, '2': null, '3': null, 'recomendation': 'После прохождения пробного урока Ваш результат: <br><strong>Вы не выполнили задание урока</strong>'}, 'endlexical': {'checked': 4, 'checkedWordsPairs': [{'word1': 'also', 'word2': 'также', 'hide': 'также'}, {'word1': 'animal', 'word2': 'животное', 'hide': 'животное'}, {'word1': 'apples', 'word2': 'яблоки', 'hide': 'яблоки'}, {'word1': 'bag', 'word2': 'сумка', 'hide': 'сумка'}], 'rememberedWordsPairs': [{'word1': 'airport', 'word2': 'аэропорт'}, {'word1': 'animal', 'word2': 'животное'}, {'word1': 'apples', 'word2': 'яблоки'}, {'word1': 'bag', 'word2': 'сумка'}], 'remembered': 7, 'percent': 6, 'cancel': true, 'recomendation': '<p>Из 100 предъявленных пар слов вы отметили <strong>4</strong> и запомнили <strong>3</strong> пар</p>'}}
+      xtesting: [
+        {'label': 'Сусггестивность по АТ', 'method': 'at0', 'min': 1, 'max': 100, 'k1': 0.05, 'k2': 0.6, 'k': 0.03, 'value': 0, 'result': 0},
+        {'label': 'Мнемический тест', 'method': 'mnemic', 'min': 1, 'max': 40, 'k1': 0.125, 'k2': 0.8, 'k': 0.1, 'value': 2, 'result': 0.2},
+        {'label': 'Словарный запас по трем языкам', 'method': 'controlRating', 'min': 1, 'max': 25, 'k1': 0.2, 'k2': 0.25, 'k': 0.05, 'value': 1, 'result': 0.05},
+        {'label': 'Способность понимания смысла текстов', 'method': 'selftext', 'min': 1, 'max': 20, 'k1': 0.25, 'k2': 0.3, 'k': 0.075, 'value': 0, 'result': 0},
+        {'label': 'Показатель "delta"', 'method': 'delta', 'min': 1, 'max': 40, 'k1': 1.125, 'k2': 1, 'k': 1.125, 'value': 0, 'result': 0},
+        {'label': 'Самооценка', 'method': 'selfRating', 'min': 1, 'max': 8, 'k1': 0.625, 'k2': 0.4, 'k': 0.25, 'value': 6, 'result': 1.5},
+        {'label': 'Речевая активность', 'method': 'talking', 'min': 1, 'max': 5, 'k1': 1, 'k2': 0.7, 'k': 0.7, 'value': 0, 'result': 0}
+      ]
+    }
+  },
+  methods: {
+    getTestResult (method) {
+      return this.testingData.find(e => e.method === method)
     }
   },
   computed: {
@@ -62,9 +69,69 @@ export default {
       return get(this.testing, '[0].rating', 0)
     },
     testingData () {
-      const tst = get(this.testing, '[0].testing', '[]')
-      const tstJson = JSON.parse(tst)
-      return this.onlyzero ? tstJson.filter(e => e.value !== 0) : tstJson
+      // const tst = get(this.testing, '[0].testing', '[]')
+      // const tstJson = JSON.parse(tst)
+      // return this.onlyzero ? tstJson.filter(e => e.value !== 0) : tstJson
+      return this.xtesting
+    },
+    mnemic () {
+      const t = this.getTestResult('mnemic')
+      if (t) {
+        if (t.value < 7) {
+          return 'Возможно, существут проблемы либо с произвольной концентрацией внимания и кратковременной памямтью, либо вы просто находитесь не в лучшем физическом состоянии'
+        } else if (t.value >= 7 && t.value < 20) {
+          return `Хороший результат! Вы запомнили ${t.value} пар слов! Но Вам нужно обратить внимание на концентрацию внимания и кратковременную памямть.`
+        } else if (t.value >= 20 && t.value < 30) {
+          return `Отличный результат! Вы запомнили ${t.value} пар слов! У вас хорошо развиты мнемические способности.`
+        } else {
+          return `Великолепно! Вы запомнили ${t.value} пар слов! У вас отлично развиты мнемические способности, это позволит Вам быть лидером в изучении иностранных языков.`
+        }
+      } else {
+        return 'Тест не пройден'
+      }
+    },
+    rating () {
+      const t = this.getTestResult('controlRating')
+      if (t) {
+        if (t.value < 5) {
+          return 'Вам рекомендуется прохождение начального цикла занятий по иностранному языку'
+        } else if (t.value >= 5 && t.value < 20) {
+          return `Вам рекомендуется стандартный курс.`
+        } else {
+          return `Вам рекомендуется усиленный курс (для продолжающих): главная задача - развитие разговорных навыков и активизация имеющегося словарного запаса.`
+        }
+      } else {
+        return 'Тест не пройден'
+      }
+    },
+    delta () {
+      const t = this.getTestResult('delta')
+      if (t) {
+        if (t.value < 7) {
+          return 'Вам не рекомендуются начинать обучение с автоматизированных уроков'
+        } else if (t.value >= 5 && t.value < 20) {
+          return `Вам рекомендуется стандартный курс. Вы можете узучать иностранные языки с помощью автоматизированных курсов.`
+        } else if (t.value >= 20 && t.value < 30) {
+          return `У Вас хорошая способность к усвоению информации. Вы можете узучать иностранные языки с помощью автоматизированных курсов.`
+        } else {
+          return `У Вас очень хорошая способность к усвоению информации. Вам рекомендуется заниматься на интенсивных курсах автоматизированного обучения.`
+        }
+      } else {
+        return 'Тест не пройден'
+      }
+    },
+    summary () {
+      const mnemic = this.getTestResult('mnemic')
+      const delta = this.getTestResult('delta')
+      if (this.totalResult > 7) {
+        if (mnemic > 15 && delta > 20) {
+          return 'Вы достаточно успешно справитесь с программой обучения и на выходе покажете высокие результаты'
+        } else {
+          return 'Вы достаточно успешно справитесь с программой обучения, но Вам нужно обратить внимание на запоминание слов и проявлять высокую активность на занаятиях.'
+        }
+      } else {
+        return 'Вы успешно справитесь с программой обучения, но для этого Вам нужно обратить внимание на запоминание слов и проявлять высокую активность на занаятиях.'
+      }
     }
   }
 }
@@ -75,52 +142,30 @@ export default {
     width: 75vw;
     border: 1px solid lightgrey;
   }
-
-  .final-results-title {
-    font-weight: 700;
+  .final-results-section {
+    margin: 1rem 2rem;
   }
 
-  .table-header {
-    border-bottom: 1px solid lightgrey;
-    background-color: royalblue;
-    color: white;
-    /*font-weight: 600;*/
+  .final-results-section__title,
+  .final-summary-section__title {
+    font-weight: bold;
   }
 
-  .table-footer {
-    font-weight: 600;
+  .final-results-section__title {
+    border-bottom: 2px solid lightskyblue;
   }
 
-  .table-row {
-    border-bottom: 1px solid lightgrey;
-    transition: background-color 0.5s ease;
+  .final-summary-section__title {
+    border-bottom: 2px solid royalblue;
   }
 
-  .table-row:hover {
-    background-color: #d9d9d9;
+  .final-results-section__text {
+    padding-left: 2rem;
   }
 
-  .cell {
-    padding: 0.5rem 1rem;
+  .final-summary-section__text {
+    padding-left: 2rem;
+    font-weight: bold;
   }
 
-  .cell-header {
-    text-align: center;
-  }
-
-  .cell-text {
-    text-align: right;
-  }
-
-  .cell-number {
-    text-align: center;
-  }
-
-  .final-result-test__title {
-
-  }
-
-  .final-result-test__info {
-
-  }
 </style>
