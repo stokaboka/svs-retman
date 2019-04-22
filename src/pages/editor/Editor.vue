@@ -13,6 +13,7 @@
       :model="model"
       :params="params"
       :selection="selection"
+      :srow="srow"
       @table-row-click="onTableRowClick"
     >
     </editable-data-table>
@@ -43,6 +44,12 @@ export default {
     FilterUsers
   },
   props: {
+    srow: {
+      type: Object,
+      default () {
+        return null
+      }
+    },
     selection: {
       type: String,
       default () {

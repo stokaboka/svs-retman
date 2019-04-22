@@ -9,11 +9,14 @@
     :columns="columns"
     :visible-columns="tableVisibleColumns"
     :filter="filter"
-    row-key="name"
+    row-key="id"
     :pagination.sync="paginationControl"
     @request="request"
   >
     <q-tr slot="body" slot-scope="props" :props="props" @click.native="rowClick(props.row)">
+      <q-td auto-width>
+        <q-checkbox dense v-model="props.selected" @input="rowMark()"/>
+      </q-td>
       <q-td v-for="column in columns" :key="column.field" :props="props">
         {{format(props.row[column.field], column)}}
         <q-popup-edit v-if="edit.update && column.update" v-model="props.row[column.field]" buttons :title="props.row[column.label]" @save="onEditRow(props.row)">
@@ -68,12 +71,18 @@ import {toDDMMYYYY} from '../../../lib/utils'
 export default {
   name: 'EditableDataTable',
   props: {
-    // selection: {
-    //   type: String,
-    //   default () {
-    //     return 'multiple'
-    //   }
-    // },
+    selection: {
+      type: String,
+      default () {
+        return 'single'
+      }
+    },
+    srow: {
+      type: Object,
+      default () {
+        return null
+      }
+    },
     model: {
       type: Object,
       default () {
@@ -106,13 +115,15 @@ export default {
         page: 1,
         rowsNumber: 0
       },
-      selectedSecond: [],
-      selection: 'multiple',
       selected: [],
       loadedParams: '*'
     }
   },
   mounted () {
+    if (this.srow) {
+      this.selected = [this.srow]
+    }
+
     this.init(this.model)
     if (!this.filterComponent) {
       this.request({
@@ -131,9 +142,16 @@ export default {
     },
     rowClick (row) {
       this.$emit('table-row-click', row)
+      this.selected = [row]
     },
     onInsertRow (row) {
-
+    },
+    rowMark () {
+      if (this.selected.length > 0) {
+        this.$emit('table-row-click', this.selected[0])
+      } else {
+        this.$emit('table-row-click', null)
+      }
     },
     async onEditRow (row) {
       const data = Object.assign({}, row)
@@ -206,6 +224,12 @@ export default {
     },
     data (val) {
       this.rows = val.map(e => Object.assign({}, e))
+      // if (this.rows && this.rows.length > 0) {
+      //   // this.selected = [this.rows[0]]
+      //   this.selected = []
+      // } else {
+      //   this.selected = []
+      // }
     }
   }
 }

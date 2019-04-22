@@ -74,6 +74,7 @@ module.exports = function (ctx) {
         'QInput',
         'QField',
         'QDatetime',
+        // 'QToggle',
         'QTabs',
         'QTab',
         'QTabPane',

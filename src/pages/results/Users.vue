@@ -14,6 +14,7 @@
           <editor
             module="users"
             :selection="selection"
+            :srow="user"
             @table-row-click="onUsersTableRowClick"
           ></editor>
         </q-tab-pane>
@@ -46,6 +47,7 @@
                 module="usersResults"
                 :filter="userResultsFilterParams"
                 :selection="selection"
+                :srow="testingrow"
                 @table-row-click="onUsersResultsTableRowClick"
               ></editor>
             </q-card-main>
@@ -95,10 +97,11 @@ export default {
   components: {UserFinalResult, BeginnerFinalResult, Editor, Log},
   data () {
     return {
-      selection: 'none',
+      selection: 'single',
       user: null,
       results: null,
-      testing: null
+      testing: null,
+      testingrow: null
     }
   },
   computed: {
@@ -119,9 +122,13 @@ export default {
   methods: {
     onUsersTableRowClick (row) {
       this.user = row
+      this.testing = null
+      this.testingrow = null
+      this.results = null
     },
     onUsersResultsTableRowClick (row) {
       this.testing = [row]
+      this.testingrow = row
       try {
         this.results = JSON.parse(row.results)
       } catch (e) {
