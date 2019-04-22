@@ -76,23 +76,13 @@ const mutations = {
 
   SET_TOKEN (state, token) {
     state.token = token
-    axios.defaults.headers.common['Authorization'] = `Bearer ${state.token}`
+    axios.defaults.headers.common['Authorization'] = state.token ? `Bearer ${state.token}` : ''
     sessionStorage.setItem('token', state.token)
   }
 }
 
 const actions = {
   signin ({ commit, getters, rootGetters }, playload = {login: '-', password: '-'}) {
-    // const data = Object.assign(
-    //   {login: '-', password: '-'},
-    //   playload
-    // )
-
-    const token = sessionStorage.getItem('token')
-    if (token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-    }
-
     return axios.post(`${rootGetters['beginners/api']}/login`, playload)
       .then(response => {
         commit('SET_TOKEN', response.data.token)
@@ -102,7 +92,7 @@ const actions = {
       })
       .catch(error => {
         commit('SET_USER', null)
-        if (error.response.status === 401) {
+        if (error.response.status === 401 || error.response.status === 403) {
           commit('SET_OFFER', true)
         } else {
           Notify.create({
@@ -120,16 +110,18 @@ const actions = {
     return axios.post(`${rootGetters['beginners/api']}/logout`)
       .then(response => {
         commit('SET_USER', null)
-        showUserNotify(state.user, 'signout')
-        showUserNotify(getters['user'], 'signout')
       })
       .catch(error => {
         commit('SET_USER', null)
-        console.warn(error)
-        Notify.create({
-          message: `Что-то пошло не так...: ${error}`,
-          type: 'negative'
-        })
+        if (error.response.status === 401 || error.response.status === 403) {
+          commit('SET_OFFER', true)
+        } else {
+          console.warn(error)
+          Notify.create({
+            message: `Что-то пошло не так...: ${error}`,
+            type: 'negative'
+          })
+        }
       })
   },
 
@@ -142,7 +134,9 @@ const actions = {
 
     return axios.post(`${rootGetters['beginners/api']}/register`, data)
       .then(response => {
-        commit('SET_USER', response.data)
+        commit('SET_TOKEN', response.data.token)
+        commit('SET_USER', response.data.user)
+        commit('SET_OFFER', false)
         showUserNotify(getters['user'], 'register')
       })
       .catch(error => {

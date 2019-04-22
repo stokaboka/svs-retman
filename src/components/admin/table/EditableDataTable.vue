@@ -68,12 +68,12 @@ import {toDDMMYYYY} from '../../../lib/utils'
 export default {
   name: 'EditableDataTable',
   props: {
-    selection: {
-      type: String,
-      default () {
-        return 'none'
-      }
-    },
+    // selection: {
+    //   type: String,
+    //   default () {
+    //     return 'multiple'
+    //   }
+    // },
     model: {
       type: Object,
       default () {
@@ -107,6 +107,7 @@ export default {
         rowsNumber: 0
       },
       selectedSecond: [],
+      selection: 'multiple',
       selected: [],
       loadedParams: '*'
     }
@@ -154,30 +155,41 @@ export default {
     },
 
     async request ({ pagination, filter }) {
+      let query = ''
+
       if (this.query || this.loadedParams !== this.params) {
-        let ap = [
-          `page=${pagination.page}`,
-          `limit=${pagination.rowsPerPage}`
-        ]
+        if (this.query) {
+          let ap = []
 
-        if (pagination.sortBy) {
-          ap.push(`sortBy=${pagination.sortBy}`)
-          ap.push(`descending=${pagination.descending}`)
+          if (pagination.rowsPerPage > 0) {
+            ap.push(`page=${pagination.page}`)
+            ap.push(`limit=${pagination.rowsPerPage}`)
+          }
+
+          if (pagination.sortBy) {
+            ap.push(`sortBy=${pagination.sortBy}`)
+            ap.push(`descending=${pagination.descending}`)
+          }
+
+          if (filter) {
+            ap.push(`filter=${filter}`)
+          }
+
+          if (ap.length > 0) {
+            query = `?${ap.join('&')}`
+          }
+        } else {
+          pagination.rowsPerPage = 0
         }
-
-        if (filter) {
-          ap.push(`filter=${filter}`)
-        }
-
-        let query = this.query ? `?${ap.join('&')}` : ''
 
         await this.load(`${this.params || ''}${query}`)
 
         this.loadedParams = this.params
       }
 
+      pagination.rowsNumber = this.rowsNumber
+
       this.paginationControl = pagination
-      this.paginationControl.rowsNumber = this.rowsNumber
     },
     ...mapMutations('editor', {setModel: 'SET_MODEL'}),
     ...mapActions('editor', ['load', 'insert', 'update', 'delete'])

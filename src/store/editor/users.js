@@ -22,8 +22,8 @@ const state = {
 
 const getters = {
   model (state) {
-    const {title, suffix, key, edit, columns} = state
-    return {title, suffix, key, edit, columns}
+    const {title, suffix, key, edit, columns, filter, query} = state
+    return {title, suffix, key, edit, columns, filter, query}
   },
   filter (state) {
     return state.filter
