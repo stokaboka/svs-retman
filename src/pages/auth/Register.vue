@@ -1,11 +1,11 @@
 <template>
   <div class="auth-login-container">
     <q-icon name="person_add" size="5rem" color="secondary" class="auth-login-icon"></q-icon>
-    <span class="auth-login-subtitle">Для регистрации введите имя пользователя, пароль, ваше имя</span>
+    <span class="auth-login-subtitle">Для регистрации введите имя пользователя и пароль, а так-же Ваше имя, отчество, фамилию</span>
 
     <q-field
       class="auth-input"
-      icon="person_outline"
+      icon="person"
       icon-color="primary"
       :error="$v.form.login.$error"
       :error-label="loginErrorLabel"
@@ -79,12 +79,34 @@
     <q-field
       class="auth-input"
       icon="edit"
-      icon-color="secondary"
+      icon-color="primary"
+      :error="$v.form.secondName.$error"
+      :error-label="secondNameErrorLabel"
+    >
+      <q-input
+        class="auth-input"
+        v-model="form.secondName"
+        @blur="$v.form.secondName.$touch"
+        @keyup.enter="submit"
+        :error="$v.form.secondName.$error"
+        name="secondName"
+        float-label="Отчество" >
+      </q-input>
+    </q-field>
+
+    <q-field
+      class="auth-input"
+      icon="edit"
+      icon-color="primary"
+      :error="$v.form.lastName.$error"
+      :error-label="lastNameErrorLabel"
     >
       <q-input
         class="auth-input"
         v-model="form.lastName"
+        @blur="$v.form.lastName.$touch"
         @keyup.enter="submit"
+        :error="$v.form.lastName.$error"
         name="lastName"
         float-label="Фамилия" >
       </q-input>
@@ -128,6 +150,7 @@ export default {
         password: '',
         repeatPassword: '',
         firstName: '',
+        secondName: '',
         lastName: '',
         birthday: ''
       }
@@ -155,14 +178,24 @@ export default {
       firstName: {
         required,
         minLength: minLength(1),
-        maxLength: maxLength(30)
+        maxLength: maxLength(50)
+      },
+      secondName: {
+        required,
+        minLength: minLength(1),
+        maxLength: maxLength(50)
+      },
+      lastName: {
+        required,
+        minLength: minLength(1),
+        maxLength: maxLength(50)
       }
     }
   },
 
   computed: {
     loginErrorLabel () {
-      if (this.$v.form.password.$error) {
+      if (this.$v.form.login.$error) {
         if (!this.$v.form.login.required) return 'Имя пользователя должно быть заполнено'
         if (!this.$v.form.login.alphaNum) return 'Имя пользователя должно содержать буквы и цифры'
         if (!this.$v.form.login.minLength) return `Имя пользователя не менее ${this.$v.form.login.$params.minLength.min} символов`
@@ -188,11 +221,29 @@ export default {
       return ''
     },
     firstNameErrorLabel () {
-      if (this.$v.form.password.$error) {
+      if (this.$v.form.firstName.$error) {
         if (!this.$v.form.firstName.required) return 'Имя должно быть заполнено'
         if (!this.$v.form.firstName.alpha) return 'Имя должно содержать буквы'
         if (!this.$v.form.firstName.minLength) return `Имя не менее ${this.$v.form.firstName.$params.minLength.min} символов`
         if (!this.$v.form.firstName.maxLength) return `Имя не более ${this.$v.form.firstName.$params.maxLength.max} символов`
+      }
+      return ''
+    },
+    secondNameErrorLabel () {
+      if (this.$v.form.secondName.$error) {
+        if (!this.$v.form.secondName.required) return 'Отчество должно быть заполнено'
+        if (!this.$v.form.secondName.alpha) return 'Отчество должно содержать буквы'
+        if (!this.$v.form.secondName.minLength) return `Отчество не менее ${this.$v.form.secondName.$params.minLength.min} символов`
+        if (!this.$v.form.secondName.maxLength) return `Отчество не более ${this.$v.form.secondName.$params.maxLength.max} символов`
+      }
+      return ''
+    },
+    lastNameErrorLabel () {
+      if (this.$v.form.lastName.$error) {
+        if (!this.$v.form.lastName.required) return 'Фамилия должно быть заполнено'
+        if (!this.$v.form.lastName.alpha) return 'Фамилия должно содержать буквы'
+        if (!this.$v.form.lastName.minLength) return `Фамилия не менее ${this.$v.form.lastName.$params.minLength.min} символов`
+        if (!this.$v.form.lastName.maxLength) return `Фамилия не более ${this.$v.form.lastName.$params.maxLength.max} символов`
       }
       return ''
     },
@@ -210,8 +261,8 @@ export default {
         return
       }
 
-      const {login, password, firstName, lastName, birthday} = this.form
-      await this.register({login, password, firstName, lastName, birthday})
+      const {login, password, firstName, secondName, lastName, birthday} = this.form
+      await this.register({login, password, firstName, secondName, lastName, birthday})
 
       if (this.isLogged) {
         this.$router.push({name: 'home'})
