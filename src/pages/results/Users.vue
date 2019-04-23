@@ -3,11 +3,11 @@
     <div class="column">
       <q-tabs color="secondary">
         <!-- Tabs - notice slot="title" -->
-        <q-tab default slot="title" name="tab-users" icon="people" label="Пользователи" />
-        <q-tab slot="title" name="tab-user" icon="person" label="Пользователь"/>
-        <q-tab slot="title" name="tab-tests" icon="offline_pin" label="Тесты" />
-        <q-tab slot="title" name="tab-result" icon="ballot" label="Результат"/>
-        <q-tab slot="title" name="tab-log" icon="pets" label="Лог"/>
+        <q-tab default slot="title" name="tab-users" icon="people" label="Пользователи"></q-tab>
+        <q-tab slot="title" name="tab-user" icon="person" label="Пользователь"></q-tab>
+        <q-tab slot="title" name="tab-tests" icon="offline_pin" label="Тесты"></q-tab>
+        <q-tab slot="title" name="tab-result" icon="ballot" label="Результат"></q-tab>
+        <q-tab slot="title" name="tab-log" icon="pets" label="Лог"></q-tab>
 
         <!-- Targets -->
         <q-tab-pane name="tab-users">
@@ -23,7 +23,7 @@
             <q-card-title class="column">
               <div>{{userInfo}}</div>
             </q-card-title>
-            <q-card-separator />
+            <q-card-separator></q-card-separator>
             <q-card-main>
               <div class="column">
                 <div class="row q-mb-xs" v-for="c in model.columns" :key="c.name">
@@ -41,13 +41,13 @@
               <div>{{userInfo}}</div>
               <div>{{testInfo}}</div>
             </q-card-title>
-            <q-card-separator />
+            <q-card-separator></q-card-separator>
             <q-card-main>
               <editor
                 module="usersResults"
                 :filter="userResultsFilterParams"
                 :selection="selection"
-                :srow="testingrow"
+                :srow="testingRow"
                 @table-row-click="onUsersResultsTableRowClick"
               ></editor>
             </q-card-main>
@@ -59,7 +59,7 @@
               <div>{{userInfo}}</div>
               <div>{{testInfo}}</div>
             </q-card-title>
-            <q-card-separator />
+            <q-card-separator></q-card-separator>
             <q-card-main>
               <user-final-result :testing="testing" :onlyzero="false">
               </user-final-result>
@@ -72,7 +72,7 @@
               <div>{{userInfo}}</div>
               <div>{{testInfo}}</div>
             </q-card-title>
-            <q-card-separator />
+            <q-card-separator></q-card-separator>
             <q-card-main>
               <log :results="results"></log>
             </q-card-main>
@@ -85,7 +85,7 @@
 
 <script>
 import get from 'lodash/get'
-import { mapGetters, mapActions, mapMutations } from 'vuex'
+import {mapActions, mapGetters, mapMutations} from 'vuex'
 import Editor from '../editor/Editor'
 import BeginnerFinalResult from '../../components/exercises/BeginnerFinalResult'
 import Log from '../../components/exercises/Log'
@@ -101,20 +101,18 @@ export default {
       user: null,
       results: null,
       testing: null,
-      testingrow: null
+      testingRow: null
     }
   },
   computed: {
     userInfo () {
-      const out = this.user ? `${this.user.login}: ${this.user.firstName || ''} ${this.user.secondName || ''} ${this.user.lastName || ''}` : ''
-      return out
+      return this.user ? `${this.user.login}: ${this.user.firstName || ''} ${this.user.secondName || ''} ${this.user.lastName || ''}` : ''
     },
     testInfo () {
       return this.testing ? `Тест от ${toDDMMYYYY(get(this.testing, '[0].date', ''))}, набранные баллы: ${get(this.testing, '[0].rating', '')}` : ''
     },
     userResultsFilterParams () {
-      const out = this.user ? `/${this.user.login}` : ''
-      return out
+      return this.user ? `/${this.user.login}` : ''
     },
     ...mapGetters('users', ['model']),
     ...mapGetters('beginners', ['userResults'])
@@ -123,12 +121,12 @@ export default {
     onUsersTableRowClick (row) {
       this.user = row
       this.testing = null
-      this.testingrow = null
+      this.testingRow = null
       this.results = null
     },
     onUsersResultsTableRowClick (row) {
       this.testing = [row]
-      this.testingrow = row
+      this.testingRow = row
       try {
         this.results = JSON.parse(row.results)
       } catch (e) {

@@ -15,18 +15,18 @@
   >
     <q-tr slot="body" slot-scope="props" :props="props" @click.native="rowClick(props.row)">
       <q-td auto-width>
-        <q-checkbox dense v-model="props.selected" @input="rowMark()"/>
+        <q-checkbox dense v-model="props.selected" @input="rowMark()"></q-checkbox>
       </q-td>
       <q-td v-for="column in columns" :key="column.field" :props="props">
         {{format(props.row[column.field], column)}}
         <q-popup-edit v-if="edit.update && column.update" v-model="props.row[column.field]" buttons :title="props.row[column.label]" @save="onEditRow(props.row)">
           <q-field count>
-            <q-input v-model="props.row[column.field]" />
+            <q-input v-model="props.row[column.field]"></q-input>
           </q-field>
         </q-popup-edit>
         <q-popup-edit v-if="edit.insert && column.insert" v-model="props.row[column.field]" buttons :title="props.row[column.label]" @save="onInsertRow(props.row)">
           <q-field count>
-            <q-input v-model="props.row[column.field]" />
+            <q-input v-model="props.row[column.field]"></q-input>
           </q-field>
         </q-popup-edit>
       </q-td>
@@ -37,27 +37,25 @@
         hide-underline
         color="secondary"
         v-model="filter"
-        class="col-6"
-      />
+        class="col-6"></q-search>
     </template>
     <template slot="top-right" slot-scope="props">
       <q-table-columns
-        color="secondary"
-        class="q-mr-sm"
-        v-model="tableVisibleColumns"
         :columns="columns"
-      />
-      <q-select
+        class="q-mr-sm"
         color="secondary"
-        v-model="separator"
+        v-model="tableVisibleColumns">
+      </q-table-columns>
+      <q-select
         :options="[
           { label: 'Horizontal', value: 'horizontal' },
           { label: 'Vertical', value: 'vertical' },
           { label: 'Cell', value: 'cell' },
           { label: 'None', value: 'none' }
         ]"
+        color="secondary"
         hide-underline
-      />
+        v-model="separator"></q-select>
     </template>
   </q-table>
 </template>

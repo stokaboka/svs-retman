@@ -8,6 +8,7 @@ export default {
         'changed-control-rating': this.onChangedControlRating,
         'changed-atself': this.onChangedAtSelf,
         'changed-san': this.onChangedSANSelf,
+        'changed-sanexpress': this.onChangedSanExpress,
         'changed-at0': this.onChangedAT0Self,
         'init-lesson': this.onInitLesson,
         'init-lesson-dictionary': this.onInitLessonDictionary,
@@ -52,6 +53,15 @@ export default {
     },
 
     onChangedSANSelf (value) {
+      // console.log(value)
+      if (this.phase.phase === 1) {
+        this.SAN.before = value
+      } else {
+        this.SAN.after = value
+      }
+    },
+
+    onChangedSanExpress (value) {
       // console.log(value)
       if (this.phase.phase === 1) {
         this.SAN.before = value

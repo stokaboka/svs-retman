@@ -97,6 +97,7 @@ import TwoColumnWordsWithCheckBox from '../../components/exercises/TwoColumnWord
 import TwoColumnWordsWithMoveWords from '../../components/exercises/TwoColumnWordsWithMoveWords'
 
 import SANTest from '../../components/exercises/SANTest'
+import SANExpressTest from '../../components/exercises/SANExpressTest'
 import AT0Test from '../../components/exercises/AT0Test'
 
 import AutoTrainingSelfTest from '../../components/exercises/AutoTrainingSelfTest'
@@ -131,6 +132,7 @@ export default {
     ControlLanguageRating,
     SelfLexicalLearningLang,
     SANTest,
+    SANExpressTest,
     AT0Test,
     AutoTrainingSelfTest,
     AutoTraining,
