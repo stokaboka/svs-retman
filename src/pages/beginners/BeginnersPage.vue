@@ -48,21 +48,21 @@
     <div class="page-footer">
       <q-btn
         class="button__next-phase"
-        v-if="showNextBtn"
+        v-if="showNextBtn && showButtons.next"
         label="Продолжить"
         color="primary"
         @click="doNextAction">
       </q-btn>
       <q-btn
         class="button__next-phase"
-        v-if="showCancelBtn"
-        label="Прервать"
-        color="secondary"
+        v-if="showCancelBtn || showButtons.cancel"
+        label="ЗАВЕРШИТЬ РАБОТУ"
+        color="red"
         @click="doCancel">
       </q-btn>
     </div>
 
-    <div v-if="phase.video" class="column justify-center items-center">
+    <div v-if="phase.video" class="column justify-center items-center shadow-2">
       <span>Пример выполнения теста:</span>
       <video height="320" autoplay controls loop muted>
         <source
@@ -98,6 +98,7 @@ import TwoColumnWordsWithMoveWords from '../../components/exercises/TwoColumnWor
 
 import SANTest from '../../components/exercises/SANTest'
 import SANExpressTest from '../../components/exercises/SANExpressTest'
+import SANExpressResult from '../../components/exercises/SANExpressResult'
 import AT0Test from '../../components/exercises/AT0Test'
 
 import AutoTrainingSelfTest from '../../components/exercises/AutoTrainingSelfTest'
@@ -133,6 +134,7 @@ export default {
     SelfLexicalLearningLang,
     SANTest,
     SANExpressTest,
+    SANExpressResult,
     AT0Test,
     AutoTrainingSelfTest,
     AutoTraining,

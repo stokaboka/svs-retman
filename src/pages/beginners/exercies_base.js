@@ -21,6 +21,10 @@ export default {
         'fix-phase': this.onFixPhase,
         'do-next-action': this.doNextAction
       },
+      showButtons: {
+        next: true,
+        cancel: false
+      },
       showCancelBtn: false,
       progressVisible: true,
       stepperFullScreenVisible: true,

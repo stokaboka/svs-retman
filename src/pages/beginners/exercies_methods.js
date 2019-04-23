@@ -9,6 +9,7 @@ export default {
         'changed-atself': this.onChangedAtSelf,
         'changed-san': this.onChangedSANSelf,
         'changed-sanexpress': this.onChangedSanExpress,
+        'changed-sanexpressresult': this.onChangedSanExpressResult,
         'changed-at0': this.onChangedAT0Self,
         'init-lesson': this.onInitLesson,
         'init-lesson-dictionary': this.onInitLessonDictionary,
@@ -68,6 +69,10 @@ export default {
       } else {
         this.SAN.after = value
       }
+    },
+
+    onChangedSanExpressResult (value) {
+      this.showButtons = value
     },
 
     onChangedAT0Self (value) {

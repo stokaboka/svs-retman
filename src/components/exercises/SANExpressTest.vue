@@ -4,7 +4,7 @@
 
 <template>
   <div class="column justify-center items-center">
-    <div v-for="san in sanData" :key="san.l" class="column san-self-container">
+    <div v-for="san in sanData" :key="san.t" class="column san-self-container">
       <div class="san-title">{{san.title}}: {{san.v}}</div>
       <div class="row justify-center items-center">
         <img class="san-img" :src="imgPath(san.l.img)" :alt="san.l.label"/>
@@ -25,6 +25,7 @@
         <img class="san-img"  :src="imgPath(san.r.img)" :alt="san.r.label"/>
       </div>
     </div>
+    <div>САН: {{sanValue}}</div>
   </div>
 </template>
 <script>
@@ -34,12 +35,12 @@ const {mapGetters} = createNamespacedHelpers('beginners')
 
 const levels = [
   {label: '0', value: 0},
-  {label: '1', value: 1 * 0.2},
-  {label: '2', value: 2 * 0.2},
-  {label: '3', value: 3 * 0.2},
-  {label: '4', value: 4 * 0.2},
-  {label: '5', value: 5 * 0.2},
-  {label: '6', value: 6 * 0.2}
+  {label: '1', value: 1},
+  {label: '2', value: 2},
+  {label: '3', value: 3},
+  {label: '4', value: 4},
+  {label: '5', value: 5},
+  {label: '6', value: 6}
 ]
 
 export default {
@@ -49,6 +50,7 @@ export default {
       minLevel: 0,
       maxLevel: 6,
       stepLevel: 1,
+      sanValue: 3,
       sanData: [
         {
           title: 'Ваше состояние, самочувствие в настоящий момент',
@@ -91,9 +93,11 @@ export default {
       return `/statics/assets/san/${img}`
     },
     onChangedInput () {
-      const s = this.sanData[0].levels[this.sanData[0].v]
-      const a = this.sanData[1].levels[this.sanData[1].v]
-      const n = this.sanData[2].levels[this.sanData[2].v]
+      const s = this.sanData[0].levels[this.sanData[0].v].value
+      const a = this.sanData[1].levels[this.sanData[1].v].value
+      const n = this.sanData[2].levels[this.sanData[2].v].value
+
+      this.sanValue = Math.round(10 * (s + a + n) / 3) / 10
 
       const data = {s, a, n}
       this.$emit('exercies-action', {id: 'changed-sanexpress', data})

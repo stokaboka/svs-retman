@@ -9,7 +9,7 @@
         <version-label slot="subtitle"></version-label>
       </q-toolbar-title>
 
-      <span v-if="user">{{user.login}}</span>
+      <span v-if="user">{{user.firstName}} {{user.secondName}} {{user.lastName}}</span>
 
       <q-tabs color="white" animated v-model="selectedTab">
         <q-route-tab slot="title" name="about" :color="color" icon="home" :to="{name: 'about'}" replace hide="label" default
