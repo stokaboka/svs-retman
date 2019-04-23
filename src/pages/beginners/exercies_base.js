@@ -23,7 +23,8 @@ export default {
       },
       showButtons: {
         next: true,
-        cancel: false
+        cancel: false,
+        restartStep: false
       },
       showCancelBtn: false,
       progressVisible: true,
@@ -241,7 +242,12 @@ export default {
       this.showCancelBtn = false
       this.timer.stop()
       this.audio.stop()
-      this.onFixPhase()
+
+      if (this.showButtons.restartStep) {
+        this.playStep()
+      } else {
+        this.onFixPhase()
+      }
     },
 
     prePhase () {
@@ -294,6 +300,9 @@ export default {
     playStep () {
       const self = this
       // console.log('playStep')
+
+      this.showButtons.restartStep = false
+      this.showButtons.cancel = false
 
       this.checkedWordsPairs = []
       this.rememberedWordsPairs = []

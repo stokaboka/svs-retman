@@ -48,7 +48,7 @@
 
       </div>
 
-      <div v-if="screen===4" class="san-result-recomendation">
+      <div v-if="screen === 4" class="san-result-recomendation">
         <p class="underline-blue"><strong>Наверное, сегодня - не Ваш день...</strong></p>
 
         <p>Вы оценили своей общий настрой как неудовлетворительный.<br>
@@ -86,12 +86,12 @@
           <p>..."Ах, обмануть меня не трудно!... Я сам обманываться рад!"<br>
             Конечно, Вы можете повторить тест САН, но учтите: Вы оцениваете Сами себя и, поэтому, обманываете себя Сами!
             Ваш организм четко сказал "нет" Вашему желанию. К кому прислушаться – решать Вашему разуму.
-            Но, если Ваша интуиция шепчет Вам: "Попытка – не пытка!" – что ж, можете попробовать… Удачи Вам!
+            Но, если Ваша интуиция шепчет Вам: "Попытка – не пытка!" – что ж, можете попробовать…<br>Удачи Вам!
           </p>
           <p>Но, все-таки лучше сейчас отложить работу с ТЛС и ограничиться изучением информации об особенностях автоматизированного обучения: <a href="https://www.lingvo-svoboda.ru/" target="_blank">Информация о нас для Вас</a></p>
         </div>
 
-        <div>
+        <div v-else>
           <p>Что Вы предпримете для улучшения самочувствия?</p>
           <q-field
             icon="help_outline"
@@ -187,7 +187,6 @@ export default {
       } else {
         screen = 8
       }
-      screen = 3
       return screen
     }
   },
@@ -211,7 +210,7 @@ export default {
       return {
         next: this.screen === 8 || this.screen === 7 || this.screen === 6 || this.screen === 5 || (this.screen === 4 && this.recomendationAnswer === 'fraud'),
         cancel: this.screen === 3 || this.screen === 4 || this.screen === 8,
-        restartSan: this.recomendationAnswer === 'fraud'
+        restartStep: this.recomendationAnswer === 'fraud'
       }
     },
     ...mapGetters('beginners', ['results']),
