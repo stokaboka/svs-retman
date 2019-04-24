@@ -83,7 +83,7 @@ const mutations = {
 
 const actions = {
   signin ({ commit, getters, rootGetters }, playload = {login: '-', password: '-'}) {
-    return axios.post(`${rootGetters['beginners/api']}/login`, playload)
+    return axios.post(`${rootGetters['app/api']}/login`, playload)
       .then(response => {
         commit('SET_TOKEN', response.data.token)
         commit('SET_USER', response.data.user)
@@ -107,7 +107,7 @@ const actions = {
     commit('SET_OFFER', false)
     sessionStorage.setItem('token', '')
     axios.defaults.headers.common['Authorization'] = ''
-    return axios.post(`${rootGetters['beginners/api']}/logout`)
+    return axios.post(`${rootGetters['app/api']}/logout`)
       .then(response => {
         commit('SET_USER', null)
       })
@@ -132,7 +132,7 @@ const actions = {
 
     commit('SET_OFFER', false)
 
-    return axios.post(`${rootGetters['beginners/api']}/register`, data)
+    return axios.post(`${rootGetters['app/api']}/register`, data)
       .then(response => {
         commit('SET_TOKEN', response.data.token)
         commit('SET_USER', response.data.user)

@@ -48,14 +48,14 @@
     <div class="page-footer">
       <q-btn
         class="button__next-phase"
-        v-if="showNextBtn && showButtons.next"
+        v-if="showNextBtn && allowResume"
         label="Продолжить"
         color="primary"
         @click="doNextAction">
       </q-btn>
       <q-btn
         class="button__next-phase"
-        v-if="showCancelBtn || showButtons.cancel"
+        v-if="showCancelBtn || allowCancel"
         label="ЗАВЕРШИТЬ РАБОТУ"
         color="red"
         @click="doCancel">
@@ -143,10 +143,12 @@ export default {
   },
 
   computed: {
+    ...mapGetters('app', ['api', 'allowResume', 'allowCancel']),
     ...mapGetters('auth', ['isLogged', 'user']),
     ...mapGetters('beginners', [
       'steps',
       'step',
+      'restartStep',
       'isLastStep',
       'phases',
       'phase',
@@ -164,16 +166,18 @@ export default {
       'cue',
       'soundTheme'
     ]),
-    ...mapState('beginners', [ 'api', 'sound', 'error' ])
+    ...mapState('beginners', [ 'sound', 'error' ])
   },
 
   methods: {
+    ...mapMutations('app', {setAllowResume: 'SET_ALLOW_RESUME', setAllowCancel: 'SET_ALLOW_CANCEL'}),
     ...mapMutations('beginners', [
       'setPhraseText',
       'setStepperVisible',
       'setLearningLang',
       'setResults',
-      'setDictionary'
+      'setDictionary',
+      'restartStep'
     ]),
     ...mapActions('beginners', [
       'getSteps',

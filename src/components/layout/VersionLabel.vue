@@ -4,8 +4,7 @@
 
 <script>
 
-import {createNamespacedHelpers} from 'vuex'
-const { mapGetters } = createNamespacedHelpers('beginners')
+import {mapGetters} from 'vuex'
 
 export default {
   name: 'VersionLabel',
@@ -13,7 +12,7 @@ export default {
     return {}
   },
   computed: {
-    ...mapGetters(['version'])
+    ...mapGetters('app', ['version'])
   }
 }
 </script>

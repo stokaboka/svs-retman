@@ -21,11 +21,6 @@ export default {
         'fix-phase': this.onFixPhase,
         'do-next-action': this.doNextAction
       },
-      showButtons: {
-        next: true,
-        cancel: false,
-        restartStep: false
-      },
       showCancelBtn: false,
       progressVisible: true,
       stepperFullScreenVisible: true,
@@ -243,7 +238,7 @@ export default {
       this.timer.stop()
       this.audio.stop()
 
-      if (this.showButtons.restartStep) {
+      if (this.restartStep) {
         this.playStep()
       } else {
         this.onFixPhase()
@@ -301,8 +296,8 @@ export default {
       const self = this
       // console.log('playStep')
 
-      this.showButtons.restartStep = false
-      this.showButtons.cancel = false
+      this.restartStep(false)
+      this.setAllowCancel(false)
 
       this.checkedWordsPairs = []
       this.rememberedWordsPairs = []

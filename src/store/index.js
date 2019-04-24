@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import app from './app'
+
 import beginners from './beginners'
-import user from './user'
 import auth from './auth'
 import editor from './editor'
 import dictionary from './editor/dictionary'
@@ -22,8 +23,8 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   modules: {
+    app,
     beginners,
-    user,
     auth,
     editor,
     dictionary,

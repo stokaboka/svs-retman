@@ -1,10 +1,10 @@
-const title = (state) => {
-  return state.title
-}
-
-const api = (state) => {
-  return state.api
-}
+// const title = (state) => {
+//   return state.title
+// }
+//
+// const api = (state) => {
+//   return state.api
+// }
 
 const results = (state) => {
   return state.results
@@ -18,9 +18,9 @@ const testing = (state) => {
   return state.testing
 }
 
-const version = (state) => {
-  return state.version
-}
+// const version = (state) => {
+//   return state.version
+// }
 
 const steps = (state) => {
   return state.steps
@@ -28,6 +28,10 @@ const steps = (state) => {
 
 const step = (state) => {
   return state.step
+}
+
+const restartStep = (state) => {
+  return state.restartStep
 }
 
 const stepIndex = (state) => {
@@ -115,15 +119,16 @@ const selfRatingLevels = (state) => {
 }
 
 export {
-  title,
-  api,
+  // title,
+  // api,
   results,
   userResults,
   testing,
-  version,
+  // version,
   steps,
   step,
   stepIndex,
+  restartStep,
   isLastStep,
   phases,
   phaseIndex,

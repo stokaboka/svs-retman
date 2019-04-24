@@ -54,6 +54,10 @@ const setStepResult = (state, playload) => {
   state.step.result = playload
 }
 
+const restartStep = (state, playload) => {
+  state.restartStep = playload
+}
+
 const setPhases = (state, playload) => {
   state.phases = playload.map((phase) => {
     const scope = phase.scope.replace('**', state.learningLang)
@@ -165,7 +169,7 @@ export {
 
   setStepResult,
   setPhaseResult,
-
+  restartStep,
   nextStep,
   nextPhase,
 

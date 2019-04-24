@@ -1,9 +1,9 @@
 export default {
-  title: 'Тест Лингвистических Способностей (ТЛС)',
-  version: '0.1.2',
+  // title: 'Тест Лингвистических Способностей (ТЛС)',
+  // version: '0.1.2',
 
   // api: 'http://localhost:3333',
-  api: process.env.API,
+  // api: process.env.API,
   sound: 'sound',
   soundTheme: '2',
 
@@ -18,6 +18,7 @@ export default {
   steps: [],
   step: {},
   stepIndex: 0,
+  restartStep: false,
 
   phases: [],
   phase: {},
@@ -34,14 +35,14 @@ export default {
   cue: [],
 
   atLevels: [
-    'Умер',
-    'Отвратительное',
-    'Плохое',
-    'Ниже среднего',
-    'Нормальное',
-    'Отличное',
-    'Великолепное',
-    'Готов двигать горы'
+    // 'Умер',
+    // 'Отвратительное',
+    // 'Плохое',
+    // 'Ниже среднего',
+    // 'Нормальное',
+    // 'Отличное',
+    // 'Великолепное',
+    // 'Готов двигать горы'
   ],
 
   selfRatingColumns: [

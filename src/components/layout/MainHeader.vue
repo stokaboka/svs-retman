@@ -72,7 +72,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('beginners', ['title']),
+    ...mapGetters('app', ['title']),
     ...mapGetters('auth', ['isLogged', 'isAdmin', 'isOperator', 'isUser', 'user'])
   }
 }

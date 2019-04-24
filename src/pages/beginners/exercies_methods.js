@@ -72,7 +72,9 @@ export default {
     },
 
     onChangedSanExpressResult (value) {
-      this.showButtons = value
+      this.setAllowResume(value.next)
+      this.setAllowCancel(value.cancel)
+      this.restartStep(value.restartStep)
     },
 
     onChangedAT0Self (value) {

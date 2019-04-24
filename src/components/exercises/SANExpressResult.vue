@@ -19,16 +19,16 @@
       <span class="san-result-label underline-gray">перед аутогенной тренировкой</span>
       <div class="row">
         <span class="san-result-text">САН1 = <span class="san-result-value">{{before}}</span></span>
-        <span class="san-result-text">самочувствие = <span class="san-result-value">{{results.san.before.s}}</span></span>
-        <span class="san-result-text">активность = <span class="san-result-value">{{results.san.before.a}}</span></span>
-        <span class="san-result-text">настроение = <span class="san-result-value">{{results.san.before.n}}</span></span>
+        <span class="san-result-text">самочувствие (С) = <span class="san-result-value">{{results.san.before.s}}</span></span>
+        <span class="san-result-text">активность (А) = <span class="san-result-value">{{results.san.before.a}}</span></span>
+        <span class="san-result-text">настроение (Н) = <span class="san-result-value">{{results.san.before.n}}</span></span>
       </div>
       <span class="san-result-label underline-gray">после аутогенной тренировки</span>
       <div class="row">
         <span class="san-result-text">САН2 = <span class="san-result-value">{{after}}</span></span>
-        <span class="san-result-text">самочувствие = <span class="san-result-value">{{results.san.after.s}}</span></span>
-        <span class="san-result-text">активность = <span class="san-result-value">{{results.san.after.a}}</span></span>
-        <span class="san-result-text">настроение = <span class="san-result-value">{{results.san.after.n}}</span></span>
+        <span class="san-result-text">самочувствие (С) = <span class="san-result-value">{{results.san.after.s}}</span></span>
+        <span class="san-result-text">активность (А) = <span class="san-result-value">{{results.san.after.a}}</span></span>
+        <span class="san-result-text">настроение (Н) = <span class="san-result-value">{{results.san.after.n}}</span></span>
       </div>
     </div>
 
@@ -208,14 +208,21 @@ export default {
     },
     buttonsData () {
       return {
-        next: this.screen === 8 || this.screen === 7 || this.screen === 6 || this.screen === 5 || (this.screen === 4 && this.recomendationAnswer === 'fraud'),
-        cancel: this.screen === 3 || this.screen === 4 || this.screen === 8,
+        next: this.screen === 8 ||
+          this.screen === 7 ||
+          this.screen === 6 ||
+          this.screen === 5 ||
+          (this.screen === 4 && this.recomendationAnswer === 'fraud'),
+        cancel: this.screen === 3 ||
+          this.screen === 4 ||
+          this.screen === 8,
         restartStep: this.recomendationAnswer === 'fraud'
       }
     },
     ...mapGetters('beginners', ['results']),
     ...mapGetters('auth', ['user']),
-    ...mapState('beginners', [ 'api', 'sound', 'error' ])
+    ...mapState('app', ['api']),
+    ...mapState('beginners', [ 'sound', 'error' ])
   },
   watch: {
     recomendationAnswer (val) {

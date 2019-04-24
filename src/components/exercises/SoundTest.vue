@@ -25,12 +25,12 @@
 
 <script>
 
-import {createNamespacedHelpers} from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 // import AudioHelper from '../../lib/AudioHelper'
 // const audio = new AudioHelper()
 
-const { mapState, mapGetters } = createNamespacedHelpers('beginners')
+// const { mapState, mapGetters } = createNamespacedHelpers('beginners')
 
 export default {
   name: 'SoundTest',
@@ -56,8 +56,9 @@ export default {
     startLabel () {
       return this.audio.playing ? 'Остановить звук' : 'звуковой тест'
     },
-    ...mapGetters(['step', 'phases', 'phase']),
-    ...mapState([ 'api', 'sound', 'error' ])
+    ...mapGetters('beginners', ['step', 'phases', 'phase']),
+    ...mapState('app', ['api']),
+    ...mapState('beginners', [ 'sound', 'error' ])
   },
 
   methods: {

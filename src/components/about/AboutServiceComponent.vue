@@ -89,7 +89,8 @@ export default {
     playPauseIcon () {
       return this.audio.paused ? 'play_circle_filled' : 'pause_circle_filled'
     },
-    ...mapState('beginners', ['api', 'sound', 'soundTheme'])
+    ...mapState('app', ['api']),
+    ...mapState('beginners', ['sound', 'soundTheme'])
   },
   beforeDestroy () {
     this.audio.stop()

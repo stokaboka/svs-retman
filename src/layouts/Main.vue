@@ -33,7 +33,7 @@ export default {
     ...mapActions('auth', ['signin'])
   },
   computed: {
-    ...mapGetters('beginners', ['title'])
+    ...mapGetters('app', ['title'])
   },
 
   watch: {

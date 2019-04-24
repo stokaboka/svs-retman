@@ -145,7 +145,7 @@ const actions = {
    */
   load ({commit, getters, rootGetters}, params = '') {
     // console.log(params)
-    const api = rootGetters['beginners/api']
+    const api = rootGetters['app/api']
     const suffix = getters['suffix']
     const url = `${api}/${suffix}${params}`
     commit('SET_LOADING', true)
@@ -163,7 +163,7 @@ const actions = {
   },
   insert ({commit, getters, rootGetters}, playload) {
     // console.log(playload)
-    const api = rootGetters['beginners/api']
+    const api = rootGetters['app/api']
     const suffix = getters['suffix']
     const url = `${api}/${suffix}`
     commit('SET_LOADING', true)
@@ -180,7 +180,7 @@ const actions = {
   },
   update ({commit, getters, rootGetters}, playload) {
     // console.log(playload)
-    const api = rootGetters['beginners/api']
+    const api = rootGetters['app/api']
     const suffix = getters['suffix']
     const url = `${api}/${suffix}`
     commit('SET_LOADING', true)
@@ -197,7 +197,7 @@ const actions = {
   },
   delete ({commit, getters, rootGetters}, playload) {
     // console.log(playload)
-    const api = rootGetters['beginners/api']
+    const api = rootGetters['app/api']
     const suffix = getters['suffix']
     const url = `${api}/${suffix}`
     commit('SET_LOADING', true)
