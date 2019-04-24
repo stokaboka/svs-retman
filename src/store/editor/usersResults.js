@@ -9,7 +9,7 @@ const state = {
   },
   columns: [
     { name: 'id', field: 'id', label: 'id', sortable: true, visible: false, update: false, insert: false },
-    { name: 'user', field: 'user', label: 'Пользователь', sortable: true, visible: false, update: false, insert: false },
+    { name: 'user', field: 'user', label: 'Пользователь', align: 'left', sortable: true, visible: false, update: false, insert: false },
     { name: 'results', field: 'results', label: 'Лог', sortable: true, visible: false, update: false, insert: false },
     { name: 'testing', field: 'testing', label: 'Результат', sortable: true, visible: false, update: false, insert: false },
     { name: 'rating', field: 'rating', label: 'Баллы', sortable: true, visible: true, false: false, insert: false },

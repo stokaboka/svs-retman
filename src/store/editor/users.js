@@ -9,11 +9,11 @@ const state = {
   },
   columns: [
     { name: 'id', field: 'id', label: 'id', sortable: true, visible: false, update: false, insert: false },
-    { name: 'login', field: 'login', label: 'Логин', sortable: true, visible: true, update: false, insert: false },
-    { name: 'firstName', field: 'firstName', label: 'Имя', sortable: true, visible: true, update: false, insert: false },
-    { name: 'secondName', field: 'secondName', label: 'Отчество', sortable: true, visible: true, update: false, insert: false },
-    { name: 'lastName', field: 'lastName', label: 'Фамилия', sortable: true, visible: true, update: false, insert: false },
-    { name: 'birthday', field: 'birthday', label: 'Дата рождения', sortable: true, visible: true, update: false, insert: false },
+    { name: 'login', field: 'login', label: 'Логин', align: 'left', sortable: true, visible: true, update: false, insert: false },
+    { name: 'firstName', field: 'firstName', label: 'Имя', align: 'left', sortable: true, visible: true, update: false, insert: false },
+    { name: 'secondName', field: 'secondName', label: 'Отчество', align: 'left', sortable: true, visible: true, update: false, insert: false },
+    { name: 'lastName', field: 'lastName', label: 'Фамилия', align: 'left', sortable: true, visible: true, update: false, insert: false },
+    { name: 'birthday', field: 'birthday', label: 'Дата рождения', align: 'left', sortable: true, visible: true, update: false, insert: false },
     { name: 'role', field: 'role', label: 'Группа', sortable: true, visible: true, update: false, insert: false }
   ],
   filter: '',

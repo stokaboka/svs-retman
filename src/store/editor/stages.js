@@ -9,14 +9,14 @@ const state = {
   },
   columns: [
     { name: 'id', field: 'id', label: 'id', sortable: true, visible: false, update: false, insert: false },
-    { name: 'lang', field: 'lang', label: 'Язык', sortable: true, visible: true, update: false, insert: false },
-    { name: 'title', field: 'title', label: 'Заголовок', sortable: true, visible: true, update: false, insert: false },
+    { name: 'lang', field: 'lang', label: 'Язык', align: 'left', sortable: true, visible: true, update: false, insert: false },
+    { name: 'title', field: 'title', label: 'Заголовок', align: 'left', sortable: true, visible: true, update: false, insert: false },
     { name: 'step', field: 'step', label: 'Шаг', sortable: true, visible: true, update: false, insert: false },
     { name: 'lesson', field: 'lesson', label: 'Урок', sortable: true, visible: true, update: false, insert: false },
     { name: 'stage', field: 'stage', label: 'Проход', sortable: true, visible: true, update: false, insert: false },
     // { name: 'pages', field: 'pages', label: 'Страниц', sortable: true, visible: true, update: false, insert: false },
-    { name: 'scope', field: 'scope', label: 'Фильтр', sortable: true, visible: true, update: false, insert: false },
-    { name: 'sound', field: 'sound', label: 'Звук', sortable: true, visible: true, update: false, insert: false }
+    { name: 'scope', field: 'scope', label: 'Фильтр', align: 'left', sortable: true, visible: true, update: false, insert: false },
+    { name: 'sound', field: 'sound', label: 'Звук', align: 'left', sortable: true, visible: true, update: false, insert: false }
     // { name: 'time', field: 'time', label: 'Время', sortable: true, visible: true, update: false, insert: false }
   ],
   filter: 'FilterStages'

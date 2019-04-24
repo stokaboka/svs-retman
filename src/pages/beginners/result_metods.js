@@ -167,8 +167,8 @@ const sanexpr = {
   },
   initRecomendation: (context, phase, result) => {
     let screen = 0
-    const before = getMidSan(result.sanexpr.before)
-    const after = getMidSan(result.sanexpr.after)
+    const before = getMidSan(result.before)
+    const after = getMidSan(result.after)
     const delta = after - before
 
     if (after <= 1.4) {
@@ -192,7 +192,9 @@ const sanexpr = {
     } else {
       screen = 8
     }
-    return `Экран: ${screen}`
+    // return `Экран: ${screen}`
+    console.log(screen)
+    return ''
   }
 }
 

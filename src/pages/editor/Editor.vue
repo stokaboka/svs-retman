@@ -53,7 +53,7 @@ export default {
     selection: {
       type: String,
       default () {
-        return 'none'
+        return 'single'
       }
     },
     module: {

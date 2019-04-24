@@ -10,9 +10,9 @@ export default {
   },
   data () {
     return {
-      // startStep: 0,
+      startStep: 0,
       // startStep: 8,  // results
-      startStep: 5, // AT
+      // startStep: 5, // AT
       // startStep: 3,
       audio: new AudioHelper(this),
       timer: new TimerHelper(this),
