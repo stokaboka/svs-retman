@@ -9,7 +9,7 @@
       :class="animationClass"/>
 
     <q-btn
-      v-if="showStart"
+      v-if="showStart && allowResume"
       :class="animationClass"
       label="Начать тестирование"
       color="primary"
@@ -21,7 +21,6 @@
 </template>
 
 <script>
-// to="/beginners"
 
 import {animate, easing} from 'quasar'
 import AboutServiceComponent from '../../components/about/AboutServiceComponent'
@@ -44,6 +43,7 @@ export default {
   },
   mounted () {
     const self = this
+    this.checkLockResume()
     animate.start({
       from: 0,
       to: self.animationTime,
@@ -60,6 +60,7 @@ export default {
 
   computed: {
     ...mapState('beginners', ['error']),
+    ...mapGetters('app', ['allowResume', 'allowCancel', 'lockResume']),
     ...mapGetters('auth', ['isLogged', 'user'])
   },
 
@@ -79,7 +80,8 @@ export default {
       return {minHeight: offset ? `calc(100vh - ${offset}px)` : '100vh'}
     },
 
-    ...mapActions('beginners', ['resetSteps'])
+    ...mapActions('beginners', ['resetSteps']),
+    ...mapActions('app', ['checkLockResume'])
   }
 }
 </script>

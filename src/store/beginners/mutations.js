@@ -54,7 +54,7 @@ const setStepResult = (state, playload) => {
   state.step.result = playload
 }
 
-const restartStep = (state, playload) => {
+const setRestartStep = (state, playload) => {
   state.restartStep = playload
 }
 
@@ -169,7 +169,7 @@ export {
 
   setStepResult,
   setPhaseResult,
-  restartStep,
+  setRestartStep,
   nextStep,
   nextPhase,
 

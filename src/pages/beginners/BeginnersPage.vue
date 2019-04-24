@@ -177,7 +177,7 @@ export default {
       'setLearningLang',
       'setResults',
       'setDictionary',
-      'restartStep'
+      'setRestartStep'
     ]),
     ...mapActions('beginners', [
       'getSteps',
@@ -194,7 +194,8 @@ export default {
       'getMnemonicRecommendation',
       'saveResult',
       'loadResult'
-    ])
+    ]),
+    ...mapActions('app', ['setLockResume'])
   },
 
   watch: {

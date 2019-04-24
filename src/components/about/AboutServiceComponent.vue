@@ -7,10 +7,9 @@
     </q-page-sticky>
 
     <div class="about-body">
-
-      <div class="about-text">
+      <div v-if="allowResume" class="about-text">
         <p>
-          <span class="tls">ТЛС</span> предназначен для оценки способностей Тестируемого к изучению иностранного языка с
+          <span class="tls tls-color">ТЛС</span> предназначен для оценки способностей Тестируемого к изучению иностранного языка с
           помощью автоматизированной обучающей системы (АОС).
         </p>
         <p>
@@ -44,6 +43,11 @@
 
       </div>
 
+      <div v-else class="about-text">
+        <p>Программа <span class="tls-color"><strong>CONTROL YOURSELF</strong></span> предлагает Вам продолжить работу завтра или в любое другое удобное для Вас время.</p>
+        <p>Успехов Вам!</p>
+      </div>
+
       <image-box-with-animation-text :text="hitStrings">
         <img src="/statics/assets/icons_1082x972_new_02_small.jpg">
       </image-box-with-animation-text>
@@ -54,7 +58,7 @@
 
 <script>
 
-import {mapState} from 'vuex'
+import {mapState, mapGetters} from 'vuex'
 import AudioHelper from '../../lib/AudioHelper'
 import ImageBoxWithAnimationText from './ImageBoxWithAnimationText'
 
@@ -90,7 +94,8 @@ export default {
       return this.audio.paused ? 'play_circle_filled' : 'pause_circle_filled'
     },
     ...mapState('app', ['api']),
-    ...mapState('beginners', ['sound', 'soundTheme'])
+    ...mapState('beginners', ['sound', 'soundTheme']),
+    ...mapGetters('app', ['allowResume', 'allowCancel'])
   },
   beforeDestroy () {
     this.audio.stop()
@@ -145,6 +150,7 @@ export default {
   .about-text {
     min-width: 400px;
     max-width: 500px;
+    margin: 1rem 0;
   }
 
   .about-image {
@@ -154,6 +160,9 @@ export default {
   .tls {
     font-size: 3rem;
     font-weight: bold;
+  }
+
+  .tls-color {
     color: royalblue;
   }
 

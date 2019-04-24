@@ -3,5 +3,6 @@ export default {
   version: '0.2.0',
   api: process.env.API,
   allowResume: true,
-  allowCancel: false
+  allowCancel: false,
+  lockResume: false
 }

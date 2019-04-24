@@ -56,6 +56,11 @@ export default {
         }
       },
 
+      SANexpress: {
+        before: { s: 3, a: 3, n: 3 },
+        after: { s: 3, a: 3, n: 3 }
+      },
+
       SAN: {
         before: { s: 3, a: 3, n: 3 },
         after: { s: 3, a: 3, n: 3 }
@@ -227,6 +232,8 @@ export default {
     },
 
     doCancel () {
+      this.setAllowResume(false)
+      this.setLockResume()
       this.$router.push({name: 'home'})
     },
 
@@ -296,7 +303,7 @@ export default {
       const self = this
       // console.log('playStep')
 
-      this.restartStep(false)
+      this.setRestartStep(false)
       this.setAllowCancel(false)
 
       this.checkedWordsPairs = []

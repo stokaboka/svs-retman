@@ -17,3 +17,7 @@ export function allowResume (state) {
 export function allowCancel (state) {
   return state.allowCancel
 }
+
+export function lockResume (state) {
+  return state.lockResume
+}

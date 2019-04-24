@@ -65,16 +65,16 @@ export default {
     onChangedSanExpress (value) {
       // console.log(value)
       if (this.phase.phase === 1) {
-        this.SAN.before = value
+        this.SANexpress.before = value
       } else {
-        this.SAN.after = value
+        this.SANexpress.after = value
       }
     },
 
     onChangedSanExpressResult (value) {
       this.setAllowResume(value.next)
       this.setAllowCancel(value.cancel)
-      this.restartStep(value.restartStep)
+      this.setRestartStep(value.restartStep)
     },
 
     onChangedAT0Self (value) {

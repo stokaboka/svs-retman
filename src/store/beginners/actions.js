@@ -1,9 +1,10 @@
 
 import axios from 'axios'
 
-const getSteps = ({ commit, getters }) => {
+const getSteps = ({ commit, getters, rootGetters }) => {
   commit('resetStepIndex')
-  return axios.get(`${getters.api}/s`)
+  const api = rootGetters['app/api']
+  return axios.get(`${api}/s`)
     .then(response => {
       commit('setSteps', response.data)
       commit('setStep', getters.steps[getters.stepIndex])
@@ -23,9 +24,10 @@ const resetSteps = ({ commit, getters }) => {
   commit('setPhase', getters.phases[getters.phaseIndex])
 }
 
-const getPhasesByStep = ({ commit, getters }, stepId) => {
+const getPhasesByStep = ({ commit, getters, rootGetters }, stepId) => {
   commit('resetPhaseIndex')
-  return axios.get(`${getters.api}/ph/step/${stepId}`)
+  const api = rootGetters['app/api']
+  return axios.get(`${api}/ph/step/${stepId}`)
     .then(response => {
       commit('setPhases', response.data)
       commit('setPhase', getters.phases[getters.phaseIndex])
@@ -71,10 +73,11 @@ const nextPhase = ({ commit, state }) => {
   }
 }
 
-const getDictionary = ({ commit, getters }, p) => {
+const getDictionary = ({ commit, getters, rootGetters }, p) => {
   // console.log('getDictionary')
   // console.log(p)
-  return axios.get(`${getters.api}/words/scope/${p.scope}/lang1/${p.lang1}/lang2/${p.lang2}`)
+  const api = rootGetters['app/api']
+  return axios.get(`${api}/words/scope/${p.scope}/lang1/${p.lang1}/lang2/${p.lang2}`)
     .then(response => {
       let data = response.data.filter((elem, index) => {
         if (!isNaN(p.index1) && !isNaN(p.index2)) {
@@ -91,10 +94,11 @@ const getDictionary = ({ commit, getters }, p) => {
     })
 }
 
-const getLessons = ({ commit, getters }, p) => {
+const getLessons = ({ commit, getters, rootGetters }, p) => {
   // console.log('getLessons')
   // console.log(p)
-  return axios.get(`${getters.api}/ls/lang/${p.lang}`)
+  const api = rootGetters['app/api']
+  return axios.get(`${api}/ls/lang/${p.lang}`)
     .then(response => {
       commit('setLessons', response.data)
       commit('setResult', 'OK')
@@ -104,8 +108,9 @@ const getLessons = ({ commit, getters }, p) => {
     })
 }
 
-const getAllLessons = ({ commit, getters }, p) => {
-  return axios.get(`${getters.api}/ls`)
+const getAllLessons = ({ commit, getters, rootGetters }, p) => {
+  const api = rootGetters['app/api']
+  return axios.get(`${api}/ls`)
     .then(response => {
       commit('setResult', 'OK')
       return response.data
@@ -116,8 +121,9 @@ const getAllLessons = ({ commit, getters }, p) => {
     })
 }
 
-const getCue = ({ commit, getters }, p) => {
-  return axios.get(`${getters.api}/cue/file/${p.file}`)
+const getCue = ({ commit, getters, rootGetters }, p) => {
+  const api = rootGetters['app/api']
+  return axios.get(`${api}/cue/file/${p.file}`)
     .then(response => {
       commit('setCue', response.data)
       commit('setResult', 'OK')
@@ -139,8 +145,8 @@ const saveResult = ({ commit, getters, rootGetters }, p = null) => {
       results,
       date: new Date()
     }
-
-    return axios.post(`${getters.api}/user/result`, data)
+    const api = rootGetters['app/api']
+    return axios.post(`${api}/user/result`, data)
       .then(response => {
         commit('setResult', 'OK')
         return true
@@ -156,7 +162,8 @@ const saveResult = ({ commit, getters, rootGetters }, p = null) => {
 
 const loadResult = ({ commit, getters, rootGetters }) => {
   const user = rootGetters['auth/user']
-  return axios.get(`${getters.api}/user/result/${user.login}`)
+  const api = rootGetters['app/api']
+  return axios.get(`${api}/user/result/${user.login}`)
     .then(response => {
       commit('setTesting', response.data)
       commit('setResult', 'OK')
@@ -168,9 +175,10 @@ const loadResult = ({ commit, getters, rootGetters }) => {
     })
 }
 
-const loadUserResults = ({ commit, getters }, user) => {
+const loadUserResults = ({ commit, getters, rootGetters }, user) => {
   // const user = rootGetters['auth/user']
-  return axios.get(`${getters.api}/user/results/${user.login}`)
+  const api = rootGetters['app/api']
+  return axios.get(`${api}/user/results/${user.login}`)
     .then(response => {
       commit('setUserResults', response.data)
       commit('setResult', 'OK')

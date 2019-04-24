@@ -19,16 +19,16 @@
       <span class="san-result-label underline-gray">перед аутогенной тренировкой</span>
       <div class="row">
         <span class="san-result-text">САН1 = <span class="san-result-value">{{before}}</span></span>
-        <span class="san-result-text">самочувствие (С) = <span class="san-result-value">{{results.san.before.s}}</span></span>
-        <span class="san-result-text">активность (А) = <span class="san-result-value">{{results.san.before.a}}</span></span>
-        <span class="san-result-text">настроение (Н) = <span class="san-result-value">{{results.san.before.n}}</span></span>
+        <span class="san-result-text">самочувствие (С) = <span class="san-result-value">{{results.sanexpr.before.s}}</span></span>
+        <span class="san-result-text">активность (А) = <span class="san-result-value">{{results.sanexpr.before.a}}</span></span>
+        <span class="san-result-text">настроение (Н) = <span class="san-result-value">{{results.sanexpr.before.n}}</span></span>
       </div>
       <span class="san-result-label underline-gray">после аутогенной тренировки</span>
       <div class="row">
         <span class="san-result-text">САН2 = <span class="san-result-value">{{after}}</span></span>
-        <span class="san-result-text">самочувствие (С) = <span class="san-result-value">{{results.san.after.s}}</span></span>
-        <span class="san-result-text">активность (А) = <span class="san-result-value">{{results.san.after.a}}</span></span>
-        <span class="san-result-text">настроение (Н) = <span class="san-result-value">{{results.san.after.n}}</span></span>
+        <span class="san-result-text">самочувствие (С) = <span class="san-result-value">{{results.sanexpr.after.s}}</span></span>
+        <span class="san-result-text">активность (А) = <span class="san-result-value">{{results.sanexpr.after.a}}</span></span>
+        <span class="san-result-text">настроение (Н) = <span class="san-result-value">{{results.sanexpr.after.n}}</span></span>
       </div>
     </div>
 
@@ -102,12 +102,7 @@
               type="radio"
               color="secondary"
               v-model="recomendationAnswer"
-              :options="[
-              { label: 'наконец-то высплюсь!', value: 'sleep' },
-              { label: 'выпью чего-нибудь из тонизирующего...', value: 'drink' },
-              { label: 'что-нибудь придумаю.', value: 'idea'},
-              { label: 'повторю тест САН и обману программу ТЛС!', value: 'fraud'}
-            ]"></q-option-group>
+              :options="screen4options"></q-option-group>
           </q-field>
         </div>
       </div>
@@ -156,7 +151,13 @@ export default {
   data () {
     return {
       recomendationAnswer: null,
-      screen: 0
+      screen: 0,
+      screen4options: [
+        { label: 'наконец-то высплюсь!', value: 'sleep' },
+        { label: 'выпью чего-нибудь из тонизирующего...', value: 'drink' },
+        { label: 'что-нибудь придумаю.', value: 'idea' },
+        { label: 'повторю тест САН и обману программу ТЛС!', value: 'fraud' }
+      ]
     }
   },
   methods: {
@@ -198,10 +199,10 @@ export default {
   computed: {
 
     before () {
-      return this.san(this.results.san.before)
+      return this.san(this.results.sanexpr.before)
     },
     after () {
-      return this.san(this.results.san.after)
+      return this.san(this.results.sanexpr.after)
     },
     delta () {
       return this.after - this.before
@@ -214,7 +215,7 @@ export default {
           this.screen === 5 ||
           (this.screen === 4 && this.recomendationAnswer === 'fraud'),
         cancel: this.screen === 3 ||
-          this.screen === 4 ||
+          (this.screen === 4 && this.recomendationAnswer) ||
           this.screen === 8,
         restartStep: this.recomendationAnswer === 'fraud'
       }
