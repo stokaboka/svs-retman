@@ -32,6 +32,10 @@ export default {
     margin: 1rem 1rem;
   }
 
+  .phase-container {
+    width: 60vw;
+  }
+
   .button__delete-variant {
     height: 30px;
     margin-top: -4px;

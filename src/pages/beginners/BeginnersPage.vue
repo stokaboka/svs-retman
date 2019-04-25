@@ -45,6 +45,28 @@
 
     </section>
 
+    <q-card v-if="phase.video">
+      <q-card-media overlay-position="top">
+        <video height="320" autoplay controls loop muted>
+          <source
+            :src="videoHEVC"
+            type="video/mp4; codecs=hevc,mp4a.40.2"
+          />
+          <source
+            :src="videoAV1"
+            type="video/mp4; codecs=av01.0.05M.08,opus"
+          />
+          <source
+            :src="videoH264"
+            type="video/mp4; codecs=avc1.4D401E,mp4a.40.2"
+          />
+        </video>
+        <q-card-title slot="overlay">
+          Пример выполнения теста
+        </q-card-title>
+      </q-card-media>
+    </q-card>
+
     <div class="page-footer">
       <q-btn
         class="button__next-phase"
@@ -60,24 +82,6 @@
         color="red"
         @click="doCancel">
       </q-btn>
-    </div>
-
-    <div v-if="phase.video" class="column justify-center items-center shadow-2">
-      <span>Пример выполнения теста:</span>
-      <video height="320" autoplay controls loop muted>
-        <source
-          :src="videoHEVC"
-          type="video/mp4; codecs=hevc,mp4a.40.2"
-        />
-        <source
-          :src="videoAV1"
-          type="video/mp4; codecs=av01.0.05M.08,opus"
-        />
-        <source
-          :src="videoH264"
-          type="video/mp4; codecs=avc1.4D401E,mp4a.40.2"
-        />
-      </video>
     </div>
 
   </q-page>
@@ -100,9 +104,10 @@ import SANTest from '../../components/exercises/SANTest'
 import SANExpressTest from '../../components/exercises/SANExpressTest'
 import SANExpressResult from '../../components/exercises/SANExpressResult'
 import AT0Test from '../../components/exercises/AT0Test'
+import AutoTraining from '../../components/exercises/AutoTraining'
 
 import AutoTrainingSelfTest from '../../components/exercises/AutoTrainingSelfTest'
-import AutoTraining from '../../components/exercises/AutoTraining'
+import ATDescription from '../../components/exercises/ATDescription'
 
 import BeginnerFinalResult from '../../components/exercises/BeginnerFinalResult'
 
@@ -132,6 +137,7 @@ export default {
     SelfLanguageRating,
     ControlLanguageRating,
     SelfLexicalLearningLang,
+    ATDescription,
     SANTest,
     SANExpressTest,
     SANExpressResult,
@@ -245,6 +251,7 @@ export default {
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
+    align-items: center;
   }
 
   .page-footer {
