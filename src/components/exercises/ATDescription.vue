@@ -3,8 +3,7 @@
   -->
 
 <template>
-  <div class="column justify-center items-center phase-container">
-    <div class="gallery-wrapper shadow-2">
+  <div class="gallery-wrapper ">
           <q-carousel
             color="white"
             arrows
@@ -13,7 +12,7 @@
             :autoplay="autoplay"
             :easing="easing"
             :swipe-easing="easing"
-            height="600px"
+            height="400px"
           >
             <q-carousel-slide img-src="statics/assets/coachman.jpg">
               <div class="absolute-bottom custom-caption">
@@ -26,7 +25,6 @@
               </div>
             </q-carousel-slide>
           </q-carousel>
-    </div>
   </div>
 </template>
 
@@ -76,7 +74,7 @@ export default {
 
 <style scoped>
 .gallery-wrapper {
-  width: 50vw;
+  width: 500px;
   border-radius: 3px;
   border: 1px solid lightgrey;
   overflow: hidden;

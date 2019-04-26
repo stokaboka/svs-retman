@@ -134,10 +134,20 @@ const actions = {
 
     return axios.post(`${rootGetters['app/api']}/register`, data)
       .then(response => {
-        commit('SET_TOKEN', response.data.token)
-        commit('SET_USER', response.data.user)
-        commit('SET_OFFER', false)
-        showUserNotify(getters['user'], 'register')
+        if (response.data.error) {
+          commit('SET_TOKEN', '')
+          commit('SET_USER', null)
+          commit('SET_OFFER', true)
+          Notify.create({
+            message: response.data.error,
+            type: 'negative'
+          })
+        } else {
+          commit('SET_TOKEN', response.data.token)
+          commit('SET_USER', response.data.user)
+          commit('SET_OFFER', false)
+          showUserNotify(getters['user'], 'register')
+        }
       })
       .catch(error => {
         commit('SET_USER', null)

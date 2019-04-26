@@ -134,7 +134,7 @@ export default {
       this.imageIndex = ++this.imageIndex % this.sImages.length
 
       let preloadIndex = this.imageIndex + 1 % this.sImages.length
-      console.log(this.imageIndex, preloadIndex)
+      // console.log(this.imageIndex, preloadIndex)
 
       preLoadImage(`${this.path}/${this.sImages[preloadIndex]}`)
 

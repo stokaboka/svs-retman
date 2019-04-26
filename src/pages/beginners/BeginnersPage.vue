@@ -47,7 +47,7 @@
 
     <q-card v-if="phase.video">
       <q-card-media overlay-position="top">
-        <video height="320" autoplay controls loop muted>
+        <video height="340" autoplay controls loop muted>
           <source
             :src="videoHEVC"
             type="video/mp4; codecs=hevc,mp4a.40.2"
