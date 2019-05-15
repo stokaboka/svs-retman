@@ -142,7 +142,7 @@ import { mapState, mapGetters, mapActions } from 'vuex'
 import { required, minLength, maxLength, sameAs } from 'vuelidate/lib/validators'
 
 export default {
-  name: 'SignIn',
+  name: 'Register',
   data () {
     return {
       form: {
