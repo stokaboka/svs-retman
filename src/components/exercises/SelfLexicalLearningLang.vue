@@ -1,6 +1,6 @@
 <template>
   <div class="rows-container" @touchend="onTouchEnd">
-    <GlobalEvents @keyup.space.prevent="onPressSpace"></GlobalEvents>
+    <GlobalEvents @keyup.space.prevent="onPressSpace" @keyup.enter.prevent="onPressSpace"></GlobalEvents>
 
       <div v-if="ready" class="row-container q-mt-xs" v-for="i in 25" :key="i">
 
@@ -45,6 +45,20 @@ export default {
   name: 'SelfLexicalLearningLang',
   components: {GlobalEvents},
   props: {
+    phase: {
+      type: Object,
+      default () {
+        return {}
+      },
+      required: false
+    },
+    results: {
+      type: Object,
+      default () {
+        return {}
+      },
+      required: false
+    },
     timer: {
       type: Object,
       default () {
@@ -84,15 +98,25 @@ export default {
   methods: {
 
     init () {
+      let checked = []
+      if (this.results && this.phase) {
+        if (this.phase.result && this.phase.action === 'TEST') {
+          if (this.results[this.phase.result]) {
+            const result = this.results[this.phase.result]
+            checked = result.checkedWordsPairs
+          }
+        }
+      }
       this.testDictionary = this.dictionary.map((elem, index) => {
         return Object.assign(
           {}, elem,
           {
             hide: elem.word2,
-            selected: false,
+            selected: checked.length > 0 ? checked.findIndex(e => e.word1 === elem.word1) >= 0 : false,
             class: index === 0 ? 'current-word' : ''
           })
       })
+      this.wordPairChecked()
       this.ready = this.testDictionary.length === 100
     },
 
@@ -106,28 +130,30 @@ export default {
       this.testDictionary[this.indexTestDictionary].selected = true
       this.refreshTestDictionary()
 
-      this.checkedWordsPairs = this.testDictionary
-        .filter(elem => elem.selected)
+      this.wordPairChecked()
+    },
 
+    wordPairChecked () {
+      this.checkedWordsPairs = this.testDictionary.filter(elem => elem.selected)
       this.$emit('exercies-action', {id: 'word-pair-checked', data: this.checkedWordsPairs})
     },
+    // wordPairChecked () {
+    //   this.$emit('exercies-action', {id: 'word-pair-checked', data: this.checkedWordsPairs})
+    // },
 
     refreshTestDictionary () {
       this.testDictionary = this.testDictionary.map((elem, index) => {
         let cls = ''
-        if (index === this.indexTestDictionary) {
-          cls = 'current-word'
-        }
         if (elem.selected) {
           cls = 'check-word'
+        }
+        if (index === this.indexTestDictionary) {
+          cls = 'current-word'
         }
         return Object.assign({}, elem, {class: cls})
       }, this)
     },
 
-    wordPairChecked () {
-      this.$emit('exercies-action', {id: 'word-pair-checked', data: this.checkedWordsPairs})
-    },
     onTimerFired (event) {
       switch (event.event) {
         case 'START' :

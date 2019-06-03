@@ -50,6 +50,11 @@ const nextStep = (state) => {
   state.dictionary = []
 }
 
+const prevStep = (state) => {
+  state.stepIndex--
+  state.dictionary = []
+}
+
 const setStepResult = (state, playload) => {
   state.step.result = playload
 }
@@ -83,6 +88,18 @@ const setPhase = (state, playload) => {
 
 const nextPhase = (state) => {
   state.phaseIndex++
+}
+
+const prevPhase = (state) => {
+  state.phaseIndex--
+}
+
+const firstPhase = (state) => {
+  state.phaseIndex = 0
+}
+
+const lastPhase = (state) => {
+  state.phaseIndex = state.phases.length - 1
 }
 
 const resetPhaseIndex = (state) => {
@@ -144,6 +161,10 @@ const setResults = (state, playload) => {
   state.results[playload.prop] = playload.value
 }
 
+const clearResults = (state, playload) => {
+  delete state.results[playload]
+}
+
 const setUserResults = (state, playload) => {
   state.userResults = playload
 }
@@ -171,7 +192,11 @@ export {
   setPhaseResult,
   setRestartStep,
   nextStep,
+  prevStep,
   nextPhase,
+  prevPhase,
+  firstPhase,
+  lastPhase,
 
   resetPhaseIndex,
 
@@ -186,6 +211,7 @@ export {
   setLearningLang,
 
   setResults,
+  clearResults,
   setTesting,
 
   setUserResults,

@@ -38,6 +38,7 @@
         :audio="audio"
         :timer="timer"
         :results="results"
+        :phase="phase"
         :testing="testing"
         ref="phaseComponent"
         @exercies-action="onExerciesAction"
@@ -47,7 +48,7 @@
 
     <q-card v-if="phase.video">
       <q-card-media overlay-position="top">
-        <video height="340" autoplay controls loop muted>
+        <video ref="videoPlayer" height="340" autoplay controls loop muted>
           <source
             :src="videoHEVC"
             type="video/mp4; codecs=hevc,mp4a.40.2"
@@ -69,9 +70,17 @@
 
     <div class="page-footer">
       <q-btn
+        class="button__prev-phase"
+        v-if="!isFirstStep && showNextBtn && allowResume"
+        label="Назад"
+        ref="backActionBtn"
+        @click="doBackAction">
+      </q-btn>
+      <q-btn
         class="button__next-phase"
         v-if="showNextBtn && allowResume"
         label="Продолжить"
+        ref="nextActionBtn"
         color="primary"
         @click="doNextAction">
       </q-btn>
@@ -155,6 +164,7 @@ export default {
       'steps',
       'step',
       'restartStep',
+      'isFirstStep',
       'isLastStep',
       'phases',
       'phase',
@@ -189,7 +199,11 @@ export default {
       'getSteps',
       'resetSteps',
       'nextStep',
+      'prevStep',
       'nextPhase',
+      'prevPhase',
+      'lastPhase',
+      'firstPhase',
       'fixStep',
       'fixPhase',
       'getPhasesByStep',
@@ -242,7 +256,7 @@ export default {
     margin-left: 1rem;
   }
 
-  .button__next-phase {
+  .button__next-phase, .button__prev-phase {
     margin: 1rem 2rem;
     width: 120px;
   }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <GlobalEvents @keyup.space.prevent="onPressSpace"></GlobalEvents>
+    <GlobalEvents @keyup.space.prevent.stop="onPressSpace" @keyup.enter.prevent.stop="onPressSpace"></GlobalEvents>
 
     <div class="lesson">
       <div v-if="lesson" class="lesson-title">
@@ -252,7 +252,7 @@ export default {
       this.onPressSpace()
     },
 
-    onPressSpace () {
+    onPressSpace (event) {
       if (this.indexLessonDictionary >= 0 && this.indexLessonDictionary < this.items.length) {
         this.items[this.indexLessonDictionary].selected = true
         this.refreshDictionary()

@@ -71,7 +71,9 @@ export default {
           to: -120,
           easing: easing.decelerate,
           apply (pos) {
-            element.$el.style.right = `${pos}px`
+            if (element) {
+              element.$el.style.right = `${pos}px`
+            }
             if (pos > -300) {
               self.visibleHint = true
             }
@@ -93,7 +95,9 @@ export default {
         to: 0,
         easing: easing.decelerate,
         apply (pos) {
-          element.$el.style.opacity = `${pos / 100}`
+          if (element) {
+            element.$el.style.opacity = `${pos / 100}`
+          }
         },
         done () {
           animationHelper.start('repeatShowHint')

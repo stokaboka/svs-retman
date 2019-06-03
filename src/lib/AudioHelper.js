@@ -190,6 +190,8 @@ export default class AudioHelper {
       this.audio.removeEventListener('pause', (e) => self.eventsHandler(e))
       this.audio.removeEventListener('timeupdate', (e) => self.eventsHandler(e))
       this.audio.pause()
+      this.audio.currentTime = 0
+      this.audio.src = ''
       this.playing = false
       this.paused = false
       this.once()

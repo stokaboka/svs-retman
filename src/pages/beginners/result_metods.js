@@ -6,6 +6,10 @@ const getMidSan = (val) => {
 }
 
 const mnemic = {
+  clearResults: (context) => {
+    context.rememberedWordsPairs = []
+    context.checkedWordsPairs = []
+  },
   initResults: (context) => {
     return lexicalResult(context.checkedWordsPairs, context.rememberedWordsPairs)
   },
@@ -30,6 +34,14 @@ const mnemic = {
 }
 
 const selfrating = {
+  clearResults: (context) => {
+    // context.SelfRating.EN = []
+    // context.SelfRating.DE = []
+    // context.SelfRating.FR = []
+    // context.ControlRating.EN = []
+    // context.ControlRating.DE = []
+    // context.ControlRating.FR = []
+  },
   initResults: (context) => {
     const out = {
       SelfRating: {
@@ -76,6 +88,11 @@ const selfrating = {
 }
 
 const lexical = {
+  clearResults: (context) => {
+    context.rememberedWordsPairs1 = []
+    context.rememberedWordsPairs2 = []
+    context.checkedWordsPairs = []
+  },
   initResults: (context) => {
     const rememberedWordsPairs = []
       .concat(context.rememberedWordsPairs1.map(elem => { return {word1: elem.word1, word2: elem.word2} }))
@@ -92,6 +109,18 @@ const lexical = {
 }
 
 const atself = {
+  clearResults: (context) => {
+    // context.AT = {
+    //   before: {
+    //     level: 4,
+    //     label: ''
+    //   },
+    //   after: {
+    //     level: 4,
+    //     label: ''
+    //   }
+    // }
+  },
   initResults: (context) => {
     return context.AT
   },
@@ -131,6 +160,12 @@ const sanChanges = (b, a) => {
 }
 
 const san = {
+  clearResults: (context) => {
+    // context.SAN = {
+    //   before: { s: 3, a: 3, n: 3 },
+    //   after: { s: 3, a: 3, n: 3 }
+    // }
+  },
   initResults: (context) => {
     return context.SAN
   },
@@ -162,6 +197,12 @@ const san = {
 }
 
 const sanexpr = {
+  clearResults: (context) => {
+    // context.SANexpress = {
+    //   before: { s: 3, a: 3, n: 3 },
+    //   after: { s: 3, a: 3, n: 3 }
+    // }
+  },
   initResults: (context) => {
     return context.SANexpress
   },
@@ -199,6 +240,12 @@ const sanexpr = {
 }
 
 const at0 = {
+  clearResults: (context) => {
+    // context.AT0 = {
+    //   before: { s: 3, a: 3, n: 3 },
+    //   after: { s: 3, a: 3, n: 3 }
+    // }
+  },
   initResults: (context) => {
     return context.AT0
   },
@@ -229,6 +276,10 @@ const at0 = {
 }
 
 const lesson = {
+
+  clearResults: (context) => {
+    context.lesson = [null, null, null, null]
+  },
 
   initResults: (context) => {
     for (let l = 0; l < 4; l++) {
@@ -286,6 +337,13 @@ const lesson = {
 }
 
 const endlexical = {
+
+  clearResults: (context) => {
+    context.rememberedWordsPairs1 = []
+    context.rememberedWordsPairs2 = []
+    context.checkedWordsPairs = []
+  },
+
   initResults: (context) => {
     const rememberedWordsPairs = []
       .concat(context.rememberedWordsPairs1.map(elem => { return {word1: elem.word1, word2: elem.word2} }))
@@ -325,6 +383,16 @@ export default {
         .replace(/{{LANGUAGE_NAME}}/g, context.learningLang)
         .replace(/{{LANGUAGE}}/g, context.learningLang)
         .replace(/{{STEP_7_TIME}}/g, context.learningTime[context.learningLang])
+    },
+
+    clearTmpResults (resultId) {
+      if (resultMethods[resultId]) {
+        const func = resultMethods[resultId].clearResults
+        if (func) {
+          return func(this)
+        }
+      }
+      return null
     },
 
     initResults (resultId) {

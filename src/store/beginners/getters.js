@@ -38,6 +38,10 @@ const stepIndex = (state) => {
   return state.stepIndex
 }
 
+const isFirstStep = (state) => {
+  return state.stepIndex <= 0
+}
+
 const isLastStep = (state) => {
   return state.stepIndex === state.steps.length - 1
 }
@@ -129,6 +133,7 @@ export {
   step,
   stepIndex,
   restartStep,
+  isFirstStep,
   isLastStep,
   phases,
   phaseIndex,

@@ -2,7 +2,6 @@ export function checkLockResume ({ commit, getters }) {
   const lockDate = localStorage.getItem('LOCK_RESUME_DATE')
   const now = new Date()
 
-  console.log('lockDate', lockDate)
   let lock = false
   if (lockDate) {
     const ld = new Date(lockDate)

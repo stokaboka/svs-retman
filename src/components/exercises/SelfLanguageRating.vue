@@ -43,6 +43,22 @@ import {mapGetters} from 'vuex'
 
 export default {
   name: 'SelfLanguageRating',
+  props: {
+    phase: {
+      type: Object,
+      default () {
+        return {}
+      },
+      required: false
+    },
+    results: {
+      type: Object,
+      default () {
+        return {}
+      },
+      required: false
+    }
+  },
   data () {
     return {
       title: 'Самооценка речевых навыков в общенении на английском, немецком и французском языках',
@@ -50,6 +66,17 @@ export default {
         EN: [],
         DE: [],
         FR: []
+      }
+    }
+  },
+  mounted () {
+    if (this.results && this.phase) {
+      if (this.phase.result && this.phase.action === 'TEST') {
+        if (this.results[this.phase.result]) {
+          const result = this.results[this.phase.result]
+          this.checked = result.SelfRating.raw
+          this.levelChecked()
+        }
       }
     }
   },

@@ -1,7 +1,12 @@
-const mode = process.env.MODE
+// const mode = process.env.MODE
 
 import AudioHelper from '../../lib/AudioHelper'
 import TimerHelper from '../../lib/TimerHelper'
+
+const backSkipMode = 'PHASE'
+// const backSkipMode = 'STEP'
+
+let needClearResults = false
 
 export default {
   beforeDestroy () {
@@ -10,10 +15,12 @@ export default {
   },
   data () {
     return {
-      startStep: 0,
+      mode: process.env.NODE_ENV,
+      // mode: 'production',
+      // startStep: 0,
       // startStep: 8,  // results
       // startStep: 5, // AT
-      // startStep: 3,
+      startStep: 5,
       audio: new AudioHelper(this),
       timer: new TimerHelper(this),
       baseMethods: {
@@ -134,11 +141,13 @@ export default {
     },
 
     showNextBtn () {
+      // console.log(this.mode)
       if (this.isLastStep) {
         return false
       }
       if (this.phase) {
-        const out = mode === 'PRODUCTION' ? this.phase.next === 1 : true
+        const out = this.mode.toUpperCase() === 'PRODUCTION' ? this.phase.next === 1 : true
+        // const out = this.phase.next === 1
         return out && !this.$q.fullscreen.isActive
       }
       return true
@@ -152,13 +161,13 @@ export default {
       // return `${this.api}/video/${this.phase.video}`
     },
     videoH264 () {
-      return `${this.api}/video/${this.video}.h264.mp4`
+      return this.video ? `${this.api}/video/${this.video}.h264.mp4` : null
     },
     videoAV1 () {
-      return `${this.api}/video/${this.video}.av1.mp4`
+      return this.video ? `${this.api}/video/${this.video}.av1.mp4` : null
     },
     videoHEVC () {
-      return `${this.api}/video/${this.video}.hevc.mp4`
+      return this.video ? `${this.api}/video/${this.video}.hevc.mp4` : null
     }
   },
 
@@ -237,6 +246,40 @@ export default {
       this.$router.push({name: 'home'})
     },
 
+    stopVideo () {
+      if (this.$refs.videoPlayer) {
+        this.$refs.videoPlayer.pause()
+      }
+    },
+
+    async doBackAction () {
+      if (!this.$q.fullscreen.isActive) {
+        this.$q.fullscreen.exit()
+      }
+      this.showCancelBtn = false
+      this.timer.stop()
+      this.audio.stop()
+      this.stopVideo()
+
+      if (backSkipMode === 'STEP') {
+        const prevStepExist = await this.prevStep()
+        if (prevStepExist) {
+          this.playStep('last')
+        }
+      } else {
+        const prevPhaseExist = await this.prevPhase()
+
+        if (prevPhaseExist) {
+          this.playPhase()
+        } else {
+          const prevStepExist = await this.prevStep()
+          if (prevStepExist) {
+            this.playStep('last')
+          }
+        }
+      }
+    },
+
     doNextAction () {
       if (!this.$q.fullscreen.isActive) {
         this.$q.fullscreen.exit()
@@ -244,6 +287,7 @@ export default {
       this.showCancelBtn = false
       this.timer.stop()
       this.audio.stop()
+      this.stopVideo()
 
       if (this.restartStep) {
         this.playStep()
@@ -253,20 +297,29 @@ export default {
     },
 
     prePhase () {
-      if (this.phase.result && this.phase.action === 'BRIEF') {
-        if (this.results[this.phase.result]) {
-          const results = this.results[this.phase.result]
-          const recomendation = this.initRecomendation(this.phase, this.results)
-          this.setResults({
-            prop: this.phase.result,
-            value: Object.assign({}, results, {recomendation})
-          })
-          this.setPhraseText(recomendation)
+      if (this.phase.result) {
+        if (this.phase.action === 'BRIEF') {
+          if (this.results[this.phase.result]) {
+            const results = this.results[this.phase.result]
+            const recomendation = this.initRecomendation(this.phase, this.results)
+            this.setResults({
+              prop: this.phase.result,
+              value: Object.assign({}, results, {recomendation})
+            })
+            this.setPhraseText(recomendation)
+          }
         }
       }
 
       const text = this.initLanguageTestName(this, this.phase.text)
       this.setPhraseText(text)
+    },
+
+    clearPhaseResults () {
+      if (this.phase.result && this.phase.action === 'TEST') {
+        this.clearTmpResults(this.phase.result)
+        needClearResults = false
+      }
     },
 
     onFixPhase (data) {
@@ -299,25 +352,42 @@ export default {
       }
     },
 
-    playStep () {
+    playStep (initPhase = 'first') {
       const self = this
       // console.log('playStep')
 
       this.setRestartStep(false)
       this.setAllowCancel(false)
-
-      this.checkedWordsPairs = []
-      this.rememberedWordsPairs = []
+      needClearResults = true
+      // this.checkedWordsPairs = []
+      // this.rememberedWordsPairs = []
 
       this.getPhasesByStep(this.step.id)
         .then(() => {
-          self.playPhase()
+          if (initPhase === 'first') {
+            self.firstPhase()
+            self.playPhase()
+          } else {
+            self.lastPhase()
+            self.playPhase()
+          }
         })
         .catch(() => {})
     },
 
     playPhase () {
+      if (needClearResults) {
+        this.clearPhaseResults()
+      }
       this.prePhase()
+
+      if (this.$refs['nextActionBtn']) {
+        this.$refs.nextActionBtn.$el.blur()
+      }
+
+      if (this.$refs['nextActionBtn']) {
+        this.$refs.nextActionBtn.$el.blur()
+      }
 
       if (this.phase) {
         this.setStepperVisible(this.phase.action === 'BRIEF')

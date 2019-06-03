@@ -51,6 +51,15 @@ const nextStep = ({ commit, state }) => {
   }
 }
 
+const prevStep = ({ commit, state }) => {
+  if (state.stepIndex > 0) {
+    commit('prevStep')
+    commit('setStep', state.steps[state.stepIndex])
+    return true
+  }
+  return false
+}
+
 const gotoStep = ({ commit, state }, stepIndex) => {
   commit('setStepIndex', stepIndex)
   if (state.stepIndex < state.steps.length) {
@@ -71,6 +80,25 @@ const nextPhase = ({ commit, state }) => {
   } else {
     commit('setPhase', {complete: true})
   }
+}
+
+const prevPhase = ({ commit, state }) => {
+  if (state.phaseIndex > 0) {
+    commit('prevPhase')
+    commit('setPhase', state.phases[state.phaseIndex])
+    return true
+  }
+  return false
+}
+
+const lastPhase = ({ commit, state }) => {
+  commit('lastPhase')
+  commit('setPhase', state.phases[state.phaseIndex])
+}
+
+const firstPhase = ({ commit, state }) => {
+  commit('firstPhase')
+  commit('setPhase', state.phases[state.phaseIndex])
 }
 
 const getDictionary = ({ commit, getters, rootGetters }, p) => {
@@ -204,10 +232,14 @@ export {
 
   fixStep,
   nextStep,
+  prevStep,
   gotoStep,
 
   fixPhase,
   nextPhase,
+  prevPhase,
+  firstPhase,
+  lastPhase,
 
   getDictionary,
 

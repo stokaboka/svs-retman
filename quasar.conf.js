@@ -31,12 +31,13 @@ module.exports = function (ctx) {
       env: ctx.dev
         ? { // so on dev we'll have
           API: JSON.stringify('http://localhost:3333'),
-          MODE: JSON.stringify('DEVELOPMENT')
+          // MODE: JSON.stringify('DEVELOPMENT')
+          MODE: JSON.stringify('PRODUCTION')
         }
         : { // and on build (production):
           API: JSON.stringify(''),
-          // MODE: JSON.stringify('PRODUCTION')
-          MODE: JSON.stringify('DEVELOPMENT')
+          MODE: JSON.stringify('PRODUCTION')
+          // MODE: JSON.stringify('DEVELOPMENT')
         },
       extendWebpack (cfg) {
         cfg.module.rules.push({

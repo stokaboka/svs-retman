@@ -56,11 +56,35 @@
 import {Drag, Drop} from 'vue-drag-drop'
 import {TouchDragDrop} from '../../directives'
 
+const getLeftWord2 = (rem, prop, word) => {
+  const idx = rem.findIndex(e => e[prop] === word)
+  return idx === -1 ? '' : rem[idx].word2
+}
+
+const getRightWord2 = (rem, prop, word) => {
+  const idx = rem.findIndex(e => e[prop] === word)
+  return idx === -1 ? word : ''
+}
+
 export default {
   name: 'TwoColumnWordsWithMoveWords',
   components: {Drag, Drop},
   directives: {TouchDragDrop},
   props: {
+    phase: {
+      type: Object,
+      default () {
+        return {}
+      },
+      required: false
+    },
+    results: {
+      type: Object,
+      default () {
+        return {}
+      },
+      required: false
+    },
     dictionary: {
       type: Array,
       default () {
@@ -129,11 +153,21 @@ export default {
     },
 
     init () {
+      let remembered = []
+      if (this.results && this.phase) {
+        if (this.phase.result && this.phase.action === 'TEST') {
+          if (this.results[this.phase.result]) {
+            const result = this.results[this.phase.result]
+            remembered = result.rememberedWordsPairs
+          }
+        }
+      }
+
       this.leftWords = this.dictionary
         .map((elem) => {
           return {
             word1: elem.word1,
-            word2: ''
+            word2: getLeftWord2(remembered, 'word1', elem.word1)
           }
         })
 
@@ -147,7 +181,14 @@ export default {
         .sort((a, b) => {
           return a.word2.localeCompare(b.word2)
         })
+        .map(elem => {
+          return {
+            word2: getRightWord2(remembered, 'word2', elem.word2),
+            hide: elem.word2
+          }
+        })
 
+      this.wordPairRemembered()
       this.ready = true
     },
 
