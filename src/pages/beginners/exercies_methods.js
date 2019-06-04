@@ -19,26 +19,42 @@ export default {
   },
   methods: {
 
+    setDataResult (resultId, result) {
+      if (resultId && result) {
+        this.setResults({
+          prop: resultId,
+          value: Object.assign({}, result, {recomendation: ''})
+        })
+      }
+    },
+
     onWordPairChecked (values) {
-      this.checkedWordsPairs = values
+      const result = this.initData(this.phase.result, 'checkedWordsPairs', values)
+      this.setDataResult(this.phase.result, result)
     },
 
     onWordPairRemembered (values) {
+      let result = null
       if (this.phase.index1 === 0) {
-        this.rememberedWordsPairs1 = values
+        result = this.initData(this.phase.result, 'rememberedWordsPairs1', values)
       } else if (this.phase.index1 === 50) {
-        this.rememberedWordsPairs2 = values
+        result = this.initData(this.phase.result, 'rememberedWordsPairs2', values)
       } else {
-        this.rememberedWordsPairs = values
+        result = this.initData(this.phase.result, 'rememberedWordsPairs', values)
       }
+      this.setDataResult(this.phase.result, result)
     },
 
     // self rating test
     onChangedSelfRating (values) {
-      this.SelfRating = values
+      // this.SelfRating = values
+      const result = this.initData(this.phase.result, 'SelfRating', values)
+      this.setDataResult(this.phase.result, result)
     },
     onChangedControlRating (values) {
-      this.ControlRating[this.phase.lang1] = values
+      // this.ControlRating[this.phase.lang1] = values
+      const result = this.initData(this.phase.result, 'ControlRating', values)
+      this.setDataResult(this.phase.result, result)
     },
 
     onChangedAtSelf (value) {
@@ -46,29 +62,37 @@ export default {
         level: value,
         label: this.atLevels[value]
       }
-      if (this.phase.phase === 1) {
-        this.AT.before = obj
-      } else {
-        this.AT.after = obj
-      }
+      const result = this.initData(this.phase.result, this.phase.phase === 1 ? 'before' : 'after', obj)
+      this.setDataResult(this.phase.result, result)
+      //
+      // if (this.phase.phase === 1) {
+      //   this.AT.before = obj
+      // } else {
+      //   this.AT.after = obj
+      // }
     },
 
     onChangedSANSelf (value) {
       // console.log(value)
-      if (this.phase.phase === 1) {
-        this.SAN.before = value
-      } else {
-        this.SAN.after = value
-      }
+      const result = this.initData(this.phase.result, this.phase.phase === 1 ? 'before' : 'after', value)
+      this.setDataResult(this.phase.result, result)
+
+      // if (this.phase.phase === 1) {
+      //   this.SAN.before = value
+      // } else {
+      //   this.SAN.after = value
+      // }
     },
 
     onChangedSanExpress (value) {
       // console.log(value)
-      if (this.phase.phase === 1) {
-        this.SANexpress.before = value
-      } else {
-        this.SANexpress.after = value
-      }
+      const result = this.initData(this.phase.result, this.phase.phase === 1 ? 'before' : 'after', value)
+      this.setDataResult(this.phase.result, result)
+      // if (this.phase.phase === 1) {
+      //   this.SANexpress.before = value
+      // } else {
+      //   this.SANexpress.after = value
+      // }
     },
 
     onChangedSanExpressResult (value) {
@@ -78,12 +102,14 @@ export default {
     },
 
     onChangedAT0Self (value) {
-      console.log(value)
-      if (this.phase.phase === 1) {
-        this.AT0.before = value
-      } else {
-        this.AT0.after = value
-      }
+      // console.log(value)
+      const result = this.initData(this.phase.result, this.phase.phase === 1 ? 'before' : 'after', value)
+      this.setDataResult(this.phase.result, result)
+      // if (this.phase.phase === 1) {
+      //   this.AT0.before = value
+      // } else {
+      //   this.AT0.after = value
+      // }
     },
 
     onInitLesson (value) {
@@ -100,21 +126,8 @@ export default {
     },
 
     onLessonItemSelected (value) {
-      const idx = value.lesson - 1
-      if (!this.lesson[idx]) {
-        this.lesson[idx] = {
-          lang: '',
-          stages: [ [], [], [], [] ],
-          matches: [0, 0, 0, 0],
-          partials: [0, 0, 0, 0],
-          difference: [0, 0, 0, 0]
-        }
-      }
-
-      this.lesson[idx].lang = value.lang
-      this.lesson[idx].stages[value.stage - 1] = value.items
-
-      // console.log(this.lesson)
+      const result = this.initData(this.phase.result, '', value)
+      this.setDataResult(this.phase.result, result)
     }
   }
 }

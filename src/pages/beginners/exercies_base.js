@@ -20,7 +20,7 @@ export default {
       // startStep: 0,
       // startStep: 8,  // results
       // startStep: 5, // AT
-      startStep: 5,
+      startStep: 7,
       audio: new AudioHelper(this),
       timer: new TimerHelper(this),
       baseMethods: {
@@ -31,54 +31,54 @@ export default {
       showCancelBtn: false,
       progressVisible: true,
       stepperFullScreenVisible: true,
-      briefVisible: true,
+      briefVisible: true
       // mnemic: remember word pairs
-      checkedWordsPairs: [],
+      // checkedWordsPairs: [],
       // mnemic: restore word pairs
-      rememberedWordsPairs: [],
-      rememberedWordsPairs1: [],
-      rememberedWordsPairs2: [],
+      // rememberedWordsPairs: [],
+      // rememberedWordsPairs1: [],
+      // rememberedWordsPairs2: [],
 
       // self language test
-      SelfRating: {
-        EN: [],
-        DE: [],
-        FR: []
-      },
+      // SelfRating: {
+      //   EN: [],
+      //   DE: [],
+      //   FR: []
+      // },
       // self language test
-      ControlRating: {
-        EN: [],
-        DE: [],
-        FR: []
-      },
+      // ControlRating: {
+      //   EN: [],
+      //   DE: [],
+      //   FR: []
+      // },
 
-      AT: {
-        before: {
-          level: 4,
-          label: ''
-        },
-        after: {
-          level: 4,
-          label: ''
-        }
-      },
+      // AT: {
+      //   before: {
+      //     level: 4,
+      //     label: ''
+      //   },
+      //   after: {
+      //     level: 4,
+      //     label: ''
+      //   }
+      // },
 
-      SANexpress: {
-        before: { s: 3, a: 3, n: 3 },
-        after: { s: 3, a: 3, n: 3 }
-      },
+      // SANexpress: {
+      //   before: { s: 3, a: 3, n: 3 },
+      //   after: { s: 3, a: 3, n: 3 }
+      // },
 
-      SAN: {
-        before: { s: 3, a: 3, n: 3 },
-        after: { s: 3, a: 3, n: 3 }
-      },
+      // SAN: {
+      //   before: { s: 3, a: 3, n: 3 },
+      //   after: { s: 3, a: 3, n: 3 }
+      // },
 
-      AT0: {
-        before: { s: 3, a: 3, n: 3 },
-        after: { s: 3, a: 3, n: 3 }
-      },
+      // AT0: {
+      //   before: { s: 3, a: 3, n: 3 },
+      //   after: { s: 3, a: 3, n: 3 }
+      // }
 
-      lesson: [null, null, null, null]
+      // lesson: [null, null, null, null]
     }
   },
 

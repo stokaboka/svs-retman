@@ -167,6 +167,22 @@ const saveResult = ({ commit, getters, rootGetters }, p = null) => {
     const user = rootGetters['auth/user']
     // const results = JSON.stringify(getters.results)
     const results = p ? JSON.stringify(p) : JSON.stringify(getters.results)
+
+    if (results.lexical) {
+      results.lexical.rememberedWordsPairs = []
+        .concat(results.lexical.rememberedWordsPairs1)
+        .concat(results.lexical.rememberedWordsPairs2)
+      results.lexical.rememberedWordsPairs1 = []
+      results.lexical.rememberedWordsPairs2 = []
+    }
+    if (results.endlexical) {
+      results.endlexical.rememberedWordsPairs = []
+        .concat(results.endlexical.rememberedWordsPairs1)
+        .concat(results.endlexical.rememberedWordsPairs2)
+      results.endlexical.rememberedWordsPairs1 = []
+      results.endlexical.rememberedWordsPairs2 = []
+    }
+
     const data = {
       user: user.login,
       // results: p,

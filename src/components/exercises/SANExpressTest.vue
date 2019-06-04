@@ -43,49 +43,80 @@ const levels = [
   {label: '6', value: 6}
 ]
 
+const sanData = [
+  {
+    title: 'Ваше состояние, самочувствие в настоящий момент',
+    t: 's',
+    l: {img: 's0.jpg', label: '-', style: {color: 'red'}},
+    r: {img: 's1.jpg', label: '+', style: {color: 'green'}},
+    v: 3,
+    levels,
+    cls: 's-bg',
+    color: 'dark'
+  },
+  {
+    title: 'Ваша активность, работоспособность в настоящий момент',
+    t: 'a',
+    l: {img: 'a0.jpg', label: '-', style: {color: 'darkblue'}},
+    r: {img: 'a1.jpg', label: '+', style: {color: 'orangered'}},
+    v: 3,
+    levels,
+    cls: 'a-bg',
+    color: 'dark'
+  },
+  {
+    title: 'Ваше настроение в настоящий момент',
+    t: 'n',
+    l: {img: 'n0.jpg', label: '-', style: {color: 'rebeccapurple'}},
+    r: {img: 'n1.jpg', label: '+', style: {color: 'deepskyblue'}},
+    v: 3,
+    levels,
+    cls: 'n-bg',
+    color: 'dark'
+  }
+]
+
 export default {
   name: 'SANExpressTest',
+  props: {
+    phase: {
+      type: Object,
+      default () {
+        return {}
+      },
+      required: false
+    },
+    results: {
+      type: Object,
+      default () {
+        return {}
+      },
+      required: false
+    }
+  },
   data () {
     return {
       minLevel: 0,
       maxLevel: 6,
       stepLevel: 1,
       sanValue: 3,
-      sanData: [
-        {
-          title: 'Ваше состояние, самочувствие в настоящий момент',
-          t: 's',
-          l: {img: 's0.jpg', label: '-', style: {color: 'red'}},
-          r: {img: 's1.jpg', label: '+', style: {color: 'green'}},
-          v: 3,
-          levels,
-          cls: 's-bg',
-          color: 'dark'
-        },
-        {
-          title: 'Ваша активность, работоспособность в настоящий момент',
-          t: 'a',
-          l: {img: 'a0.jpg', label: '-', style: {color: 'darkblue'}},
-          r: {img: 'a1.jpg', label: '+', style: {color: 'orangered'}},
-          v: 3,
-          levels,
-          cls: 'a-bg',
-          color: 'dark'
-        },
-        {
-          title: 'Ваше настроение в настоящий момент',
-          t: 'n',
-          l: {img: 'n0.jpg', label: '-', style: {color: 'rebeccapurple'}},
-          r: {img: 'n1.jpg', label: '+', style: {color: 'deepskyblue'}},
-          v: 3,
-          levels,
-          cls: 'n-bg',
-          color: 'dark'
-        }
-      ]
+      sanData: []
     }
   },
   mounted () {
+    if (this.results && this.phase && this.phase.result && this.phase.action === 'TEST') {
+      if (this.results[this.phase.result]) {
+        const result = this.results[this.phase.result]
+        const prop = this.phase.phase === 1 ? 'before' : 'after'
+        const values = result[prop]
+        this.sanData = sanData.map(e => {
+          return {
+            ...e,
+            v: values[e.t]
+          }
+        })
+      }
+    }
     this.onChangedInput()
   },
   methods: {

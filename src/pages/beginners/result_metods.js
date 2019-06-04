@@ -5,13 +5,69 @@ const getMidSan = (val) => {
   return Math.round(10 * (s + a + n) / 3) / 10
 }
 
+const sanChanges = (b, a) => {
+  if (b < a) {
+    return 'улучшилось'
+  } else if (b > a) {
+    return 'ухудшилось'
+  } else {
+    return 'не изменилось'
+  }
+}
+
+const getResultFromContext = (context, defObject) => {
+  if (context.phase && context.phase.result && context.phase.action === 'TEST') {
+    return context.results[context.phase.result]
+      ? context.results[context.phase.result]
+      : defObject
+  }
+  return null
+}
+
+const initDataLexical = (context, prop, data) => {
+  const defObj = {
+    checked: 0,
+    checkedWordsPairs: [],
+    rememberedWordsPairs: [],
+    rememberedWordsPairs1: [],
+    rememberedWordsPairs2: [],
+    remembered: 0,
+    percent: 0,
+    cancel: false
+  }
+  const result = getResultFromContext(context, defObj)
+  if (result) {
+    result[prop] = data
+  }
+  return result
+}
+
+const initResultsLexical = (context, resultId) => {
+  const result = context.results[resultId]
+  if (result) {
+    return lexicalResult(result)
+  } else {
+    return null
+  }
+}
+
+const initDataAT = (context, prop, data, defObj) => {
+  const result = getResultFromContext(context, defObj)
+  if (result) {
+    result[prop] = data
+  }
+  return result
+}
+
+// ***
 const mnemic = {
-  clearResults: (context) => {
-    context.rememberedWordsPairs = []
-    context.checkedWordsPairs = []
+
+  initData: (context, prop, data) => {
+    return initDataLexical(context, prop, data)
   },
-  initResults: (context) => {
-    return lexicalResult(context.checkedWordsPairs, context.rememberedWordsPairs)
+  clearResults: (context, resultId) => {},
+  initResults: (context, resultId) => {
+    return initResultsLexical(context, resultId)
   },
 
   initRecomendation: (context, phase, result) => {
@@ -33,39 +89,60 @@ const mnemic = {
   }
 }
 
+// ***
 const selfrating = {
-  clearResults: (context) => {
-    // context.SelfRating.EN = []
-    // context.SelfRating.DE = []
-    // context.SelfRating.FR = []
-    // context.ControlRating.EN = []
-    // context.ControlRating.DE = []
-    // context.ControlRating.FR = []
+
+  initData: (context, prop, data) => {
+    const defObj = {
+      SelfRating: {
+        raw: { EN: [], DE: [], FR: [] },
+        reduced: { EN: 0, DE: 0, FR: 0 }
+      },
+      ControlRating: {
+        raw: { EN: [], DE: [], FR: [] },
+        reduced: { EN: 0, DE: 0, FR: 0 }
+      },
+      langSelfRating: '',
+      langControlRating: '',
+      langResult: ''
+    }
+    const result = getResultFromContext(context, defObj)
+    if (result) {
+      if (prop === 'SelfRating') {
+        result.SelfRating.raw = data
+      }
+      if (prop === 'ControlRating') {
+        result.ControlRating.raw[context.phase.lang1] = data
+      }
+    }
+    return result
   },
-  initResults: (context) => {
+  clearResults: (context, resultId) => {},
+  initResults: (context, resultId) => {
+    const result = context.results[resultId]
     const out = {
       SelfRating: {
         raw: {
-          EN: context.SelfRating.EN,
-          DE: context.SelfRating.DE,
-          FR: context.SelfRating.FR
+          EN: result.SelfRating.raw.EN,
+          DE: result.SelfRating.raw.DE,
+          FR: result.SelfRating.raw.FR
         },
         reduced: {
-          EN: reduce(context.SelfRating.EN, testLevelReducer, 0, 'id'),
-          DE: reduce(context.SelfRating.DE, testLevelReducer, 0, 'id'),
-          FR: reduce(context.SelfRating.FR, testLevelReducer, 0, 'id')
+          EN: reduce(result.SelfRating.raw.EN, testLevelReducer, 0, 'id'),
+          DE: reduce(result.SelfRating.raw.DE, testLevelReducer, 0, 'id'),
+          FR: reduce(result.SelfRating.raw.FR, testLevelReducer, 0, 'id')
         }
       },
       ControlRating: {
         raw: {
-          EN: context.ControlRating.EN.filter(e => e.word2).map(e => { return {word1: e.word1, word2: e.word2, hide: e.hide} }),
-          DE: context.ControlRating.DE.filter(e => e.word2).map(e => { return {word1: e.word1, word2: e.word2, hide: e.hide} }),
-          FR: context.ControlRating.FR.filter(e => e.word2).map(e => { return {word1: e.word1, word2: e.word2, hide: e.hide} })
+          EN: result.ControlRating.raw.EN.filter(e => e.word2).map(e => { return {word1: e.word1, word2: e.word2, hide: e.hide} }),
+          DE: result.ControlRating.raw.DE.filter(e => e.word2).map(e => { return {word1: e.word1, word2: e.word2, hide: e.hide} }),
+          FR: result.ControlRating.raw.FR.filter(e => e.word2).map(e => { return {word1: e.word1, word2: e.word2, hide: e.hide} })
         },
         reduced: {
-          EN: reduce(context.ControlRating.EN, testWordReducer, 0),
-          DE: reduce(context.ControlRating.DE, testWordReducer, 0),
-          FR: reduce(context.ControlRating.FR, testWordReducer, 0)
+          EN: reduce(result.ControlRating.raw.EN, testWordReducer, 0),
+          DE: reduce(result.ControlRating.raw.DE, testWordReducer, 0),
+          FR: reduce(result.ControlRating.raw.FR, testWordReducer, 0)
         }
       },
       langSelfRating: '',
@@ -87,17 +164,14 @@ const selfrating = {
   }
 }
 
+// ***
 const lexical = {
-  clearResults: (context) => {
-    context.rememberedWordsPairs1 = []
-    context.rememberedWordsPairs2 = []
-    context.checkedWordsPairs = []
+  initData: (context, prop, data) => {
+    return initDataLexical(context, prop, data)
   },
-  initResults: (context) => {
-    const rememberedWordsPairs = []
-      .concat(context.rememberedWordsPairs1.map(elem => { return {word1: elem.word1, word2: elem.word2} }))
-      .concat(context.rememberedWordsPairs2.map(elem => { return {word1: elem.word1, word2: elem.word2} }))
-    return lexicalResult(context.checkedWordsPairs, rememberedWordsPairs)
+  clearResults: (context, resultId) => {},
+  initResults: (context, resultId) => {
+    return initResultsLexical(context, resultId)
   },
   initRecomendation: (context, phase, result) => {
     let text = phase.text
@@ -108,7 +182,21 @@ const lexical = {
   }
 }
 
+// ***
 const atself = {
+  initData: (context, prop, data) => {
+    const defObj = {
+      before: {
+        level: 4,
+        label: ''
+      },
+      after: {
+        level: 4,
+        label: ''
+      }
+    }
+    return initDataAT(context, prop, data, defObj)
+  },
   clearResults: (context) => {
     // context.AT = {
     //   before: {
@@ -121,8 +209,9 @@ const atself = {
     //   }
     // }
   },
-  initResults: (context) => {
-    return context.AT
+  initResults: (context, resultId) => {
+    // return context.AT
+    return context.results[resultId]
   },
   initRecomendation: (context, phase, result) => {
     let text = phase.text
@@ -149,25 +238,24 @@ const atself = {
   }
 }
 
-const sanChanges = (b, a) => {
-  if (b < a) {
-    return 'улучшилось'
-  } else if (b > a) {
-    return 'ухудшилось'
-  } else {
-    return 'не изменилось'
-  }
-}
-
+// ***
 const san = {
+  initData: (context, prop, data) => {
+    const defObj = {
+      before: { s: 3, a: 3, n: 3 },
+      after: { s: 3, a: 3, n: 3 }
+    }
+    return initDataAT(context, prop, data, defObj)
+  },
   clearResults: (context) => {
     // context.SAN = {
     //   before: { s: 3, a: 3, n: 3 },
     //   after: { s: 3, a: 3, n: 3 }
     // }
   },
-  initResults: (context) => {
-    return context.SAN
+  initResults: (context, resultId) => {
+    // return context.SAN
+    return context.results[resultId]
   },
   initRecomendation: (context, phase, result) => {
     let text = phase.text
@@ -196,15 +284,24 @@ const san = {
   }
 }
 
+// ***
 const sanexpr = {
+  initData: (context, prop, data) => {
+    const defObj = {
+      before: { s: 3, a: 3, n: 3 },
+      after: { s: 3, a: 3, n: 3 }
+    }
+    return initDataAT(context, prop, data, defObj)
+  },
   clearResults: (context) => {
     // context.SANexpress = {
     //   before: { s: 3, a: 3, n: 3 },
     //   after: { s: 3, a: 3, n: 3 }
     // }
   },
-  initResults: (context) => {
-    return context.SANexpress
+  initResults: (context, resultId) => {
+    // return context.SANexpress
+    return context.results[resultId]
   },
   initRecomendation: (context, phase, result) => {
     let screen = 0
@@ -239,15 +336,24 @@ const sanexpr = {
   }
 }
 
+// ***
 const at0 = {
+  initData: (context, prop, data) => {
+    const defObj = {
+      before: { s: 3, a: 3, n: 3 },
+      after: { s: 3, a: 3, n: 3 }
+    }
+    return initDataAT(context, prop, data, defObj)
+  },
   clearResults: (context) => {
     // context.AT0 = {
     //   before: { s: 3, a: 3, n: 3 },
     //   after: { s: 3, a: 3, n: 3 }
     // }
   },
-  initResults: (context) => {
-    return context.AT0
+  initResults: (context, resultId) => {
+    // return context.AT0
+    return context.results[resultId]
   },
   initRecomendation: (context, phase, result) => {
     let text = phase.text
@@ -275,42 +381,64 @@ const at0 = {
   }
 }
 
+// ***
 const lesson = {
+  initData: (context, prop, data) => {
+    const defObj = [null, null, null, null]
+    const result = getResultFromContext(context, defObj)
+    if (result) {
+      const idx = data.lesson - 1
+      if (!result[idx]) {
+        result[idx] = {
+          lang: '',
+          stages: [ [], [], [], [] ],
+          matches: [0, 0, 0, 0],
+          partials: [0, 0, 0, 0],
+          difference: [0, 0, 0, 0]
+        }
+      }
 
-  clearResults: (context) => {
-    context.lesson = [null, null, null, null]
+      result[idx].lang = data.lang
+      result[idx].stages[data.stage - 1] = data.items
+    }
+    return result
   },
-
-  initResults: (context) => {
-    for (let l = 0; l < 4; l++) {
-      if (!context.lesson[l]) { continue }
-      for (let i = 0; i < 4; i++) {
-        let stage = context.lesson[l].stages[i]
-        for (const w of stage) {
-          let matches = 0
-          for (let j = 0; j < 4; j++) {
-            if (i !== j) {
-              let test = context.lesson[l].stages[j]
-              if (test.includes(w)) {
-                matches++
+  clearResults: (context, resultId) => {},
+  initResults: (context, resultId) => {
+    const result = context.results[resultId]
+    if (result) {
+      for (let l = 0; l < 4; l++) {
+        if (!result[l]) {
+          continue
+        }
+        for (let i = 0; i < 4; i++) {
+          let stage = result[l].stages[i]
+          for (const w of stage) {
+            let matches = 0
+            for (let j = 0; j < 4; j++) {
+              if (i !== j) {
+                let test = result[l].stages[j]
+                if (test.includes(w)) {
+                  matches++
+                }
               }
             }
-          }
-          switch (matches) {
-            case 3:
-              context.lesson[l].matches[i]++
-              break
-            case 2:
-            case 1:
-              context.lesson[l].partials[i]++
-              break
-            default :
-              context.lesson[l].difference[i]++
+            switch (matches) {
+              case 3:
+                result[l].matches[i]++
+                break
+              case 2:
+              case 1:
+                result[l].partials[i]++
+                break
+              default :
+                result[l].difference[i]++
+            }
           }
         }
       }
     }
-    return context.lesson
+    return result
   },
   initRecomendation: (context, phase, result) => {
     let text = phase.text
@@ -336,19 +464,14 @@ const lesson = {
   }
 }
 
+// ***
 const endlexical = {
-
-  clearResults: (context) => {
-    context.rememberedWordsPairs1 = []
-    context.rememberedWordsPairs2 = []
-    context.checkedWordsPairs = []
+  initData: (context, prop, data) => {
+    return initDataLexical(context, prop, data)
   },
-
-  initResults: (context) => {
-    const rememberedWordsPairs = []
-      .concat(context.rememberedWordsPairs1.map(elem => { return {word1: elem.word1, word2: elem.word2} }))
-      .concat(context.rememberedWordsPairs2.map(elem => { return {word1: elem.word1, word2: elem.word2} }))
-    return lexicalResult(context.checkedWordsPairs, rememberedWordsPairs)
+  clearResults: (context, resultId) => {},
+  initResults: (context, resultId) => {
+    return initResultsLexical(context, resultId)
   },
   initRecomendation: (context, phase, result) => {
     let text = phase.text
@@ -385,6 +508,16 @@ export default {
         .replace(/{{STEP_7_TIME}}/g, context.learningTime[context.learningLang])
     },
 
+    initData (resultId, prop, data) {
+      if (resultMethods[resultId]) {
+        const func = resultMethods[resultId].initData
+        if (func) {
+          return func(this, prop, data)
+        }
+      }
+      return null
+    },
+
     clearTmpResults (resultId) {
       if (resultMethods[resultId]) {
         const func = resultMethods[resultId].clearResults
@@ -398,7 +531,7 @@ export default {
     initResults (resultId) {
       if (resultMethods[resultId]) {
         const func = resultMethods[resultId].initResults
-        return func(this)
+        return func(this, resultId)
       }
       return null
     },
