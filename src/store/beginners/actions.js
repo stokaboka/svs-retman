@@ -165,23 +165,23 @@ const getCue = ({ commit, getters, rootGetters }, p) => {
 const saveResult = ({ commit, getters, rootGetters }, p = null) => {
   if (rootGetters['auth/isLogged']) {
     const user = rootGetters['auth/user']
-    // const results = JSON.stringify(getters.results)
-    const results = p ? JSON.stringify(p) : JSON.stringify(getters.results)
+    const rslt = p || getters.results
+    if (rslt.lexical) {
+      rslt.lexical.rememberedWordsPairs = []
+        .concat(rslt.lexical.rememberedWordsPairs1)
+        .concat(rslt.lexical.rememberedWordsPairs2)
+      rslt.lexical.rememberedWordsPairs1 = []
+      rslt.lexical.rememberedWordsPairs2 = []
+    }
+    if (rslt.endlexical) {
+      rslt.endlexical.rememberedWordsPairs = []
+        .concat(rslt.endlexical.rememberedWordsPairs1)
+        .concat(rslt.endlexical.rememberedWordsPairs2)
+      rslt.endlexical.rememberedWordsPairs1 = []
+      rslt.endlexical.rememberedWordsPairs2 = []
+    }
 
-    if (results.lexical) {
-      results.lexical.rememberedWordsPairs = []
-        .concat(results.lexical.rememberedWordsPairs1)
-        .concat(results.lexical.rememberedWordsPairs2)
-      results.lexical.rememberedWordsPairs1 = []
-      results.lexical.rememberedWordsPairs2 = []
-    }
-    if (results.endlexical) {
-      results.endlexical.rememberedWordsPairs = []
-        .concat(results.endlexical.rememberedWordsPairs1)
-        .concat(results.endlexical.rememberedWordsPairs2)
-      results.endlexical.rememberedWordsPairs1 = []
-      results.endlexical.rememberedWordsPairs2 = []
-    }
+    const results = JSON.stringify(rslt)
 
     const data = {
       user: user.login,

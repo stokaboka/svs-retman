@@ -47,12 +47,10 @@ export default {
 
     // self rating test
     onChangedSelfRating (values) {
-      // this.SelfRating = values
       const result = this.initData(this.phase.result, 'SelfRating', values)
       this.setDataResult(this.phase.result, result)
     },
     onChangedControlRating (values) {
-      // this.ControlRating[this.phase.lang1] = values
       const result = this.initData(this.phase.result, 'ControlRating', values)
       this.setDataResult(this.phase.result, result)
     },
@@ -64,35 +62,18 @@ export default {
       }
       const result = this.initData(this.phase.result, this.phase.phase === 1 ? 'before' : 'after', obj)
       this.setDataResult(this.phase.result, result)
-      //
-      // if (this.phase.phase === 1) {
-      //   this.AT.before = obj
-      // } else {
-      //   this.AT.after = obj
-      // }
     },
 
     onChangedSANSelf (value) {
       // console.log(value)
       const result = this.initData(this.phase.result, this.phase.phase === 1 ? 'before' : 'after', value)
       this.setDataResult(this.phase.result, result)
-
-      // if (this.phase.phase === 1) {
-      //   this.SAN.before = value
-      // } else {
-      //   this.SAN.after = value
-      // }
     },
 
     onChangedSanExpress (value) {
       // console.log(value)
       const result = this.initData(this.phase.result, this.phase.phase === 1 ? 'before' : 'after', value)
       this.setDataResult(this.phase.result, result)
-      // if (this.phase.phase === 1) {
-      //   this.SANexpress.before = value
-      // } else {
-      //   this.SANexpress.after = value
-      // }
     },
 
     onChangedSanExpressResult (value) {
@@ -105,11 +86,6 @@ export default {
       // console.log(value)
       const result = this.initData(this.phase.result, this.phase.phase === 1 ? 'before' : 'after', value)
       this.setDataResult(this.phase.result, result)
-      // if (this.phase.phase === 1) {
-      //   this.AT0.before = value
-      // } else {
-      //   this.AT0.after = value
-      // }
     },
 
     onInitLesson (value) {

@@ -75,10 +75,10 @@ export default {
         if (this.results[this.phase.result]) {
           const result = this.results[this.phase.result]
           this.checked = result.SelfRating.raw
-          this.levelChecked()
         }
       }
     }
+    this.levelChecked()
   },
   computed: {
     ...mapGetters('beginners', {levels: 'selfRatingLevels', columns: 'selfRatingColumns'})

@@ -17,10 +17,10 @@ export default {
     return {
       mode: process.env.NODE_ENV,
       // mode: 'production',
-      // startStep: 0,
+      startStep: 0,
       // startStep: 8,  // results
       // startStep: 5, // AT
-      startStep: 7,
+      // startStep: 7,
       audio: new AudioHelper(this),
       timer: new TimerHelper(this),
       baseMethods: {
@@ -32,53 +32,6 @@ export default {
       progressVisible: true,
       stepperFullScreenVisible: true,
       briefVisible: true
-      // mnemic: remember word pairs
-      // checkedWordsPairs: [],
-      // mnemic: restore word pairs
-      // rememberedWordsPairs: [],
-      // rememberedWordsPairs1: [],
-      // rememberedWordsPairs2: [],
-
-      // self language test
-      // SelfRating: {
-      //   EN: [],
-      //   DE: [],
-      //   FR: []
-      // },
-      // self language test
-      // ControlRating: {
-      //   EN: [],
-      //   DE: [],
-      //   FR: []
-      // },
-
-      // AT: {
-      //   before: {
-      //     level: 4,
-      //     label: ''
-      //   },
-      //   after: {
-      //     level: 4,
-      //     label: ''
-      //   }
-      // },
-
-      // SANexpress: {
-      //   before: { s: 3, a: 3, n: 3 },
-      //   after: { s: 3, a: 3, n: 3 }
-      // },
-
-      // SAN: {
-      //   before: { s: 3, a: 3, n: 3 },
-      //   after: { s: 3, a: 3, n: 3 }
-      // },
-
-      // AT0: {
-      //   before: { s: 3, a: 3, n: 3 },
-      //   after: { s: 3, a: 3, n: 3 }
-      // }
-
-      // lesson: [null, null, null, null]
     }
   },
 
@@ -146,9 +99,12 @@ export default {
         return false
       }
       if (this.phase) {
-        const out = this.mode.toUpperCase() === 'PRODUCTION' ? this.phase.next === 1 : true
+        // const out = this.mode.toUpperCase() === 'PRODUCTION' ? this.phase.next === 1 : true
         // const out = this.phase.next === 1
-        return out && !this.$q.fullscreen.isActive
+        if (this.isAdmin || this.isOperator) {
+          return !this.$q.fullscreen.isActive
+        }
+        return this.phase.next === 1 && !this.$q.fullscreen.isActive
       }
       return true
     },

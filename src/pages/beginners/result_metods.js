@@ -197,20 +197,8 @@ const atself = {
     }
     return initDataAT(context, prop, data, defObj)
   },
-  clearResults: (context) => {
-    // context.AT = {
-    //   before: {
-    //     level: 4,
-    //     label: ''
-    //   },
-    //   after: {
-    //     level: 4,
-    //     label: ''
-    //   }
-    // }
-  },
+  clearResults: (context) => {},
   initResults: (context, resultId) => {
-    // return context.AT
     return context.results[resultId]
   },
   initRecomendation: (context, phase, result) => {
@@ -247,14 +235,8 @@ const san = {
     }
     return initDataAT(context, prop, data, defObj)
   },
-  clearResults: (context) => {
-    // context.SAN = {
-    //   before: { s: 3, a: 3, n: 3 },
-    //   after: { s: 3, a: 3, n: 3 }
-    // }
-  },
+  clearResults: (context) => {},
   initResults: (context, resultId) => {
-    // return context.SAN
     return context.results[resultId]
   },
   initRecomendation: (context, phase, result) => {
@@ -293,14 +275,8 @@ const sanexpr = {
     }
     return initDataAT(context, prop, data, defObj)
   },
-  clearResults: (context) => {
-    // context.SANexpress = {
-    //   before: { s: 3, a: 3, n: 3 },
-    //   after: { s: 3, a: 3, n: 3 }
-    // }
-  },
+  clearResults: (context) => {},
   initResults: (context, resultId) => {
-    // return context.SANexpress
     return context.results[resultId]
   },
   initRecomendation: (context, phase, result) => {
@@ -345,14 +321,8 @@ const at0 = {
     }
     return initDataAT(context, prop, data, defObj)
   },
-  clearResults: (context) => {
-    // context.AT0 = {
-    //   before: { s: 3, a: 3, n: 3 },
-    //   after: { s: 3, a: 3, n: 3 }
-    // }
-  },
+  clearResults: (context) => {},
   initResults: (context, resultId) => {
-    // return context.AT0
     return context.results[resultId]
   },
   initRecomendation: (context, phase, result) => {

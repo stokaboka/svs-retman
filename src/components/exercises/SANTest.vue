@@ -23,218 +23,233 @@
 import {createNamespacedHelpers} from 'vuex'
 
 const {mapGetters} = createNamespacedHelpers('beginners')
-const sanData = [
-  {
-    t: 's',
-    l: 'Самочувствие хорошее',
-    r: 'Самочувствие плохое',
-    v: 3,
-    levels: [
-      {label: '3', value: 6},
-      {label: '2', value: 5},
-      {label: '1', value: 4},
-      {label: '0', value: 3},
-      {label: '1', value: 2},
-      {label: '2', value: 1},
-      {label: '3', value: 0}
-    ]
-  },
-  {
-    t: 's',
-    l: 'Чувствую себя сильным',
-    r: 'Чувствую себя слабым',
-    v: 3,
-    levels: [
-      {label: '3', value: 6},
-      {label: '2', value: 5},
-      {label: '1', value: 4},
-      {label: '0', value: 3},
-      {label: '1', value: 2},
-      {label: '2', value: 1},
-      {label: '3', value: 0}
-    ]
-  },
-
-  {
-    t: 'a',
-    l: 'Пассивный',
-    r: 'Активный',
-    v: 3,
-    levels: [
-      {label: '3', value: 0},
-      {label: '2', value: 1},
-      {label: '1', value: 2},
-      {label: '0', value: 3},
-      {label: '1', value: 4},
-      {label: '2', value: 5},
-      {label: '3', value: 6}
-    ]
-  },
-  {
-    t: 'a',
-    l: 'Малоподвижный',
-    r: 'Подвижный',
-    v: 3,
-    levels: [
-      {label: '3', value: 0},
-      {label: '2', value: 1},
-      {label: '1', value: 2},
-      {label: '0', value: 3},
-      {label: '1', value: 4},
-      {label: '2', value: 5},
-      {label: '3', value: 6}
-    ]
-  },
-
-  {
-    t: 'n',
-    l: 'Веселый',
-    r: 'Грустный',
-    v: 3,
-    levels: [
-      {label: '3', value: 6},
-      {label: '2', value: 5},
-      {label: '1', value: 4},
-      {label: '0', value: 3},
-      {label: '1', value: 2},
-      {label: '2', value: 1},
-      {label: '3', value: 0}
-    ]
-  },
-  {
-    t: 'n',
-    l: 'Хорошее настроение',
-    r: 'Плохое настроение',
-    v: 3,
-    levels: [
-      {label: '3', value: 6},
-      {label: '2', value: 5},
-      {label: '1', value: 4},
-      {label: '0', value: 3},
-      {label: '1', value: 2},
-      {label: '2', value: 1},
-      {label: '3', value: 0}
-    ]
-  },
-
-  {
-    t: 's',
-    l: 'Работоспособный',
-    r: 'Разбитый',
-    v: 3,
-    levels: [
-      {label: '3', value: 6},
-      {label: '2', value: 5},
-      {label: '1', value: 4},
-      {label: '0', value: 3},
-      {label: '1', value: 2},
-      {label: '2', value: 1},
-      {label: '3', value: 0}
-    ]
-  },
-  {
-    t: 's',
-    l: 'Полный сил',
-    r: 'Обессиленный',
-    v: 3,
-    levels: [
-      {label: '3', value: 6},
-      {label: '2', value: 5},
-      {label: '1', value: 4},
-      {label: '0', value: 3},
-      {label: '1', value: 2},
-      {label: '2', value: 1},
-      {label: '3', value: 0}
-    ]
-  },
-
-  {
-    t: 'a',
-    l: 'Медлительный',
-    r: 'Быстрый',
-    v: 3,
-    levels: [
-      {label: '3', value: 0},
-      {label: '2', value: 1},
-      {label: '1', value: 2},
-      {label: '0', value: 3},
-      {label: '1', value: 4},
-      {label: '2', value: 5},
-      {label: '3', value: 6}
-    ]
-  },
-  {
-    t: 'a',
-    l: 'Бездеятельный',
-    r: 'Деятельный',
-    v: 3,
-    levels: [
-      {label: '3', value: 0},
-      {label: '2', value: 1},
-      {label: '1', value: 2},
-      {label: '0', value: 3},
-      {label: '1', value: 4},
-      {label: '2', value: 5},
-      {label: '3', value: 6}
-    ]
-  },
-
-  {
-    t: 'n',
-    l: 'Счастливый',
-    r: 'Несчастный',
-    v: 3,
-    levels: [
-      {label: '3', value: 6},
-      {label: '2', value: 5},
-      {label: '1', value: 4},
-      {label: '0', value: 3},
-      {label: '1', value: 2},
-      {label: '2', value: 1},
-      {label: '3', value: 0}
-    ]
-  },
-  {
-    t: 'n',
-    l: 'Жизнерадостный',
-    r: 'Мрачный',
-    v: 3,
-    levels: [
-      {label: '3', value: 6},
-      {label: '2', value: 5},
-      {label: '1', value: 4},
-      {label: '0', value: 3},
-      {label: '1', value: 2},
-      {label: '2', value: 1},
-      {label: '3', value: 0}
-    ]
-  }
-]
 
 export default {
   name: 'SANTest',
+  props: {
+    phase: {
+      type: Object,
+      default () {
+        return {}
+      },
+      required: false
+    },
+    results: {
+      type: Object,
+      default () {
+        return {}
+      },
+      required: false
+    }
+  },
   data () {
     return {
       minLevel: 0,
       maxLevel: 6,
       stepLevel: 1,
-      sanData: []
+      sanData: [
+        {
+          t: 's',
+          l: 'Самочувствие хорошее',
+          r: 'Самочувствие плохое',
+          v: 3,
+          levels: [
+            {label: '3', value: 6},
+            {label: '2', value: 5},
+            {label: '1', value: 4},
+            {label: '0', value: 3},
+            {label: '1', value: 2},
+            {label: '2', value: 1},
+            {label: '3', value: 0}
+          ]
+        },
+        {
+          t: 's',
+          l: 'Чувствую себя сильным',
+          r: 'Чувствую себя слабым',
+          v: 3,
+          levels: [
+            {label: '3', value: 6},
+            {label: '2', value: 5},
+            {label: '1', value: 4},
+            {label: '0', value: 3},
+            {label: '1', value: 2},
+            {label: '2', value: 1},
+            {label: '3', value: 0}
+          ]
+        },
+
+        {
+          t: 'a',
+          l: 'Пассивный',
+          r: 'Активный',
+          v: 3,
+          levels: [
+            {label: '3', value: 0},
+            {label: '2', value: 1},
+            {label: '1', value: 2},
+            {label: '0', value: 3},
+            {label: '1', value: 4},
+            {label: '2', value: 5},
+            {label: '3', value: 6}
+          ]
+        },
+        {
+          t: 'a',
+          l: 'Малоподвижный',
+          r: 'Подвижный',
+          v: 3,
+          levels: [
+            {label: '3', value: 0},
+            {label: '2', value: 1},
+            {label: '1', value: 2},
+            {label: '0', value: 3},
+            {label: '1', value: 4},
+            {label: '2', value: 5},
+            {label: '3', value: 6}
+          ]
+        },
+
+        {
+          t: 'n',
+          l: 'Веселый',
+          r: 'Грустный',
+          v: 3,
+          levels: [
+            {label: '3', value: 6},
+            {label: '2', value: 5},
+            {label: '1', value: 4},
+            {label: '0', value: 3},
+            {label: '1', value: 2},
+            {label: '2', value: 1},
+            {label: '3', value: 0}
+          ]
+        },
+        {
+          t: 'n',
+          l: 'Хорошее настроение',
+          r: 'Плохое настроение',
+          v: 3,
+          levels: [
+            {label: '3', value: 6},
+            {label: '2', value: 5},
+            {label: '1', value: 4},
+            {label: '0', value: 3},
+            {label: '1', value: 2},
+            {label: '2', value: 1},
+            {label: '3', value: 0}
+          ]
+        },
+
+        {
+          t: 's',
+          l: 'Работоспособный',
+          r: 'Разбитый',
+          v: 3,
+          levels: [
+            {label: '3', value: 6},
+            {label: '2', value: 5},
+            {label: '1', value: 4},
+            {label: '0', value: 3},
+            {label: '1', value: 2},
+            {label: '2', value: 1},
+            {label: '3', value: 0}
+          ]
+        },
+        {
+          t: 's',
+          l: 'Полный сил',
+          r: 'Обессиленный',
+          v: 3,
+          levels: [
+            {label: '3', value: 6},
+            {label: '2', value: 5},
+            {label: '1', value: 4},
+            {label: '0', value: 3},
+            {label: '1', value: 2},
+            {label: '2', value: 1},
+            {label: '3', value: 0}
+          ]
+        },
+
+        {
+          t: 'a',
+          l: 'Медлительный',
+          r: 'Быстрый',
+          v: 3,
+          levels: [
+            {label: '3', value: 0},
+            {label: '2', value: 1},
+            {label: '1', value: 2},
+            {label: '0', value: 3},
+            {label: '1', value: 4},
+            {label: '2', value: 5},
+            {label: '3', value: 6}
+          ]
+        },
+        {
+          t: 'a',
+          l: 'Бездеятельный',
+          r: 'Деятельный',
+          v: 3,
+          levels: [
+            {label: '3', value: 0},
+            {label: '2', value: 1},
+            {label: '1', value: 2},
+            {label: '0', value: 3},
+            {label: '1', value: 4},
+            {label: '2', value: 5},
+            {label: '3', value: 6}
+          ]
+        },
+
+        {
+          t: 'n',
+          l: 'Счастливый',
+          r: 'Несчастный',
+          v: 3,
+          levels: [
+            {label: '3', value: 6},
+            {label: '2', value: 5},
+            {label: '1', value: 4},
+            {label: '0', value: 3},
+            {label: '1', value: 2},
+            {label: '2', value: 1},
+            {label: '3', value: 0}
+          ]
+        },
+        {
+          t: 'n',
+          l: 'Жизнерадостный',
+          r: 'Мрачный',
+          v: 3,
+          levels: [
+            {label: '3', value: 6},
+            {label: '2', value: 5},
+            {label: '1', value: 4},
+            {label: '0', value: 3},
+            {label: '1', value: 2},
+            {label: '2', value: 1},
+            {label: '3', value: 0}
+          ]
+        }
+      ]
     }
   },
   mounted () {
-    if (this.results && this.phase && this.phase.result && this.phase.action === 'TEST') {
-      if (this.results[this.phase.result]) {
-        const result = this.results[this.phase.result]
-        const prop = this.phase.phase === 1 ? 'before' : 'after'
-        const values = result[prop]
-        this.sanData = sanData.map(e => {
-          return {
-            ...e,
-            v: values[e.t]
-          }
-        })
-      }
-    }
+    // if (this.results && this.phase && this.phase.result && this.phase.action === 'TEST') {
+    //   if (this.results[this.phase.result]) {
+    //     const result = this.results[this.phase.result]
+    //     const prop = this.phase.phase === 1 ? 'before' : 'after'
+    //     const values = result[prop]
+    //     this.sanData = sanData.map(e => {
+    //       return {
+    //         ...e,
+    //         v: values[e.t]
+    //       }
+    //     })
+    //   }
+    // }
     this.onChangedInput()
   },
   methods: {

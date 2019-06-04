@@ -127,7 +127,7 @@ export default {
     },
 
     onPressSpace () {
-      this.testDictionary[this.indexTestDictionary].selected = true
+      this.testDictionary[this.indexTestDictionary].selected = !this.testDictionary[this.indexTestDictionary].selected
       this.refreshTestDictionary()
 
       this.wordPairChecked()
@@ -137,9 +137,6 @@ export default {
       this.checkedWordsPairs = this.testDictionary.filter(elem => elem.selected)
       this.$emit('exercies-action', {id: 'word-pair-checked', data: this.checkedWordsPairs})
     },
-    // wordPairChecked () {
-    //   this.$emit('exercies-action', {id: 'word-pair-checked', data: this.checkedWordsPairs})
-    // },
 
     refreshTestDictionary () {
       this.testDictionary = this.testDictionary.map((elem, index) => {

@@ -57,11 +57,13 @@ import {Drag, Drop} from 'vue-drag-drop'
 import {TouchDragDrop} from '../../directives'
 
 const getLeftWord2 = (rem, prop, word) => {
+  if (!rem) return ''
   const idx = rem.findIndex(e => e[prop] === word)
   return idx === -1 ? '' : rem[idx].word2
 }
 
 const getRightWord2 = (rem, prop, word) => {
+  if (!rem) return ''
   const idx = rem.findIndex(e => e[prop] === word)
   return idx === -1 ? word : ''
 }
@@ -95,7 +97,7 @@ export default {
   },
 
   mounted () {
-    this.init()
+    // this.init()
   },
 
   data () {
@@ -158,7 +160,10 @@ export default {
         if (this.phase.result && this.phase.action === 'TEST') {
           if (this.results[this.phase.result]) {
             const result = this.results[this.phase.result]
-            remembered = result.rememberedWordsPairs
+            remembered = []
+              .concat(result.rememberedWordsPairs)
+              .concat(result.rememberedWordsPairs1)
+              .concat(result.rememberedWordsPairs2)
           }
         }
       }

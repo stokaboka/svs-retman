@@ -100,7 +100,7 @@ export default {
       maxLevel: 6,
       stepLevel: 1,
       sanValue: 3,
-      sanData: []
+      sanData: sanData
     }
   },
   mounted () {

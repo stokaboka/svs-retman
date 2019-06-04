@@ -112,7 +112,6 @@ import TwoColumnWordsWithMoveWords from '../../components/exercises/TwoColumnWor
 import SANTest from '../../components/exercises/SANTest'
 import SANExpressTest from '../../components/exercises/SANExpressTest'
 import SANExpressResult from '../../components/exercises/SANExpressResult'
-// import AT0Test from '../../components/exercises/AT0Test'
 import AutoTraining from '../../components/exercises/AutoTraining'
 
 import AutoTrainingSelfTest from '../../components/exercises/AutoTrainingSelfTest'
@@ -150,7 +149,6 @@ export default {
     SANTest,
     SANExpressTest,
     SANExpressResult,
-    // AT0Test,
     AutoTrainingSelfTest,
     AutoTraining,
     Lesson,
@@ -159,7 +157,7 @@ export default {
 
   computed: {
     ...mapGetters('app', ['api', 'allowResume', 'allowCancel']),
-    ...mapGetters('auth', ['isLogged', 'user']),
+    ...mapGetters('auth', ['isLogged', 'isAdmin', 'isOperator', 'isUser', 'user']),
     ...mapGetters('beginners', [
       'steps',
       'step',

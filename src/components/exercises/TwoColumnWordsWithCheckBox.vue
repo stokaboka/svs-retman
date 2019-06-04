@@ -87,11 +87,10 @@ export default {
                 .findIndex(d => d.word1 === r.word1 && d.word2 === r.word2), this)
               .filter(e => e >= 0)
               .map(e => e + 1)
-
-            this.wordPairChecked()
           }
         }
       }
+      this.wordPairChecked()
     },
     wordPairChecked () {
       const data = this.checkedWordsPairs.map(e => {
